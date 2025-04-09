@@ -122,12 +122,18 @@ const TestFooterPagination = () => {
         onOk() {
           localStorage.setItem("reading_answers", JSON.stringify(answers));
       navigate("/reading/take-test/review");
+      setTimeout(() => {
+        window.location.reload()
+      }, 200);
 
         },
       });
     } else {
       localStorage.setItem("reading_answers", JSON.stringify(answers));
       navigate("/reading/take-test/review");
+      setTimeout(() => {
+        window.location.reload()
+      }, 200);
     }
   };
 
