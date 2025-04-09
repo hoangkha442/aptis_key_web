@@ -37,10 +37,10 @@ export const calculateScore = (
 };
 
 export const convertScoreToCEFR = (score: number): string => {
-  if (score <= 8) return "A1";
-  if (score <= 16) return "A2";
-  if (score <= 26) return "B1";
-  if (score <= 38) return "B2";
+  if (score <= 15) return "A1";
+  if (score <= 23) return "A2";
+  if (score <= 33) return "B1";
+  if (score <= 41) return "B2";
   return "C";
 };
 

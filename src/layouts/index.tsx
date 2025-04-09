@@ -34,15 +34,7 @@ const Layouts = ({ children }: LayoutProps) => {
           <Layout>
             <Header user={user} />
             <Content
-              style={{
-                margin: "24px 16px",
-                padding: 24,
-                minHeight: 280,
-                background: "#ffffff",
-                borderRadius: 8,
-                position: "relative",
-                overflowY: "auto", 
-              }}
+              className="!m-[24px_16px] !p-6 !min-h-[280px] !bg-white !rounded-lg !relative !overflow-y-auto"
             >
               {loading && (
                 <div className="absolute inset-0 flex items-center justify-center bg-white/50 z-50">

@@ -40,7 +40,7 @@ const Question4: React.FC<Props> = ({ questions, valueMap, onChange, texts }) =>
               placeholder="Chọn đáp án"
               value={valueMap[q.reading_part_4_id]}
               onChange={(val) => onChange(q.reading_part_4_id, val)}
-              className="w-14 !h-8 !p-0 !rounded"
+              className="w-18 !h-8 !p-0 !rounded"
             >
               {q.options.map((opt) => (
                 <Option key={opt} value={opt}>

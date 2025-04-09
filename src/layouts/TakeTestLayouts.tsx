@@ -41,7 +41,13 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
         <Layout className="!h-screen flex flex-col">
         <Header className="flex justify-between items-center !bg-[#f9fafc] px-6">
   <img
-    onClick={() => navigate("/")}
+    onClick={() => {{
+      navigate('/'),
+      localStorage.removeItem('reading_key_test_id')
+      localStorage.removeItem('reading_answers')
+      localStorage.removeItem('reading_correct')
+      message.success('Chào mừng bạn trở về trang chủ')
+    }}}
     src={logo}
     alt="Logo"
     className="h-[80px] object-contain cursor-pointer"
@@ -118,7 +124,6 @@ const TestFooterPagination = () => {
         okButtonProps: {
           className: "!bg-[#45368f] hover:bg-[#372a73] text-white",
         },
-        
         onOk() {
           localStorage.setItem("reading_answers", JSON.stringify(answers));
       navigate("/reading/take-test/review");

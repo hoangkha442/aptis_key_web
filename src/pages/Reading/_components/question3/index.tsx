@@ -1,6 +1,8 @@
 import { useDrop, useDrag } from "react-dnd";
 import { useRef } from "react";
 import { ReadingPart3Question } from "../../../../types/reading";
+import { useEffect, useState } from "react";
+
 
 
 type Question = ReadingPart3Question;
@@ -16,8 +18,18 @@ type Question3Props = {
   setSlotAnswers: (answers: { [slotIndex: number]: Question | null }) => void;
 };
 
+function shuffleArray<T>(array: T[]): T[] {
+  return [...array].sort(() => Math.random() - 0.5);
+}
+
 export default function Question3({ questions, slotAnswers, setSlotAnswers }: Question3Props) {
-  const allSlotIndexes = questions.map((_, i) => i + 1);
+  const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    const shuffled = shuffleArray(questions);
+    setShuffledQuestions(shuffled);
+  }, [questions]);
+  const allSlotIndexes = shuffledQuestions.map((_, i) => i + 1);
 
   const initializedSlotAnswers = allSlotIndexes.reduce((acc, idx) => {
     acc[idx] = slotAnswers[idx] ?? null;
@@ -28,9 +40,9 @@ export default function Question3({ questions, slotAnswers, setSlotAnswers }: Qu
     .filter((q): q is Question => !!q)
     .map((q) => q.reading_part_3_id);
 
-  const unplacedQuestions = questions.filter(
-    (q) => !placedIds.includes(q.reading_part_3_id)
-  );
+    const unplacedQuestions = shuffledQuestions.filter(
+      (q) => !placedIds.includes(q.reading_part_3_id)
+    );
 
   const moveToSlot = (question: Question, from: "list" | number, to: number) => {
     const updated = { ...initializedSlotAnswers };
@@ -57,11 +69,11 @@ export default function Question3({ questions, slotAnswers, setSlotAnswers }: Qu
 
   return (
     <div className="space-y-4">
-      <p className="font-semibold text-base my-5">{questions[0]?.description}</p>
+      <p className="font-semibold text-base my-5">{shuffledQuestions[0]?.description}</p>
       <div className="flex gap-8">
         
         <div className="flex-1 space-y-2 border p-4 bg-gray-50 border-[#e5e7eb]">
-        <h3 className="text-sm mb-4 font-medium">{questions[0]?.name_of_test}</h3>
+        <h3 className="text-sm mb-4 font-medium">{shuffledQuestions[0]?.name_of_test}</h3>
           {allSlotIndexes.map((idx) => (
             <DropSlot
               key={idx}

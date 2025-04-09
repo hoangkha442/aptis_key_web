@@ -7,9 +7,7 @@ export default function HomePage() {
   return (
     <div className="flex justify-center items-center h-full">
       <Card
-        className="w-full max-w-3xl !shadow-none"
-        bordered={false}
-        bodyStyle={{ padding: "2rem" }}
+        className="w-full max-w-3xl !shadow-none p-[2rem] !border-none"
       >
         <div className="flex flex-col items-center text-center">
           <SmileOutlined style={{ fontSize: 48, color: "#4A3AFF" }} />

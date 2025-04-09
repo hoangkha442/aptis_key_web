@@ -1,5 +1,6 @@
 import { useDrop, useDrag } from "react-dnd";
 import { useRef } from "react";
+import { useState, useEffect } from "react";
 
 export type Question = {
   reading_part_2_id: number;
@@ -19,9 +20,17 @@ type Question2Props = {
   slotAnswers: { [slotIndex: number]: Question | null };
   setSlotAnswers: (answers: { [slotIndex: number]: Question | null }) => void;
 };
-
+function shuffleArray<T>(array: T[]): T[] {
+  return [...array].sort(() => Math.random() - 0.5);
+}
 export default function Question2({ questions, slotAnswers, setSlotAnswers }: Question2Props) {
-  const allSlotIndexes = questions.map((_, i) => i + 1);
+  const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    setShuffledQuestions(shuffleArray(questions));
+  }, [questions]);
+
+  const allSlotIndexes = shuffledQuestions.map((_, i) => i + 1);
 
   const initializedSlotAnswers = allSlotIndexes.reduce((acc, idx) => {
     acc[idx] = slotAnswers[idx] ?? null;
@@ -32,7 +41,7 @@ export default function Question2({ questions, slotAnswers, setSlotAnswers }: Qu
     .filter((q): q is Question => !!q)
     .map((q) => q.reading_part_2_id);
 
-  const unplacedQuestions = questions.filter(
+  const unplacedQuestions = shuffledQuestions.filter(
     (q) => !placedIds.includes(q.reading_part_2_id)
   );
 
