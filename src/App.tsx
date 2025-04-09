@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layouts from "./layouts";
 import HomePage from "./pages";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -10,9 +10,9 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import TakeTestLayouts from "./layouts/TakeTestLayouts";
 import ExamInfo from "./pages/Reading/_components/info";
+import ReadingReview from "./pages/Reading/_components/review";
 
 const App = () => {
-  
   return (
     <Router>
       <Routes>
@@ -41,33 +41,45 @@ const App = () => {
             />
           }
         />
-        
+
         <Route
-  path="/reading/take-test"
-  element={
-    <PrivateRoute
-      element={
-        <TakeTestLayouts>
-          <DndProvider backend={HTML5Backend}>
-            <Reading />
-          </DndProvider>
-        </TakeTestLayouts>
-      }
-    />
-  }
-  />
-  <Route
-    path="/reading/take-test/intro"
-    element={
-      <PrivateRoute
-        element={
-          <TakeTestLayouts>
-              <ExamInfo />
-          </TakeTestLayouts>
-        }
-      />
-    }
-  />
+          path="/reading/take-test"
+          element={
+            <PrivateRoute
+              element={
+                <TakeTestLayouts>
+                  <DndProvider backend={HTML5Backend}>
+                    <Reading />
+                  </DndProvider>
+                </TakeTestLayouts>
+              }
+            />
+          }
+        />
+        <Route
+          path="/reading/take-test/intro"
+          element={
+            <PrivateRoute
+              element={
+                <TakeTestLayouts>
+                  <ExamInfo />
+                </TakeTestLayouts>
+              }
+            />
+          }
+        />
+        <Route
+          path="/reading/take-test/review"
+          element={
+            <PrivateRoute
+              element={
+                <TakeTestLayouts>
+                  <ReadingReview />
+                </TakeTestLayouts>
+              }
+            />
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>

@@ -14,17 +14,15 @@ type Question1Props = {
     onChange,
   }: Question1Props) {
     const options = JSON.parse(question.options);
-  
     const parts = question.content.split("___");
-  
     return (
-      <div className="space-y-4">
-        <p className="font-semibold">
+      <div>
+        <p className=" text-sm">
           {parts[0]}
           <select
             value={value || ""}
             onChange={(e) => onChange(e.target.value)}
-            className="inline-block border border-gray-300 rounded px-2 py-1 mx-2"
+            className="inline-block border !border-[#e5e7eb] bg-white rounded px-2 py-1 mx-2"
           >
             <option value="" disabled>
              

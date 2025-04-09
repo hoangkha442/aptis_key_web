@@ -8,36 +8,25 @@ import Question3 from "./_components/question3";
 import Question4 from "./_components/question4";
 import Question5 from "./_components/question5";
 import { useReadingContext } from "./Context/ReadingContext";
-import { ReadingPart3Question } from "../../types/reading";
 
-type Question = {
-  reading_part_2_id: number;
-  content: string;
-  sort_order: number;
-};
 
 const Reading = () => {
   const location = useLocation();
   const keyTestId = location.state?.keyTestId;
   const navigate = useNavigate();
-  const { activePart } = useReadingContext();
+  const { activePart, answers, setAnswers } = useReadingContext();
 
-  const [readingParts, setReadingParts] = useState<{
-    part1: any[];
-    part2: any[];
-    part3: any[];
-    part4: any[];
-    part5: any[];
-  }>({ part1: [], part2: [], part3: [], part4: [], part5: [] });
+  const [readingParts, setReadingParts] = useState({
+    part1: [],
+    part2: [],
+    part3: [],
+    part4: [],
+    part5: [],
+  });
 
-  const [answers, setAnswers] = useState<{ [id: number]: string }>({});
-  const [answersPart2, setAnswersPart2] = useState<{ [slotIndex: number]: Question | null }>({});
   const [dropCounter, setDropCounter] = useState(0);
-  const [answersPart3, setAnswersPart3] = useState<{ [slotIndex: number]: ReadingPart3Question | null }>({});
   const [dropCounter3, setDropCounter3] = useState(0);
-  const [answersPart4, setAnswersPart4] = useState<{ [id: number]: string }>({});
   const [paragraphTexts, setParagraphTexts] = useState<{ [key: string]: string }>({});
-  const [answersPart5, setAnswersPart5] = useState<{ [sortOrder: number]: string }>({});
 
   useEffect(() => {
     if (!keyTestId) {
@@ -49,6 +38,7 @@ const Reading = () => {
     readingService
       .getReadingKeyTest({ reading_test_id: keyTestId })
       .then((res) => {
+        localStorage.setItem("reading_key_test_id", keyTestId);
         const part1 = res.data.reading_part_1 || [];
         const part2 = res.data.reading_part_2 || [];
         const part3 = res.data.reading_part_3 || [];
@@ -58,31 +48,32 @@ const Reading = () => {
         }));
         const part5 = res.data.reading_part_5 || [];
 
-        const initialAnswers2: { [slotIndex: number]: Question | null } = {};
-        const initialAnswers3: { [slotIndex: number]: ReadingPart3Question | null } = {};
-        const initialAnswers4: { [id: number]: string } = {};
-        const initialAnswers5: { [sortOrder: number]: string } = {};
+        const initPart2: any = {};
+        const initPart3: any = {};
+        const initPart4: any = {};
+        const initPart5: any = {};
 
-        for (let i = 1; i <= part2.length; i++) initialAnswers2[i] = null;
-        for (let i = 1; i <= part3.length; i++) initialAnswers3[i] = null;
-        for (const q of part4) initialAnswers4[q.reading_part_4_id] = "";
-        for (const q of part5) initialAnswers5[q.sort_order] = "";
+        for (let i = 1; i <= part2.length; i++) initPart2[i] = null;
+        for (let i = 1; i <= part3.length; i++) initPart3[i] = null;
+        for (const q of part4) initPart4[q.reading_part_4_id] = "";
+        for (const q of part5) initPart5[q.sort_order] = "";
 
-        const paragraphMap: { [key: string]: string } = {};
-        part4.forEach((q: any) => {
-          const keyMatch = q.paragraph_text?.trim()?.charAt(0);
-          if (["A", "B", "C", "D"].includes(keyMatch)) {
-            paragraphMap[keyMatch] = q.paragraph_text;
-          }
-        });
-
-        setParagraphTexts(paragraphMap);
+        setParagraphTexts(
+          part4.reduce((acc: any, q: any) => {
+            const key = q.paragraph_text?.trim()?.charAt(0);
+            if (["A", "B", "C", "D"].includes(key)) acc[key] = q.paragraph_text;
+            return acc;
+          }, {})
+        );
 
         setReadingParts({ part1, part2, part3, part4, part5 });
-        setAnswersPart2(initialAnswers2);
-        setAnswersPart3(initialAnswers3);
-        setAnswersPart4(initialAnswers4);
-        setAnswersPart5(initialAnswers5);
+        setAnswers({
+          part1: {},
+          part2: initPart2,
+          part3: initPart3,
+          part4: initPart4,
+          part5: initPart5,
+        });
       })
       .catch((err) => {
         console.error("err: ", err);
@@ -91,31 +82,39 @@ const Reading = () => {
   }, [keyTestId]);
 
   const handleAnswerChange = (id: number, value: string) => {
-    setAnswers((prev) => ({ ...prev, [id]: value }));
+    setAnswers((prev) => ({
+      ...prev,
+      part1: { ...prev.part1, [id]: value },
+    }));
   };
 
   const renderPartComponent = () => {
-    const currentPart = readingParts[`part${activePart as 1 | 2 | 3 | 4 | 5}`];
+    const currentPart = readingParts[`part${activePart}` as 'part1' | 'part2' | 'part3' | 'part4' | 'part5'];
     if (!currentPart.length) return <p>Đang tải câu hỏi...</p>;
 
     switch (activePart) {
       case 1:
-        return currentPart.map((q) => (
-          <Question1
-            key={q.reading_part_1_id}
-            question={q}
-            value={answers[q.reading_part_1_id] || null}
-            onChange={(val) => handleAnswerChange(q.reading_part_1_id, val)}
-          />
-        ));
+        return (
+          <div>
+            <p className="font-semibold text-base my-5">Read the email from a person to his/her friend. Choose one word from the list for each gap. The first one is done for you.</p>
+            {currentPart.map((q: any) => (
+            <Question1
+              key={q.reading_part_1_id}
+              question={q}
+              value={answers.part1[q.reading_part_1_id] || null}
+              onChange={(val) => handleAnswerChange(q.reading_part_1_id, val)}
+            />
+          ))}
+          </div>
+        )
       case 2:
         return (
           <Question2
             key={dropCounter}
             questions={currentPart}
-            slotAnswers={answersPart2}
+            slotAnswers={answers.part2}
             setSlotAnswers={(ans) => {
-              setAnswersPart2(ans);
+              setAnswers((prev) => ({ ...prev, part2: ans }));
               setDropCounter((prev) => prev + 1);
             }}
           />
@@ -125,9 +124,9 @@ const Reading = () => {
           <Question3
             key={dropCounter3}
             questions={currentPart}
-            slotAnswers={answersPart3}
+            slotAnswers={answers.part3}
             setSlotAnswers={(ans) => {
-              setAnswersPart3(ans);
+              setAnswers((prev) => ({ ...prev, part3: ans }));
               setDropCounter3((prev) => prev + 1);
             }}
           />
@@ -136,9 +135,12 @@ const Reading = () => {
         return (
           <Question4
             questions={currentPart}
-            valueMap={answersPart4}
+            valueMap={answers.part4}
             onChange={(id, value) =>
-              setAnswersPart4((prev) => ({ ...prev, [id]: value }))
+              setAnswers((prev) => ({
+                ...prev,
+                part4: { ...prev.part4, [id]: value },
+              }))
             }
             texts={paragraphTexts}
           />
@@ -147,9 +149,12 @@ const Reading = () => {
         return (
           <Question5
             questions={currentPart}
-            valueMap={answersPart5}
+            valueMap={answers.part5}
             onChange={(sortOrder, value) =>
-              setAnswersPart5((prev) => ({ ...prev, [sortOrder]: value }))
+              setAnswers((prev) => ({
+                ...prev,
+                part5: { ...prev.part5, [sortOrder]: value },
+              }))
             }
           />
         );
@@ -159,10 +164,8 @@ const Reading = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-6">
-      <h2 className="text-xl font-semibold">
-        Reading Test - Part {activePart}
-      </h2>
+    <div className="max-w-4xl mx-auto px-10 pb-10 pt-2">
+      <h2 className="text-xl font-bold">Question {activePart} of 5 </h2>
       {renderPartComponent()}
     </div>
   );

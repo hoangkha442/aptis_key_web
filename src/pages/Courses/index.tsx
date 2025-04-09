@@ -27,7 +27,7 @@ export default function Courses() {
         setReadingModules(
           res.data.slice(0, 14).map((item: any) => ({
             ...item,
-            key: String(item.reading_test_id), // đảm bảo key duy nhất
+            key: String(item.reading_test_id),
             test_name: item.tittle,
             description: item.description,
             created_at: new Date().toISOString(),

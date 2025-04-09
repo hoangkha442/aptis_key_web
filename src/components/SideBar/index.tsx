@@ -33,14 +33,13 @@ export default function Sidebar({ setLoading }: SidebarProps) {
 
   const handleMenuClick = ({ key }: { key: string }) => {
     if (key === "/auth/logout") {
-      // Gọi API logout nếu cần
       navigate(key);
       return;
     }
 
     setLoading(true);
-    navigate(key); // chuyển route
-    setTimeout(() => setLoading(false), 500); // loading giả
+    navigate(key);
+    setTimeout(() => setLoading(false), 500);
   };
 
   const studentMenu: MenuItem[] = [
