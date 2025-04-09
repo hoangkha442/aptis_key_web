@@ -1,8 +1,10 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { ConfigProvider, Layout, theme, Modal, message } from "antd";
 import logo from "../assets/logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
+  calculateScore,
+  convertScoreToCEFR,
   ReadingProvider,
   useReadingContext,
 } from "../pages/Reading/Context/ReadingContext";
@@ -14,23 +16,43 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
     token: { colorBgContainer },
   } = theme.useToken();
   const navigate = useNavigate();
-  const location = useLocation().pathname;
-  const isTestPage = location === "/reading/take-test";
+  const location = useLocation();
+  const isTestPage = location.pathname === "/reading/take-test";
+  const [totalScore, setTotalScore] = useState<number>(0);
+  const [cefr, setCefr] = useState<string>("");
 
+  useEffect(() => {
+    if (location.pathname.includes("/review")) {
+      const savedAnswers = localStorage.getItem("reading_answers");
+      const savedCorrect = localStorage.getItem("reading_correct");
+      if (savedAnswers && savedCorrect) {
+        const parsedAnswers = JSON.parse(savedAnswers);
+        const parsedCorrect = JSON.parse(savedCorrect);
+        const total = calculateScore(parsedAnswers, parsedCorrect);
+        setTotalScore(total);
+        setCefr(convertScoreToCEFR(total));
+      }
+    }
+  }, [location.pathname]);
+  
   return (
     <ConfigProvider componentSize="large">
       <ReadingProvider>
         <Layout className="!h-screen flex flex-col">
-          <Header
-            className="flex justify-between items-center !bg-[#f9fafc]"
-          >
-            <img
-              onClick={() => navigate("/")}
-              src={logo}
-              alt="Logo"
-              className="h-[80px] object-contain cursor-pointer"
-            />
-          </Header>
+        <Header className="flex justify-between items-center !bg-[#f9fafc] px-6">
+  <img
+    onClick={() => navigate("/")}
+    src={logo}
+    alt="Logo"
+    className="h-[80px] object-contain cursor-pointer"
+/>
+  {location.pathname.includes("/review") && (
+    <div className="text-right text-sm text-[#45368f] font-semibold">
+      Total score: <span className="text-lg">{totalScore}</span> / 50<br />
+      Level: <span className="text-lg uppercase">{cefr}</span>
+    </div>
+  )}
+</Header>
           <Content
             className="flex-1 overflow-y-auto !p-x-12 !bg-[#f9fafc]"
           >
@@ -40,7 +62,7 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
             style={{ background: colorBgContainer }}
             className="text-end flex justify-end !py-2 border-t border-[#e5e7eb]"
           >
-            {location === "/reading/take-test/intro" ? (
+            {location.pathname === "/reading/take-test/intro" ? (
               <div>
                 Aptis key test ©{new Date().getFullYear()} Created by Hoàng Kha
               </div>
@@ -51,6 +73,7 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
           onClick={() => {
             localStorage.removeItem('reading_key_test_id')
             localStorage.removeItem('reading_answers')
+            localStorage.removeItem('reading_correct')
             navigate('/')
             message.success('Chào mừng bạn trở về trang chủ')
           }}

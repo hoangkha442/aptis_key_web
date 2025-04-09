@@ -10,19 +10,18 @@ type Question = {
 
 type Answer5Props = {
   questions: Question[];
-  user: Record<number, string>;
+  user: Record<number, string>; // { sort_order: heading_id }
 };
 
 const Answer5 = ({ questions, user }: Answer5Props) => {
-  const headingMap = questions.reduce((acc, q) => {
-    acc[q.reading_part_5_id.toString()] = q.content;
-    return acc;
-  }, {} as Record<string, string>);
+  // headingMap: heading_id (string) -> heading content
+  const headingMap: Record<string, string> = {};
+  const correctMap: Record<number, string> = {};
 
-  const correctMap = questions.reduce((acc, q) => {
-    acc[q.sort_order] = q.reading_part_5_id.toString();
-    return acc;
-  }, {} as Record<number, string>);
+  questions.forEach((q) => {
+    headingMap[q.reading_part_5_id.toString()] = q.content;
+    correctMap[q.sort_order] = q.reading_part_5_id.toString(); // convert ID to string
+  });
 
   const totalPoint = questions.reduce((sum, q) => {
     const userAnswerId = user[q.sort_order];
@@ -36,6 +35,7 @@ const Answer5 = ({ questions, user }: Answer5Props) => {
         <h3 className="text-xl font-bold">Question 5 of 5</h3>
         <div className="text-red-500 text-lg">Point: {totalPoint}</div>
       </div>
+
       <p className="font-medium text-base">{questions[0]?.description}</p>
       <p className="text-xl font-semibold">{questions[0]?.name_of_test}</p>
 
@@ -47,20 +47,14 @@ const Answer5 = ({ questions, user }: Answer5Props) => {
           const isCorrect = userAnswerId === correctAnswerId;
 
           return (
-            <div
-              key={q.sort_order}
-              className={`flex items-start gap-2 text-base
-                `}
-            >
+            <div key={q.sort_order} className="flex items-start gap-2 text-base">
               <div className="flex items-center gap-3 w-1/2">
                 <p className="font-semibold">{q.sort_order}.</p>
                 <Select
                   value={userAnswerId || "no_answer"}
                   disabled
                   className={`w-full border border-dashed rounded-lg !text-black ${
-                    isCorrect
-                      ? "border-green-200"
-                      : "border-red-200"
+                    isCorrect ? "border-green-200" : "border-red-200"
                   }`}
                 >
                   <Select.Option value="no_answer">
@@ -87,7 +81,7 @@ const Answer5 = ({ questions, user }: Answer5Props) => {
               </div>
 
               <div className="text-green-600 w-1/2">
-                Correct answer: {" "}
+                Correct answer:{" "}
                 <span className="font-bold">
                   {headingMap[correctAnswerId] || <i>(Không tìm thấy đáp án)</i>}
                 </span>

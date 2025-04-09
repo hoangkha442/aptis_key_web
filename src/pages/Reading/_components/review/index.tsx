@@ -7,6 +7,7 @@ import Answer2 from "./_components/answer2";
 import Answer3 from "./_components/answer3";
 import Answer4 from "./_components/answer4";
 import Answer5 from "./_components/answer5";
+import { calculateScore, convertScoreToCEFR } from "../../Context/ReadingContext";
 
 const ReadingReview = () => {
   const navigate = useNavigate();
@@ -17,6 +18,25 @@ const ReadingReview = () => {
   console.log('readingParts: ', readingParts);
 
   
+  const [totalScore, setTotalScore] = useState<number>(0);
+  console.log('totalScore: ', totalScore);
+const [cefr, setCefr] = useState<string>("");
+console.log('cefr: ', cefr);
+
+useEffect(() => {
+  const savedAnswers = localStorage.getItem("reading_answers");
+  const savedCorrect = localStorage.getItem("reading_correct");
+
+  if (savedAnswers && savedCorrect) {
+    const parsedAnswers = JSON.parse(savedAnswers);
+    const parsedCorrect = JSON.parse(savedCorrect);
+    const total = calculateScore(parsedAnswers, parsedCorrect);
+    const band = convertScoreToCEFR(total);
+
+    setTotalScore(total);
+    setCefr(band);
+  }
+}, []);
   useEffect(() => {
     const savedAnswers = localStorage.getItem("reading_answers");
     const keyTestId = Number(localStorage.getItem("reading_key_test_id"));
@@ -51,12 +71,15 @@ const ReadingReview = () => {
             return acc;
           }, {}),
           part5: (res.data.reading_part_5 || []).reduce((acc: any, q: any) => {
-            acc[q.sort_order] = q.correct_answer;
+            acc[q.sort_order] = q.reading_part_5_id.toString();
             return acc;
           }, {}),
         };
+        console.log('correct: ', correct);
 
         setCorrectAnswers(correct);
+        localStorage.setItem("reading_correct", JSON.stringify(correct));
+
         setReadingParts({
           part1: res.data.reading_part_1 || [],
           part2: res.data.reading_part_2 || [],
@@ -86,11 +109,10 @@ const ReadingReview = () => {
       case 2:
         return (
           <Answer2
-  user={userAnswers.part2}
-  correct={correctAnswers.part2}
-  questions={readingParts.part2}
-/>
-
+            user={userAnswers.part2}
+            correct={correctAnswers.part2}
+            questions={readingParts.part2}
+          />
         );
         case 3:
   return (
@@ -108,7 +130,6 @@ const ReadingReview = () => {
       correct={correctAnswers.part4}
     />
   );
-  case 5:
     case 5:
       return (
         <Answer5
