@@ -18,14 +18,14 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <ConfigProvider componentSize="large">
       <ReadingProvider>
-        <Layout className="!h-screen">
+        <Layout className="!h-screen flex flex-col">
           <Header className="flex justify-between items-center" style={{ background: "#f5f5f5" }}>
             <img onClick={() => navigate("/")} src={logo} alt="Logo" className="h-[80px] object-contain cursor-pointer" />
           </Header>
 
-          <Content style={{ padding: "0 48px" }}>{children}</Content>
+          <Content className='flex-1 overflow-y-auto' style={{ padding: "0 48px" }}>{children}</Content>
 
-          <Footer style={{ background: colorBgContainer }} className="text-center">
+          <Footer style={{ background: colorBgContainer }} className="text-end flex justify-end !py-4">
             {location === "/reading/take-test/intro" ? (
               <div>Aptis key test ©{new Date().getFullYear()} Created by Hoàng Kha</div>
             ) : isTestPage ? (
@@ -48,14 +48,14 @@ const TestFooterPagination = () => {
       <button
         disabled={activePart <= 1}
         onClick={() => setActivePart(activePart - 1)}
-        className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+        className="px-[15px] py-[7px] bg-white rounded hover:border-blue-500 hover:text-blue-500 transition-all duration-500 disabled:opacity-50 text-lg cursor-pointer border border-[#d9d9d9]"
       >
         Previous
       </button>
       <button
         disabled={activePart >= 5}
         onClick={() => setActivePart(activePart + 1)}
-        className="px-4 py-2 bg-[#45368f] text-white rounded hover:bg-[#372a73] disabled:opacity-50"
+        className="px-[15px] py-[7px] bg-[#45368f] text-white rounded-lg hover:bg-[#372a73] disabled:opacity-50 text-lg cursor-pointer"
       >
         Next
       </button>

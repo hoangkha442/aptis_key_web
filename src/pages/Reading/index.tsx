@@ -3,11 +3,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { readingService } from "../../config/readingServices";
 import { message } from "antd";
 import Question1 from "./_components/question1";
-import { useReadingContext } from "./Context/ReadingContext";
 import Question2 from "./_components/question2";
 import Question3 from "./_components/question3";
+import Question4 from "./_components/question4";
+import Question5 from "./_components/question5";
+import { useReadingContext } from "./Context/ReadingContext";
 import { ReadingPart3Question } from "../../types/reading";
-// import Intro from "./_components/intro";
+
 type Question = {
   reading_part_2_id: number;
   content: string;
@@ -18,6 +20,7 @@ const Reading = () => {
   const location = useLocation();
   const keyTestId = location.state?.keyTestId;
   const navigate = useNavigate();
+  const { activePart } = useReadingContext();
 
   const [readingParts, setReadingParts] = useState<{
     part1: any[];
@@ -25,25 +28,16 @@ const Reading = () => {
     part3: any[];
     part4: any[];
     part5: any[];
-  }>({
-    part1: [],
-    part2: [],
-    part3: [],
-    part4: [],
-    part5: [],
-  });
+  }>({ part1: [], part2: [], part3: [], part4: [], part5: [] });
 
-  const { activePart } = useReadingContext();
   const [answers, setAnswers] = useState<{ [id: number]: string }>({});
-  const [answersPart2, setAnswersPart2] = useState<{
-    [slotIndex: number]: Question | null;
-  }>({});
+  const [answersPart2, setAnswersPart2] = useState<{ [slotIndex: number]: Question | null }>({});
   const [dropCounter, setDropCounter] = useState(0);
-  const [answersPart3, setAnswersPart3] = useState<{
-    [slotIndex: number]: ReadingPart3Question | null;
-  }>({});
+  const [answersPart3, setAnswersPart3] = useState<{ [slotIndex: number]: ReadingPart3Question | null }>({});
   const [dropCounter3, setDropCounter3] = useState(0);
-  
+  const [answersPart4, setAnswersPart4] = useState<{ [id: number]: string }>({});
+  const [paragraphTexts, setParagraphTexts] = useState<{ [key: string]: string }>({});
+  const [answersPart5, setAnswersPart5] = useState<{ [sortOrder: number]: string }>({});
 
   useEffect(() => {
     if (!keyTestId) {
@@ -55,32 +49,41 @@ const Reading = () => {
     readingService
       .getReadingKeyTest({ reading_test_id: keyTestId })
       .then((res) => {
-        console.log("res: ", res);
-        const part2Questions = res.data.reading_part_2 || [];
-        const initialAnswers: { [slotIndex: number]: Question | null } = {};
-        for (let i = 1; i <= part2Questions.length; i++) {
-          initialAnswers[i] = null;
-        }
-        const part3Questions = res.data.reading_part_3 || [];
-        const initialAnswers3: {
-          [slotIndex: number]: ReadingPart3Question | null;
-        } = {};
+        const part1 = res.data.reading_part_1 || [];
+        const part2 = res.data.reading_part_2 || [];
+        const part3 = res.data.reading_part_3 || [];
+        const part4 = (res.data.reading_part_4 || []).map((q: any) => ({
+          ...q,
+          options: JSON.parse(q.options),
+        }));
+        const part5 = res.data.reading_part_5 || [];
 
-        for (let i = 1; i <= part3Questions.length; i++) {
-          initialAnswers3[i] = null;
-        }
-        setReadingParts({
-          part1: res.data.reading_part_1 || [],
-          part2: part2Questions,
-          part3: part3Questions,
-          part4: res.data.reading_part_4 || [],
-          part5: res.data.reading_part_5 || [],
+        const initialAnswers2: { [slotIndex: number]: Question | null } = {};
+        const initialAnswers3: { [slotIndex: number]: ReadingPart3Question | null } = {};
+        const initialAnswers4: { [id: number]: string } = {};
+        const initialAnswers5: { [sortOrder: number]: string } = {};
+
+        for (let i = 1; i <= part2.length; i++) initialAnswers2[i] = null;
+        for (let i = 1; i <= part3.length; i++) initialAnswers3[i] = null;
+        for (const q of part4) initialAnswers4[q.reading_part_4_id] = "";
+        for (const q of part5) initialAnswers5[q.sort_order] = "";
+
+        const paragraphMap: { [key: string]: string } = {};
+        part4.forEach((q: any) => {
+          const keyMatch = q.paragraph_text?.trim()?.charAt(0);
+          if (["A", "B", "C", "D"].includes(keyMatch)) {
+            paragraphMap[keyMatch] = q.paragraph_text;
+          }
         });
 
-        setAnswersPart2(initialAnswers);
-        setAnswersPart3(initialAnswers3);
-      })
+        setParagraphTexts(paragraphMap);
 
+        setReadingParts({ part1, part2, part3, part4, part5 });
+        setAnswersPart2(initialAnswers2);
+        setAnswersPart3(initialAnswers3);
+        setAnswersPart4(initialAnswers4);
+        setAnswersPart5(initialAnswers5);
+      })
       .catch((err) => {
         console.error("err: ", err);
         message.error("Không lấy được dữ liệu đề thi.");
@@ -93,12 +96,9 @@ const Reading = () => {
 
   const renderPartComponent = () => {
     const currentPart = readingParts[`part${activePart as 1 | 2 | 3 | 4 | 5}`];
-
     if (!currentPart.length) return <p>Đang tải câu hỏi...</p>;
 
     switch (activePart) {
-      // case 1:
-      //   return <Intro />
       case 1:
         return currentPart.map((q) => (
           <Question1
@@ -132,7 +132,27 @@ const Reading = () => {
             }}
           />
         );
-
+      case 4:
+        return (
+          <Question4
+            questions={currentPart}
+            valueMap={answersPart4}
+            onChange={(id, value) =>
+              setAnswersPart4((prev) => ({ ...prev, [id]: value }))
+            }
+            texts={paragraphTexts}
+          />
+        );
+      case 5:
+        return (
+          <Question5
+            questions={currentPart}
+            valueMap={answersPart5}
+            onChange={(sortOrder, value) =>
+              setAnswersPart5((prev) => ({ ...prev, [sortOrder]: value }))
+            }
+          />
+        );
       default:
         return <p>Chưa hỗ trợ phần này</p>;
     }
@@ -143,7 +163,6 @@ const Reading = () => {
       <h2 className="text-xl font-semibold">
         Reading Test - Part {activePart}
       </h2>
-
       {renderPartComponent()}
     </div>
   );

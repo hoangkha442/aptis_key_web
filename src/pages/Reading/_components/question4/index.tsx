@@ -1,56 +1,57 @@
-// src/pages/Reading/_components/question4.tsx
-import { Radio } from "antd";
+import { Select } from "antd";
+import React from "react";
 
-type Paragraph = {
-  id: string; // A, B, C, D
-  text: string;
-};
+const { Option } = Select;
 
 type Question = {
   reading_part_4_id: number;
   content: string;
-  options: string[]; // ["A", "B", "C", "D"]
+  description: string;
   correct_answer: string;
+  options: string[];
 };
 
 type Props = {
-  paragraphs: Paragraph[];
   questions: Question[];
-  answers: { [id: number]: string };
+  valueMap: { [id: number]: string };
   onChange: (id: number, value: string) => void;
+  texts: { [key: string]: string };
 };
 
-export default function Question4({ paragraphs, questions, answers, onChange }: Props) {
+const Question4: React.FC<Props> = ({ questions, valueMap, onChange, texts }) => {
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <h3 className="font-semibold text-lg">Đọc các đoạn văn sau:</h3>
-        {paragraphs.map((p) => (
-          <div key={p.id} className="border p-4 rounded bg-white shadow-sm">
-            <p className="font-bold mb-1">Đoạn {p.id}</p>
-            <p>{p.text}</p>
-          </div>
+      <h3 className="font-semibold text-lg">Read the texts below:</h3>
+      <div className="space-y-4 border rounded-md p-4 bg-gray-50">
+        {Object.entries(texts).map(([key, text]) => (
+          <p key={key} className="text-gray-700 whitespace-pre-line">
+            {text}
+          </p>
         ))}
       </div>
 
-      <div className="space-y-4 pt-6">
-        <h3 className="font-semibold text-lg">Chọn đoạn văn phù hợp với mỗi câu hỏi:</h3>
-        {questions.map((q) => (
-          <div key={q.reading_part_4_id} className="border-b pb-4">
-            <p className="mb-2">{q.content}</p>
-            <Radio.Group
-              value={answers[q.reading_part_4_id] || null}
-              onChange={(e) => onChange(q.reading_part_4_id, e.target.value)}
+      <h3 className="font-semibold text-lg">Choose the correct answer for each question:</h3>
+      <div className="space-y-4">
+        {questions?.map((q, index) => (
+          <div key={q.reading_part_4_id} className="space-y-1">
+            <p className="font-medium">{index + 1}. {q.content}</p>
+            <Select
+              placeholder="Chọn đáp án"
+              value={valueMap[q.reading_part_4_id]}
+              onChange={(val) => onChange(q.reading_part_4_id, val)}
+              className="w-32"
             >
               {q.options.map((opt) => (
-                <Radio key={opt} value={opt}>
+                <Option key={opt} value={opt}>
                   {opt}
-                </Radio>
+                </Option>
               ))}
-            </Radio.Group>
+            </Select>
           </div>
         ))}
       </div>
     </div>
   );
-}
+};
+
+export default Question4;
