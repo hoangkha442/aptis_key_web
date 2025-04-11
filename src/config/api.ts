@@ -1,13 +1,21 @@
+// src/config/api.ts
 import axios from 'axios';
-import { userLocalStorage } from './userLocal';
-const token = userLocalStorage?.get()?.token
+import { store } from '../redux/store';
+
 const api = axios.create({
-  baseURL: 'http://localhost:8080/', 
+  baseURL: 'http://localhost:8080/',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`, 
   },
+});
+
+api.interceptors.request.use((config) => {
+  const token = store.getState().auth.token;
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 export default api;

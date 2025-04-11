@@ -3,6 +3,8 @@ import { BookOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { readingService } from "../../config/readingServices";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const { Title } = Typography;
 
@@ -18,6 +20,7 @@ export default function Courses() {
   const [readingModules, setReadingModules] = useState<TestModule[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const token = useSelector((state: RootState) => state.auth.token);
 
   useEffect(() => {
     const fetchReadingModules = async () => {
@@ -40,7 +43,7 @@ export default function Courses() {
       }
     };
     fetchReadingModules();
-  }, []);
+  }, [token]);
 
   const handleTakeTest = (keyTestId: number) => {
     navigate(`/reading/take-test/intro`, { state: { keyTestId } });

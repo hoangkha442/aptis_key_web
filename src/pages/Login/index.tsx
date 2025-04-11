@@ -5,32 +5,43 @@ import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { authServices } from "../../config/authServices";
 import { useNavigate } from "react-router-dom";
 import { userLocalStorage } from "../../config/userLocal";
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from "../../redux/slices/authSlice";
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [form] = Form.useForm();
-    const navigate = useNavigate()
-  useEffect(() => { 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  // Nếu đã đăng nhập thì chuyển hướng về trang chủ
+  useEffect(() => {
     const isLoggedIn = !!userLocalStorage.get()?.token;
-    if(isLoggedIn) {
-        navigate('/')
+    if (isLoggedIn) {
+      navigate('/');
     }
-   })
+  }, [navigate]);
+
   const handleLogin = async (values: { email: string; password: string }) => {
     setLoading(true);
     setError(null);
-    authServices
-      .login(values)
-      .then((res) => {
-        setLoading(false);
-        message.success("Đăng nhập thành công")
-        userLocalStorage.set(res.data)
-        navigate('/')
-      })
-      .catch((err) => {
-        console.log("err: ", err);
-      });
+    try {
+      const res = await authServices.login(values);
+      const userData = res.data;
+
+      // Lưu localStorage và dispatch Redux
+      userLocalStorage.set(userData);
+      dispatch(loginSuccess(userData));
+
+      message.success("Đăng nhập thành công");
+      navigate('/');
+    } catch (err) {
+      console.error("err:", err);
+      setError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -61,7 +72,7 @@ export default function LoginForm() {
               name="password"
               label="Mật khẩu"
               rules={[
-                { required: true, message: "Mật khẩu không được bỏ trống" },
+                { required: true, message: "Mật khẩu không được bỏ trống!" },
               ]}
             >
               <Input.Password
@@ -83,7 +94,12 @@ export default function LoginForm() {
               </Button>
             </Form.Item>
           </Form>
-          {error && <Typography.Text type="danger">{error}</Typography.Text>}
+
+          {error && (
+            <Typography.Text type="danger" className="block text-center">
+              {error}
+            </Typography.Text>
+          )}
         </Card>
       </div>
     </div>
