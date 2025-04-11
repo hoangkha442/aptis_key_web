@@ -11,6 +11,9 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import TakeTestLayouts from "./layouts/TakeTestLayouts";
 import ExamInfo from "./pages/Reading/_components/info";
 import ReadingReview from "./pages/Reading/_components/review";
+import TakeListeningLayout from "./layouts/TakeListeningLayout";
+import Listening from "./pages/listening";
+import ListeningExamInfo from "./pages/listening/_components/info";
 
 const App = () => {
   return (
@@ -76,6 +79,30 @@ const App = () => {
                 <TakeTestLayouts>
                   <ReadingReview />
                 </TakeTestLayouts>
+              }
+            />
+          }
+        />
+        <Route
+          path="/listening/take-test"
+          element={
+            <PrivateRoute
+              element={
+                <TakeListeningLayout>
+                  <Listening />
+                </TakeListeningLayout>
+              }
+            />
+          }
+        />
+        <Route
+          path="/listening/take-test/intro"
+          element={
+            <PrivateRoute
+              element={
+                <TakeListeningLayout>
+                  <ListeningExamInfo />
+                </TakeListeningLayout>
               }
             />
           }

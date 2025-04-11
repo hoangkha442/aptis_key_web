@@ -117,7 +117,7 @@ const CountdownAndSubmit = () => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const navigate = useNavigate();
   const { answers } = useReadingContext();
-  const totalDuration = 35; // 35 phút
+  const totalDuration = 35 * 60; // 35 phút
 
   useEffect(() => {
     const now = Date.now();
