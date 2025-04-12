@@ -9,6 +9,7 @@ import QuestionMatchingGroup from "./_components/questionMatching";
 import QuestionGroup from "./_components/questionGroup";
 import QuestionRadio from "./_components/questionRadio";
 import { ListeningTestData } from "../../types/listening";
+import Question15 from "./_components/question15";
 
 
 export default function Listening() {
@@ -54,7 +55,6 @@ export default function Listening() {
         initAnswers[q.listening_test_items_id] = "";
       });
 
-      // Dispatch initial answer state if needed
     }
   }, [data]);
 
@@ -85,8 +85,17 @@ export default function Listening() {
         />
       );
     }
+    if (qNum?.includes("Question 15")) {
+      return (
+        <Question15
+          questions={currentBatch}
+          answers={answers}
+          onChange={handleAnswerChange}
+        />
+      );
+    }
 
-    if (qNum?.includes("Question 15") || qNum?.includes("Question 16") || qNum?.includes("Question 17")) {
+    if (qNum?.includes("Question 16") || qNum?.includes("Question 17")) {
       return (
         <QuestionGroup
           questions={currentBatch}
@@ -95,6 +104,7 @@ export default function Listening() {
         />
       );
     }
+    
 
     return (
       <QuestionRadio

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 interface Props {
   questions: any[];
@@ -7,39 +7,47 @@ interface Props {
 }
 
 const QuestionGroup: React.FC<Props> = ({ questions, answers, onChange }) => {
+  console.log('questions: ', questions);
+  const [selectedOptions, setSelectedOptions] = useState<Record<number, string>>({});
+
+  const handleOptionClick = (id: number, opt: string) => {
+    setSelectedOptions(prev => ({
+      ...prev,
+      [id]: opt,
+    }));
+    onChange(id, opt);
+  };
+
   return (
     <div>
+      <p className="text-gray-900 font-medium">{questions[0]?.description}</p>
       {questions.map((question) => {
         const options = JSON.parse(question.options || "[]");
 
         return (
           <div
             key={question.listening_test_items_id}
-            className="border p-4 rounded bg-white shadow-sm mb-6"
+            
           >
-            <p className="font-semibold">{question.content}</p>
-
-            <div className="mt-2 space-y-2">
+            <p className="my-3 font-medium text-base">{question.content}</p>
+            <div className="grid grid-cols-1 gap-1 min-w-[300px]">
               {options.map((opt: string, idx: number) => {
-                const label = String.fromCharCode(65 + idx);
+                const optionLabel = String.fromCharCode(65 + idx);
                 return (
-                  <label
+                  <button
                     key={opt}
-                    className={`block p-2 rounded border ${
-                      answers[question.listening_test_items_id] === opt
-                        ? "bg-blue-100 border-blue-400"
-                        : "bg-white"
-                    }`}
+                    className={`w-full grid grid-cols-12 items-center text-left border h-[70px] cursor-pointer
+                      ${selectedOptions[question.listening_test_items_id] === opt ? 'bg-[#fdfac7]' : 'bg-gray-100'} 
+                      text-gray-800 hover:bg-gray-200 border-gray-300`}
+                    onClick={() => handleOptionClick(question.listening_test_items_id, opt)}
                   >
-                    <input
-                      type="radio"
-                      name={`question-${question.listening_test_items_id}`}
-                      className="mr-2"
-                      checked={answers[question.listening_test_items_id] === opt}
-                      onChange={() => onChange(question.listening_test_items_id, opt)}
-                    />
-                    <strong>{label}.</strong> <span className="ml-2">{opt}</span>
-                  </label>
+                    <div className="col-span-2 flex justify-center items-center border-r border-gray-300 bg-white h-full">
+                      <span className="font-bold text-lg p-2">{optionLabel}</span>
+                    </div>
+                    <div className="col-span-10 ml-4 pr-4">
+                      <span className="text-base normal-case">{opt}</span> 
+                    </div>
+                  </button>
                 );
               })}
             </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Select, message } from "antd";
+import { Select, Button, message } from "antd";
 
 interface Props {
   questions: any[];
@@ -7,17 +7,8 @@ interface Props {
   onChange: (id: number, value: string) => void;
 }
 
-const QuestionMatchingGroup: React.FC<Props> = ({ questions, answers, onChange }) => {
+const Question15: React.FC<Props> = ({ questions, answers, onChange }) => {
   const [showTranscript, setShowTranscript] = useState(false);
-
-  const addExtraAnswers = (options: string[]) => {
-    // Tạo thêm 2 đáp án sai, đảm bảo mỗi đáp án có key khác biệt
-    return [
-      ...options,
-      "X (wrong answer 1)",
-      "X (wrong answer 2)",
-    ];
-  };
 
   const handleSelectChange = (id: number, value: string) => {
     onChange(id, value);
@@ -25,28 +16,27 @@ const QuestionMatchingGroup: React.FC<Props> = ({ questions, answers, onChange }
 
   return (
     <div>
-      <p className="text-gray-900 font-medium">{questions[0]?.content}</p>
       <button className="cursor-pointer text-gray-900 font-medium" onClick={() => { message.warning('Tính năng chưa phát triển!') }}>
         Play/Stop (1 times left)
       </button>
+      <p className="text-gray-900 font-medium">{questions[0]?.description}</p>
 
-      <div className="flex flex-col gap-5 mt-3">
-        {questions.map((question) => {
+      <div className="flex flex-col gap-3 mt-3">
+        {questions.map((question, index) => {
           const options = JSON.parse(question.options || "[]");
-          const updatedOptions = addExtraAnswers(options);
 
           return (
-            <div key={question.listening_test_items_id} className="flex items-center flex-wrap">
-              <p className="w-1/3 font-medium text-gray-900">{question.description}</p>
+            <div key={question.listening_test_items_id} className="flex items-center flex-wrap gap-5">
+              <p className=" font-medium text-gray-900">{index + 1}. {question.content}</p>
               <Select
                 value={answers[question.listening_test_items_id] || ""}
                 onChange={(value) => handleSelectChange(question.listening_test_items_id, value)}
-                className="mt-2 w-2/3"
+                className="mt-2"
                 placeholder="Chọn một đáp án"
               >
                 <Select.Option value="">Chọn một đáp án</Select.Option>
-                {updatedOptions.map((opt: string, index: number) => (
-                  <Select.Option key={`${opt}-${index}`} value={opt}> {/* Sử dụng index để đảm bảo key duy nhất */}
+                {options.map((opt: string) => (
+                  <Select.Option key={opt} value={opt}>
                     {opt}
                   </Select.Option>
                 ))}
@@ -56,20 +46,23 @@ const QuestionMatchingGroup: React.FC<Props> = ({ questions, answers, onChange }
         })}
       </div>
 
-      <button
-        className="mb-2 mt-4 border border-gray-300 text-gray-800 font-medium rounded-lg px-2 py-1 md:px-4 md:py-2 text-sm md:text-base cursor-pointer"
+      <Button
+        className="mb-2 mt-4 border border-gray-300 text-gray-800 font-medium rounded-lg px-2 py-1 md:px-4 md:py-2 text-sm md:text-base"
         onClick={() => setShowTranscript(!showTranscript)}
       >
         {showTranscript ? 'Hide Transcript' : 'Show Transcript'}
-      </button>
+        <br />
+      </Button>
 
       {showTranscript && (
         <div className="mt-4 p-2 text-gray-900 font-medium">
           <p className="mb-3">Topic: {questions[0]?.topic}</p>
-          <p>*Đoạn recordings của 4 người:</p>
+          <p>Đoạn đối thoại của 2 người (Man - Woman):</p>
           {questions.map((question) => (
             <div className="mt-4 flex flex-col gap-2 font-normal" key={question.listening_test_items_id}>
-              <p>{question.script}</p>
+              <p
+                dangerouslySetInnerHTML={{ __html: question.script }} // Hiển thị HTML từ script
+              />
             </div>
           ))}
         </div>
@@ -78,4 +71,4 @@ const QuestionMatchingGroup: React.FC<Props> = ({ questions, answers, onChange }
   );
 };
 
-export default QuestionMatchingGroup;
+export default Question15;
