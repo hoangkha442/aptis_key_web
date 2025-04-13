@@ -87,7 +87,6 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
               </div>
             ) : (
               <div className="w-full flex justify-end">
-
               <button
                 onClick={() => {
                   localStorage.removeItem("reading_key_test_id");
@@ -117,12 +116,11 @@ const CountdownAndSubmit = () => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const navigate = useNavigate();
   const { answers } = useReadingContext();
-  const totalDuration = 35 * 60; // 35 phút
+  const totalDuration = 35 * 60; 
 
   useEffect(() => {
     const now = Date.now();
     const storedStartTime = localStorage.getItem("reading_timer_start");
-
     let startTime: number;
     if (storedStartTime) {
       startTime = parseInt(storedStartTime, 10);

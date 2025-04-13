@@ -3,17 +3,18 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface ListeningState {
   activePart: number;
   answers: Record<string, string>;
-  score: number;  // Lưu điểm
-  reviewAnswers: any[];  // Lưu câu trả lời chi tiết (đúng / sai)
+  isSubmitted: boolean;
+  score: number; 
+  reviewAnswers: any[]; 
 }
 
 const initialState: ListeningState = {
   activePart: 1,
   answers: {},
+  isSubmitted: false,
   score: 0,
-  reviewAnswers: [],  // Mảng lưu câu trả lời cho phần review
+  reviewAnswers: [],
 };
-
 const listeningUISlice = createSlice({
   name: "listeningUI",
   initialState,
@@ -34,6 +35,15 @@ const listeningUISlice = createSlice({
     ) {
       state.reviewAnswers = action.payload;
     },
+    setListeningReviewAnswersAndScore(
+      state,
+      action: PayloadAction<{ reviewAnswers: ListeningState["reviewAnswers"]; score: number }>
+    ) {
+      state.reviewAnswers = action.payload.reviewAnswers;
+      state.score = action.payload.score;
+      state.isSubmitted = true;
+      state.activePart = 1; 
+    },
     resetListeningTestState(state) {
       state.activePart = 1;
       state.answers = {};
@@ -48,6 +58,7 @@ export const {
   setListeningAnswer,
   setListeningReviewAnswers, 
   resetListeningTestState,
+  setListeningReviewAnswersAndScore
 } = listeningUISlice.actions;
 
 export default listeningUISlice.reducer;
