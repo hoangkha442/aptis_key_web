@@ -7,6 +7,7 @@ import {
   Typography,
   Divider,
   Space,
+  message,
 } from "antd";
 import {
   UserOutlined,
@@ -14,7 +15,7 @@ import {
   LockOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -30,6 +31,17 @@ interface UserProps {
 
 export default function CustomHeader({ user }: UserProps) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleMenuClick: MenuProps["onClick"] = ({ key }) => {
+    if (key === "logout") {
+      localStorage.removeItem("USER_LOCAL");
+      message.success("Đăng xuất thành công!");
+      navigate("/auth/login");
+    } else {
+      message.info("Tính năng chưa phát triển!");
+    }
+  };
 
   const generateBreadcrumbs = () => {
     const pathArray = location.pathname.split("/").filter((x) => x);
@@ -85,20 +97,27 @@ export default function CustomHeader({ user }: UserProps) {
         </div>
       ),
     },
-    { key: "profile", label: "Thông tin", icon: <InfoCircleOutlined /> },
-    { key: "change-password", label: "Đổi mật khẩu", icon: <LockOutlined /> },
+    {
+      key: "profile",
+      label: "Thông tin",
+      icon: <InfoCircleOutlined />,
+    },
+    {
+      key: "change-password",
+      label: "Đổi mật khẩu",
+      icon: <LockOutlined />,
+    },
     { type: "divider" },
     {
       key: "logout",
       label: "Đăng xuất",
       icon: <LogoutOutlined />,
       danger: true,
-      // onClick: handleLogout,
     },
     { type: "divider" },
     {
       key: "version",
-      label: "Aptis - 2025",
+      label: "HKha Aptis - 2025",
       disabled: true,
       style: { textAlign: "center" },
     },
@@ -121,7 +140,7 @@ export default function CustomHeader({ user }: UserProps) {
       />
 
       <Dropdown
-        menu={{ items: userMenuItems }}
+        menu={{ items: userMenuItems, onClick: handleMenuClick }}
         trigger={["click"]}
         placement="bottomRight"
         arrow

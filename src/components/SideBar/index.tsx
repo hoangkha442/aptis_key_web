@@ -8,7 +8,7 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Button, Layout, Menu, theme } from "antd";
+import { Button, Layout, Menu, theme, message } from "antd";
 import logo from "../../assets/logo.png";
 import smallLogo from "../../assets/smallLogo.png";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -33,7 +33,14 @@ export default function Sidebar({ setLoading }: SidebarProps) {
 
   const handleMenuClick = ({ key }: { key: string }) => {
     if (key === "/auth/logout") {
-      navigate(key);
+      localStorage.removeItem("USER_LOCAL");
+      message.success("Đăng xuất thành công!");
+      navigate("/auth/login");
+      return;
+    }
+
+    if (key === "/schedule" || key === "/profile") {
+      message.warning("Tính năng chưa phát triển!");
       return;
     }
 
@@ -72,9 +79,35 @@ export default function Sidebar({ setLoading }: SidebarProps) {
     >
       <div className="flex items-center justify-between px-4 h-16">
         {!collapsed ? (
-          <img src={logo} alt="Logo" className="h-[60px] object-contain w-full" />
+          <img
+            src={logo}
+            alt="Logo"
+            className="h-[60px] object-contain w-full cursor-pointer"
+            onClick={() => {
+              {
+                localStorage.removeItem("reading_key_test_id");
+                localStorage.removeItem("reading_answers");
+                localStorage.removeItem("reading_correct");
+                localStorage.removeItem("reading_timer_start");
+                message.info('Bạn đã về trang chủ!')
+              }
+            }}
+          />
         ) : (
-          <img src={smallLogo} alt="Small Logo" className="h-[40px] object-contain" />
+          <img
+            src={smallLogo}
+            alt="Small Logo"
+            className="h-[40px] object-contain cursor-pointer"
+            onClick={() => {
+              {
+                localStorage.removeItem("reading_key_test_id");
+                localStorage.removeItem("reading_answers");
+                localStorage.removeItem("reading_correct");
+                localStorage.removeItem("reading_timer_start");
+                message.info('Bạn đã về trang chủ!')
+              }
+            }}
+          />
         )}
 
         <Button
