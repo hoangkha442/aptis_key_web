@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { readingService } from "../../config/readingServices";
-import { message } from "antd";
+import { message, Spin } from "antd";
 import Question1 from "./_components/question1";
 import Question2 from "./_components/question2";
 import Question3 from "./_components/question3";
@@ -91,7 +91,8 @@ const Reading = () => {
 
   const renderPartComponent = () => {
     const currentPart = readingParts[`part${activePart}` as 'part1' | 'part2' | 'part3' | 'part4' | 'part5'];
-    if (!currentPart.length) return <p>Đang tải câu hỏi...</p>;
+    if (!currentPart.length) return <div className="flex items-center gap-4 justify-center w-full h-full"><p>Đang tải câu hỏi ...</p>
+  <Spin /></div>;
 
     switch (activePart) {
       case 1:

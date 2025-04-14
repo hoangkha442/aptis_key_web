@@ -10,6 +10,7 @@ import QuestionGroup from "./_components/questionGroup";
 import QuestionRadio from "./_components/questionRadio";
 import { ListeningTestData } from "../../types/listening";
 import Question15 from "./_components/question15";
+import { Spin } from "antd";
 
 
 export default function Listening() {
@@ -68,7 +69,8 @@ export default function Listening() {
     return Array.isArray(q) ? q : [q];
   })();
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") return <div className="flex items-center gap-4 justify-center w-full h-full"><p>Đang tải đề ...</p>
+  <Spin /></div>
   if (status === "failed") return <p>{error}</p>;
   if (!currentBatch.length) return <p>No question found</p>;
 

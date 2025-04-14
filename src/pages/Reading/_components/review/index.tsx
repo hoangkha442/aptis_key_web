@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { message } from "antd";
+import { message, Spin } from "antd";
 import { readingService } from "../../../../config/readingServices";
 import Answer1 from "./_components/answer1";
 import Answer2 from "./_components/answer2";
@@ -94,7 +94,8 @@ useEffect(() => {
       });
   }, []);
 
-  if (!userAnswers || !correctAnswers || !readingParts) return <p className="p-6">Đang tải kết quả...</p>;
+  if (!userAnswers || !correctAnswers || !readingParts) return <div className="flex items-center gap-4 justify-center w-full h-full"><p>Đang tải kết quả ...</p>
+  <Spin /></div>;
 
   const renderCurrentAnswer = () => {
     switch (activePart) {
