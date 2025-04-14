@@ -38,7 +38,10 @@ export default function CustomHeader({ user }: UserProps) {
       localStorage.removeItem("USER_LOCAL");
       message.success("Đăng xuất thành công!");
       navigate("/auth/login");
-    } else {
+    }if (key === "avatar" || key === "profile" || key === "my-info") {
+      navigate("/my-info");
+    }
+     else {
       message.info("Tính năng chưa phát triển!");
     }
   };
@@ -103,7 +106,7 @@ export default function CustomHeader({ user }: UserProps) {
       icon: <InfoCircleOutlined />,
     },
     {
-      key: "change-password",
+      key: "my-info",
       label: "Đổi mật khẩu",
       icon: <LockOutlined />,
     },

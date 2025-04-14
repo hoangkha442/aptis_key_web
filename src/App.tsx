@@ -14,6 +14,8 @@ import ReadingReview from "./pages/Reading/_components/review";
 import TakeListeningLayout from "./layouts/TakeListeningLayout";
 import Listening from "./pages/listening";
 import ListeningExamInfo from "./pages/listening/_components/info";
+import MyInfo from "./pages/MyInfo";
+import SchedulePage from "./pages/schedulePage";
 
 const App = () => {
   return (
@@ -107,6 +109,30 @@ const App = () => {
             />
           }
         />
+        <Route
+  path="/my-info"
+  element={
+    <PrivateRoute
+      element={
+        <Layouts>
+          <MyInfo />
+        </Layouts>
+      }
+    />
+  }
+/>
+<Route
+  path="/schedule"
+  element={
+    <PrivateRoute
+      element={
+        <Layouts>
+          <SchedulePage />
+        </Layouts>
+      }
+    />
+  }
+/>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>

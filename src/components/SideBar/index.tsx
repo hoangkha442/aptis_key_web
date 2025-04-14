@@ -39,10 +39,10 @@ export default function Sidebar({ setLoading }: SidebarProps) {
       return;
     }
 
-    if (key === "/schedule" || key === "/profile") {
-      message.warning("Tính năng chưa phát triển!");
-      return;
-    }
+    // if (key === "/schedule" || key === "/profile") {
+    //   message.warning("Tính năng chưa phát triển!");
+    //   return;
+    // }
 
     setLoading(true);
     navigate(key);
@@ -56,7 +56,7 @@ export default function Sidebar({ setLoading }: SidebarProps) {
     { key: "/", label: "Trang chủ", icon: <MailOutlined /> },
     { key: "/courses", label: "Khóa học của tôi", icon: <SettingOutlined /> },
     { key: "/schedule", label: "Lịch học", icon: <UserOutlined /> },
-    { key: "/profile", label: "Hồ sơ cá nhân", icon: <UserOutlined /> },
+    { key: "/my-info", label: "Thông tin cá nhân", icon: <UserOutlined /> },
     {
       key: "/auth/logout",
       label: "Đăng xuất",
