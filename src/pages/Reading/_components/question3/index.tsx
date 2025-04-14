@@ -125,7 +125,7 @@ function DropListArea({
         <DraggableBlock key={q.reading_part_3_id} question={q} from="list" />
       ))}
       {unplacedQuestions.length === 0 && (
-        <p className="italic text-sm text-gray-500">Tất cả đoạn đã được đặt</p>
+        <p className="italic text-sm text-gray-500">All the paragraphs have been assigned.</p>
       )}
     </div>
   );

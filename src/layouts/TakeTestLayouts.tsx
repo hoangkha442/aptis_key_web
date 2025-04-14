@@ -8,9 +8,9 @@ import {
 } from "antd";
 import logo from "../assets/logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 import {
-  calculateScore,
-  convertScoreToCEFR,
   ReadingProvider,
   useReadingContext,
 } from "../pages/Reading/Context/ReadingContext";
@@ -24,37 +24,28 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const isTestPage = location.pathname === "/reading/take-test";
-  const [totalScore, setTotalScore] = useState<number>(0);
-  const [cefr, setCefr] = useState<string>("");
 
-  useEffect(() => {
-    if (location.pathname.includes("/review")) {
-      const savedAnswers = localStorage.getItem("reading_answers");
-      const savedCorrect = localStorage.getItem("reading_correct");
-      if (savedAnswers && savedCorrect) {
-        const parsedAnswers = JSON.parse(savedAnswers);
-        const parsedCorrect = JSON.parse(savedCorrect);
-        const total = calculateScore(parsedAnswers, parsedCorrect);
-        setTotalScore(total);
-        setCefr(convertScoreToCEFR(total));
-      }
-    }
-  }, [location.pathname]);
+  // ✅ Lấy điểm từ Redux
+  const totalScore = useSelector((state: RootState) => state.readingScore.totalScore);
+  const cefr = useSelector((state: RootState) => state.readingScore.cefr);
+
+  const handleBackToHome = () => {
+    localStorage.removeItem("reading_key_test_id");
+    localStorage.removeItem("reading_answers");
+    localStorage.removeItem("reading_correct");
+    localStorage.removeItem("reading_timer_start");
+    navigate("/");
+    message.success("Chào mừng bạn trở về trang chủ");
+  };
 
   return (
     <ConfigProvider componentSize="large">
       <ReadingProvider>
         <Layout className="!h-screen flex flex-col">
+          {/* HEADER */}
           <Header className="flex justify-between items-center !bg-[#f9fafc] px-6">
             <img
-              onClick={() => {
-                navigate("/");
-                localStorage.removeItem("reading_key_test_id");
-                localStorage.removeItem("reading_answers");
-                localStorage.removeItem("reading_correct");
-                localStorage.removeItem("reading_timer_start");
-                message.success("Chào mừng bạn trở về trang chủ");
-              }}
+              onClick={handleBackToHome}
               src={logo}
               alt="Logo"
               className="h-[80px] object-contain cursor-pointer"
@@ -68,10 +59,12 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
             )}
           </Header>
 
+          {/* MAIN CONTENT */}
           <Content className="flex-1 overflow-y-auto !p-x-12 !bg-[#f9fafc]">
             {children}
           </Content>
 
+          {/* FOOTER */}
           <Footer
             style={{ background: colorBgContainer }}
             className="text-end flex flex-col items-center gap-2 !py-2 border-t border-[#e5e7eb]"
@@ -82,25 +75,17 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
               </div>
             ) : isTestPage ? (
               <div className="flex items-center justify-between w-full">
-                <CountdownAndSubmit />
-                <TestFooterPagination />
+                <CountdownAndPagination />
               </div>
             ) : (
               <div className="w-full flex justify-end">
-              <button
-                onClick={() => {
-                  localStorage.removeItem("reading_key_test_id");
-                  localStorage.removeItem("reading_answers");
-                  localStorage.removeItem("reading_correct");
-                  localStorage.removeItem("reading_timer_start");
-                  navigate("/");
-                  message.success("Chào mừng bạn trở về trang chủ");
-                }}
-                className="px-[15px] py-[7px] bg-[#45368f] text-white rounded-lg hover:bg-[#372a73] text-lg cursor-pointer"
+                <button
+                  onClick={handleBackToHome}
+                  className="px-[15px] py-[7px] bg-[#45368f] text-white rounded-lg hover:bg-[#372a73] text-lg cursor-pointer"
                 >
-                Back to home
-              </button>
-                </div>
+                  Back to home
+                </button>
+              </div>
             )}
           </Footer>
         </Layout>
@@ -110,18 +95,18 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 export default TakeTestLayouts;
-
-// Countdown timer + auto submit
-const CountdownAndSubmit = () => {
+const CountdownAndPagination = () => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const navigate = useNavigate();
-  const { answers } = useReadingContext();
-  const totalDuration = 35 * 60; 
+  const { activePart, setActivePart, answers } = useReadingContext();
+  const totalDuration = 35 * 60; // 35 phút
 
+  // Countdown
   useEffect(() => {
     const now = Date.now();
     const storedStartTime = localStorage.getItem("reading_timer_start");
     let startTime: number;
+
     if (storedStartTime) {
       startTime = parseInt(storedStartTime, 10);
     } else {
@@ -140,9 +125,6 @@ const CountdownAndSubmit = () => {
           localStorage.setItem("reading_answers", JSON.stringify(answers));
           localStorage.removeItem("reading_timer_start");
           navigate("/reading/take-test/review");
-          setTimeout(() => {
-            window.location.reload()
-          }, 200);
           return 0;
         }
         return prev - 1;
@@ -158,27 +140,21 @@ const CountdownAndSubmit = () => {
     return `${m}:${s}`;
   };
 
-  return (
-    <div className="text-sm font-semibold text-red-600">
-      Còn lại: <span className="text-lg">{formatTime(timeLeft)}</span>
-    </div>
-  );
-};
-
-const TestFooterPagination = () => {
-  const { activePart, setActivePart, answers } = useReadingContext();
-  const navigate = useNavigate();
-
+  // Submit bài
   const handleSubmit = () => {
-    const isIncomplete = () => {
-      const isEmpty = (v: any) => v === "" || v === null || v === undefined;
-      return (
-        Object.values(answers.part1).some(isEmpty) ||
-        Object.values(answers.part2).some(isEmpty) ||
-        Object.values(answers.part3).some(isEmpty) ||
-        Object.values(answers.part4).some(isEmpty) ||
-        Object.values(answers.part5).some(isEmpty)
-      );
+    const isEmpty = (v: any) => v === "" || v === null || v === undefined;
+    const isIncomplete = () =>
+      Object.values(answers.part1).some(isEmpty) ||
+      Object.values(answers.part2).some(isEmpty) ||
+      Object.values(answers.part3).some(isEmpty) ||
+      Object.values(answers.part4).some(isEmpty) ||
+      Object.values(answers.part5).some(isEmpty);
+
+    const submitNow = () => {
+      localStorage.setItem("reading_answers", JSON.stringify(answers));
+      localStorage.removeItem("reading_timer_start");
+      navigate("/reading/take-test/review");
+      message.info("Đã nộp bài thành công.");
     };
 
     if (isIncomplete()) {
@@ -190,53 +166,46 @@ const TestFooterPagination = () => {
         okButtonProps: {
           className: "!bg-[#45368f] hover:bg-[#372a73] text-white",
         },
-        onOk() {
-          localStorage.setItem("reading_answers", JSON.stringify(answers));
-          localStorage.removeItem("reading_timer_start");
-          navigate("/reading/take-test/review");
-          message.info("Đã nộp bài thành công.");
-          setTimeout(() => {
-            window.location.reload()
-          }, 600);
-          navigate("/reading/take-test/review");
-        },
+        onOk: submitNow,
       });
     } else {
-      localStorage.setItem("reading_answers", JSON.stringify(answers));
-      localStorage.removeItem("reading_timer_start");
-      navigate("/reading/take-test/review");
-      message.info("Đã nộp bài thành công.");
-          setTimeout(() => {
-            window.location.reload()
-          }, 600);
+      submitNow();
     }
   };
 
   return (
-    <div className="flex justify-center gap-4 mt-2">
-      <button
-        disabled={activePart <= 1}
-        onClick={() => setActivePart(activePart - 1)}
-        className="px-[15px] py-[7px] bg-white border border-[#d9d9d9] rounded-lg hover:border-blue-500 hover:text-blue-500 text-lg cursor-pointer"
-      >
-        Previous
-      </button>
+    <div className="w-full flex justify-between items-center">
+      {/* Timer */}
+      <div className="text-sm font-semibold text-red-600">
+        Còn lại: <span className="text-lg">{formatTime(timeLeft)}</span>
+      </div>
 
-      {activePart < 5 ? (
+      {/* Pagination & Submit */}
+      <div className="flex justify-center gap-4 mt-2">
         <button
-          onClick={() => setActivePart(activePart + 1)}
-          className="px-[15px] py-[7px] bg-[#45368f] text-white rounded-lg hover:bg-[#372a73] text-lg cursor-pointer"
+          disabled={activePart <= 1}
+          onClick={() => setActivePart(activePart - 1)}
+          className="px-[15px] py-[7px] bg-white border border-[#d9d9d9] rounded-lg hover:border-blue-500 hover:text-blue-500 text-lg cursor-pointer"
         >
-          Next
+          Previous
         </button>
-      ) : (
-        <button
-          onClick={handleSubmit}
-          className="px-[15px] py-[7px] bg-[#45368f] text-white rounded-lg hover:bg-[#372a73] text-lg cursor-pointer"
-        >
-          Submit Exam
-        </button>
-      )}
+
+        {activePart < 5 ? (
+          <button
+            onClick={() => setActivePart(activePart + 1)}
+            className="px-[15px] py-[7px] bg-[#45368f] text-white rounded-lg hover:bg-[#372a73] text-lg cursor-pointer"
+          >
+            Next
+          </button>
+        ) : (
+          <button
+            onClick={handleSubmit}
+            className="px-[15px] py-[7px] bg-[#45368f] text-white rounded-lg hover:bg-[#372a73] text-lg cursor-pointer"
+          >
+            Submit Exam
+          </button>
+        )}
+      </div>
     </div>
   );
 };

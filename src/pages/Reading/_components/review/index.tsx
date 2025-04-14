@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { message, Spin } from "antd";
 import { readingService } from "../../../../config/readingServices";
@@ -8,35 +9,16 @@ import Answer3 from "./_components/answer3";
 import Answer4 from "./_components/answer4";
 import Answer5 from "./_components/answer5";
 import { calculateScore, convertScoreToCEFR } from "../../Context/ReadingContext";
+import { setScore } from "../../../../redux/slices/readingScoreSlice";
 
 const ReadingReview = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [activePart, setActivePart] = useState(1);
   const [correctAnswers, setCorrectAnswers] = useState<any>(null);
   const [userAnswers, setUserAnswers] = useState<any>(null);
   const [readingParts, setReadingParts] = useState<any>(null);
-  console.log('readingParts: ', readingParts);
 
-  
-  const [totalScore, setTotalScore] = useState<number>(0);
-  console.log('totalScore: ', totalScore);
-const [cefr, setCefr] = useState<string>("");
-console.log('cefr: ', cefr);
-
-useEffect(() => {
-  const savedAnswers = localStorage.getItem("reading_answers");
-  const savedCorrect = localStorage.getItem("reading_correct");
-
-  if (savedAnswers && savedCorrect) {
-    const parsedAnswers = JSON.parse(savedAnswers);
-    const parsedCorrect = JSON.parse(savedCorrect);
-    const total = calculateScore(parsedAnswers, parsedCorrect);
-    const band = convertScoreToCEFR(total);
-
-    setTotalScore(total);
-    setCefr(band);
-  }
-}, []);
   useEffect(() => {
     const savedAnswers = localStorage.getItem("reading_answers");
     const keyTestId = Number(localStorage.getItem("reading_key_test_id"));
@@ -75,7 +57,6 @@ useEffect(() => {
             return acc;
           }, {}),
         };
-        console.log('correct: ', correct);
 
         setCorrectAnswers(correct);
         localStorage.setItem("reading_correct", JSON.stringify(correct));
@@ -87,15 +68,26 @@ useEffect(() => {
           part4: res.data.reading_part_4 || [],
           part5: res.data.reading_part_5 || [],
         });
+
+        // ✅ TÍNH ĐIỂM VÀ GỬI VÀO REDUX
+        const total = calculateScore(parsedAnswers, correct);
+        const band = convertScoreToCEFR(total);
+        dispatch(setScore({ totalScore: total, cefr: band }));
       })
       .catch((err: any) => {
         console.error("err: ", err);
         message.error("Không lấy được đáp án đúng.");
       });
-  }, []);
+  }, [dispatch, navigate]);
 
-  if (!userAnswers || !correctAnswers || !readingParts) return <div className="flex items-center gap-4 justify-center w-full h-full"><p>Đang tải kết quả ...</p>
-  <Spin /></div>;
+  if (!userAnswers || !correctAnswers || !readingParts) {
+    return (
+      <div className="flex items-center gap-4 justify-center w-full h-full">
+        <p>Đang tải đề ...</p>
+        <Spin />
+      </div>
+    );
+  }
 
   const renderCurrentAnswer = () => {
     switch (activePart) {
@@ -115,30 +107,29 @@ useEffect(() => {
             questions={readingParts.part2}
           />
         );
-        case 3:
-  return (
-    <Answer3
-      user={userAnswers.part3}
-      correct={correctAnswers.part3}
-      questions={readingParts.part3}
-    />
-  );
-  case 4:
-  return (
-    <Answer4
-      questions={readingParts.part4}
-      user={userAnswers.part4}
-      correct={correctAnswers.part4}
-    />
-  );
-    case 5:
-      return (
-        <Answer5
-          questions={readingParts.part5}
-          user={userAnswers.part5 as Record<number, string>}
-        />
-      );
-
+      case 3:
+        return (
+          <Answer3
+            user={userAnswers.part3}
+            correct={correctAnswers.part3}
+            questions={readingParts.part3}
+          />
+        );
+      case 4:
+        return (
+          <Answer4
+            questions={readingParts.part4}
+            user={userAnswers.part4}
+            correct={correctAnswers.part4}
+          />
+        );
+      case 5:
+        return (
+          <Answer5
+            questions={readingParts.part5}
+            user={userAnswers.part5 as Record<number, string>}
+          />
+        );
       default:
         return null;
     }
@@ -146,19 +137,21 @@ useEffect(() => {
 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <h2 className="text-2xl font-bold text-center mb-6">Review reading {readingParts?.part1[0]?.reading_test_id}</h2>
+      <h2 className="text-2xl font-bold text-center mb-6">
+        Review reading {readingParts?.part1[0]?.reading_test_id}
+      </h2>
       <div className="flex gap-6">
-        <div className="w-4/5">
-          {renderCurrentAnswer()}
-        </div>
+        <div className="w-4/5">{renderCurrentAnswer()}</div>
         <div className="w-1/5 py-1 px-2">
           <h4 className="font-semibold mb-2">Quiz navigation</h4>
-          <div className="grid grid-cols-4 gap-2 border-1  bg-gray-50 border-dashed border-[#d8d8da] rounded p-6">
+          <div className="grid grid-cols-4 gap-2 border-1 bg-gray-50 border-dashed border-[#d8d8da] rounded p-6">
             {[1, 2, 3, 4, 5].map((part) => (
               <button
                 key={part}
                 className={`w-8 h-8 border rounded text-center cursor-pointer ${
-                  activePart === part ? "bg-[#45368f] text-white" : "bg-white hover:bg-gray-100"
+                  activePart === part
+                    ? "bg-[#45368f] text-white"
+                    : "bg-white hover:bg-gray-100"
                 }`}
                 onClick={() => setActivePart(part)}
               >
