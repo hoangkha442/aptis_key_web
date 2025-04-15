@@ -49,6 +49,7 @@ const listeningUISlice = createSlice({
       state.answers = {};
       state.score = 0;
       state.reviewAnswers = [];
+      state.isSubmitted = false;
     },
   },
 });

@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
 import {
+  resetListeningTestState,
   setActiveListeningPart,
   setListeningReviewAnswersAndScore,
 } from "../redux/slices/listeningUI.slice";
@@ -103,11 +104,16 @@ const ListeningPagination = ({ total }: { total: number }) => {
             Next
           </button>
           <button
-            onClick={() => navigate("/")}
-            className="px-4 py-2 bg-gray-300 rounded-lg text-lg cursor-pointer"
-          >
-            Back to Home
-          </button>
+  onClick={() => {
+    dispatch(resetListeningTestState());
+    localStorage.removeItem("listening_key_test_id");
+    navigate("/");
+  }}
+  className="px-4 py-2 bg-gray-300 rounded-lg text-lg cursor-pointer"
+>
+  Back to Home
+</button>
+
         </>
       ) : activePart < total ? (
         <button
@@ -198,12 +204,17 @@ const TakeListeningLayout: React.FC<{ children: ReactNode }> = ({
     <ConfigProvider componentSize="large">
       <Layout className="!h-screen flex flex-col">
         <Header className="flex justify-between items-center !bg-[#f9fafc] px-6">
-          <img
-            onClick={() => navigate("/")}
-            src={logo}
-            alt="Logo"
-            className="h-[80px] object-contain cursor-pointer"
-          />
+        <img
+  onClick={() => {
+    dispatch(resetListeningTestState());
+    localStorage.removeItem("listening_key_test_id");
+    navigate("/");
+  }}
+  src={logo}
+  alt="Logo"
+  className="h-[80px] object-contain cursor-pointer"
+/>
+
           <div className="text-lg font-semibold text-[#45368f] flex gap-6 items-center">
 
             {isSubmitted ? (
