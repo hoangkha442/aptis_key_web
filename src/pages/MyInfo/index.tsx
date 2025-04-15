@@ -4,7 +4,6 @@ import {
   Input,
   Button,
   message,
-  Spin,
   Card,
 } from "antd";
 import { authServices } from "../../config/authServices";
@@ -14,9 +13,10 @@ import { userLocalStorage } from "../../config/userLocal";
 export default function MyInfo() {
   const [infoForm] = Form.useForm();
   const [passwordForm] = Form.useForm();
-  const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<number | null>(null);
-
+  const [infoLoading, setInfoLoading] = useState(false);
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  
   useEffect(() => {
     const fetchInfo = async () => {
       try {
@@ -40,9 +40,7 @@ export default function MyInfo() {
         }, 0);
       } catch (err) {
         message.error("Lỗi khi lấy thông tin người dùng");
-      } finally {
-        setLoading(false);
-      }
+      } 
     };
   
     fetchInfo();
@@ -51,25 +49,30 @@ export default function MyInfo() {
 
   const handleUpdateInfo = async () => {
     try {
+      setInfoLoading(true);
       const values = await infoForm.validateFields();
       if (!userId) return;
-
+  
       await userServices.updateUser(userId, values);
       message.success("Cập nhật thông tin thành công");
     } catch (err) {
       message.error("Cập nhật thông tin thất bại");
+    } finally {
+      setInfoLoading(false);
     }
   };
+  
 
   const handleUpdatePassword = async () => {
     try {
+      setPasswordLoading(true);
       const values = await passwordForm.validateFields();
       if (!userId) return;
-
+  
       await userServices.updateUser(userId, {
         password: values.password,
       });
-
+  
       message.success("Đổi mật khẩu thành công. Vui lòng đăng nhập lại.");
       setTimeout(() => {
         localStorage.removeItem("USER_LOCAL");
@@ -77,10 +80,13 @@ export default function MyInfo() {
       }, 300);
     } catch {
       message.error("Đổi mật khẩu thất bại");
+    } finally {
+      setPasswordLoading(false);
     }
   };
+  
 
-  if (loading) return <Spin className="block mx-auto mt-10" />;
+  // if (loading) return <Spin className="block mx-auto mt-10" />;
 
   return (
     <div className="max-w-4xl mx-auto p-4 flex gap-5">
@@ -120,9 +126,10 @@ export default function MyInfo() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Cập nhật thông tin
-            </Button>
+          <Button type="primary" htmlType="submit" loading={infoLoading}>
+  Cập nhật thông tin
+</Button>
+
           </Form.Item>
         </Form>
       </Card>
@@ -146,9 +153,10 @@ export default function MyInfo() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Đổi mật khẩu
-            </Button>
+          <Button type="primary" htmlType="submit" loading={passwordLoading}>
+  Đổi mật khẩu
+</Button>
+
           </Form.Item>
         </Form>
       </Card>
