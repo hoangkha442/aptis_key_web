@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { Select } from "antd";
 const { Option } = Select;
 
@@ -17,32 +17,29 @@ type Props = {
 };
 
 const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
-  const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([]);
+  const sortedQuestions = [...questions].sort((a, b) => a.sort_order - b.sort_order);
 
-  useEffect(() => {
-    setShuffledQuestions(shuffleArray(questions));
-  }, [questions]);
+  // 🔀 Shuffle heading options only once, memoized
+  const headingOptions = useMemo(() => shuffleArray([...questions]), [questions]);
 
   return (
     <div className="space-y-3">
       <h3 className="font-semibold text-base my-5">
-        {shuffledQuestions[0]?.description}
+        {sortedQuestions[0]?.description}
       </h3>
-      <p className="text-2xl">{shuffledQuestions[0]?.name_of_test}</p>
-      {shuffledQuestions.map((q, index) => (
-        <div
-          key={q.sort_order}
-          className="space-y-0 flex space-x-2 items-center"
-        >
+      <p className="text-2xl">{sortedQuestions[0]?.name_of_test}</p>
+
+      {sortedQuestions.map((q, index) => (
+        <div key={q.sort_order} className="flex space-x-2 items-center">
           <p className="font-medium">{index + 1}.</p>
           <Select
             size="middle"
             placeholder="Chọn tiêu đề"
             value={valueMap[q.sort_order]}
-            onChange={(val) => onChange(q.sort_order, val)}
+            onChange={(val) => onChange(q.sort_order, String(val))}
             className="w-full max-w-md"
           >
-            {shuffleArray(questions).map((heading) => (
+            {headingOptions.map((heading) => (
               <Option
                 key={heading.reading_part_5_id}
                 value={heading.reading_part_5_id.toString()}
@@ -60,5 +57,5 @@ const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
 export default Question5;
 
 function shuffleArray<T>(array: T[]): T[] {
-  return [...array].sort(() => Math.random() - 0.5);
+  return array.sort(() => Math.random() - 0.5);
 }
