@@ -17,11 +17,9 @@ const { Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-interface SidebarProps {
-  setLoading: (value: boolean) => void;
-}
 
-export default function Sidebar({ setLoading }: SidebarProps) {
+
+export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -44,9 +42,7 @@ export default function Sidebar({ setLoading }: SidebarProps) {
     //   return;
     // }
 
-    setLoading(true);
     navigate(key);
-    setTimeout(() => setLoading(false), 500);
   };
 
   const studentMenu: MenuItem[] = [
