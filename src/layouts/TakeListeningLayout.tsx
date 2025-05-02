@@ -107,12 +107,12 @@ const ListeningPagination = ({ total }: { total: number }) => {
   onClick={() => {
     dispatch(resetListeningTestState());
     localStorage.removeItem("listening_key_test_id");
-    navigate("/")
+    navigate("/courses")
     message.info('Chào mừng bạn về trang chủ')
   }}
   className="px-4 py-2 bg-gray-300 rounded-lg text-lg cursor-pointer"
 >
-  Back to Home
+  Back to courses
 </button>
 
         </>

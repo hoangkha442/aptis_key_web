@@ -25,7 +25,6 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
   const location = useLocation();
   const isTestPage = location.pathname === "/reading/take-test";
 
-  // ✅ Lấy điểm từ Redux
   const totalScore = useSelector((state: RootState) => state.readingScore.totalScore);
   const cefr = useSelector((state: RootState) => state.readingScore.cefr);
 
@@ -34,8 +33,7 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
     localStorage.removeItem("reading_answers");
     localStorage.removeItem("reading_correct");
     localStorage.removeItem("reading_timer_start");
-    navigate("/");
-    message.success("Chào mừng bạn trở về trang chủ");
+    navigate("/courses");
   };
 
   return (
@@ -83,7 +81,7 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
                   onClick={handleBackToHome}
                   className="px-[15px] py-[7px] bg-[#45368f] text-white rounded-lg hover:bg-[#372a73] text-lg cursor-pointer"
                 >
-                  Back to home
+                  Back to courses
                 </button>
               </div>
             )}
