@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from "react";
-import { Layout, ConfigProvider, Spin } from "antd";
+import { Layout, ConfigProvider} from "antd";
 import SideBar from "../components/SideBar";
 import Header from "../components/Header";
 import '@ant-design/v5-patch-for-react-19'; 
@@ -14,7 +14,6 @@ const { Content } = Layout;
 const Layouts = ({ children }: LayoutProps) => {
   
   const [user, setUser] = useState< null>(null);
-  const [loading, setLoading] = useState(false); 
   useEffect(() => { 
     const isLoggedIn = !! userLocalStorage.get()?.token
     const accessToken = userLocalStorage?.get()?.token
@@ -30,17 +29,12 @@ const Layouts = ({ children }: LayoutProps) => {
     <div>
       <ConfigProvider componentSize="large">
         <Layout className="!h-screen">
-          <SideBar setLoading={setLoading} /> 
+          <SideBar  /> 
           <Layout>
             <Header user={user} />
             <Content
               className="!m-[24px_16px] !p-6 !min-h-[280px] !bg-white !rounded-lg !relative !overflow-y-auto"
             >
-              {loading && (
-                <div className="absolute inset-0 flex items-center justify-center bg-white/50 z-50">
-                  <Spin size="large" />
-                </div>
-              )}
               {children}
             </Content>
           </Layout>
