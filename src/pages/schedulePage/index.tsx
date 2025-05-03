@@ -8,7 +8,7 @@ dayjs.extend(weekday);
 dayjs.extend(isBetween);
 dayjs.locale("vi");
 
-const classTimeStart = dayjs().hour(9).minute(30).second(0);
+const classTimeStart = dayjs().hour(9).minute(0).second(0);
 const classTimeEnd = dayjs().hour(11).minute(0).second(0);
 
 const classSchedule = {
@@ -25,6 +25,7 @@ const SchedulePage = () => {
   const today = dayjs();
   const isTodayClassDay = classSchedule.days.includes(today.day());
   const isClassTime = today.isBetween(classTimeStart, classTimeEnd);
+  
   const isWithinCourse = today.isBetween(classSchedule.startDate.startOf("day"), classSchedule.endDate.endOf("day"));
 
   const handleJoin = () => {
