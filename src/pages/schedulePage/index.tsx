@@ -31,7 +31,7 @@ const SchedulePage = () => {
     if (!isWithinCourse || !isTodayClassDay || !isClassTime) {
       message.warning("Hiện tại chưa đến giờ học!");
     } else {
-      message.success("Bạn đã vào lớp học!");
+      window.open("https://meet.google.com/bke-yady-rmo", "_blank");
     }
   };
 
