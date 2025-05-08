@@ -8,7 +8,7 @@ import Answer2 from "./_components/answer2";
 import Answer3 from "./_components/answer3";
 import Answer4 from "./_components/answer4";
 import Answer5 from "./_components/answer5";
-import { calculateScore, convertScoreToCEFR } from "../../Context/ReadingContext";
+import { calculateScore, convertScoreToCEFR, calculatePart4Score } from "../../Context/ReadingContext";
 import { setScore } from "../../../../redux/slices/readingScoreSlice";
 
 const ReadingReview = () => {
@@ -69,8 +69,13 @@ const ReadingReview = () => {
           part5: res.data.reading_part_5 || [],
         });
 
-        // ✅ TÍNH ĐIỂM VÀ GỬI VÀO REDUX
-        const total = calculateScore(parsedAnswers, correct);
+        const part4Score = calculatePart4Score(
+          // res.data.reading_part_4 || [],
+          parsedAnswers.part4 || {},
+          correct.part4 || {}
+        );
+
+        const total = calculateScore(parsedAnswers, correct) + part4Score;
         const band = convertScoreToCEFR(total);
         dispatch(setScore({ totalScore: total, cefr: band }));
       })
