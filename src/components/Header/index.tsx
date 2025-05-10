@@ -120,7 +120,7 @@ export default function CustomHeader({ user }: UserProps) {
     { type: "divider" },
     {
       key: "version",
-      label: "HKha Aptis - 2025",
+      label: "PassKey Center - 2025",
       disabled: true,
       style: { textAlign: "center" },
     },

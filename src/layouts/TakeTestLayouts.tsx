@@ -6,7 +6,7 @@ import {
   Modal,
   message,
 } from "antd";
-import logo from "../assets/logo.png";
+import logo from "../assets/passkey_logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
@@ -46,7 +46,7 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
               onClick={handleBackToHome}
               src={logo}
               alt="Logo"
-              className="h-[80px] object-contain cursor-pointer"
+              className="h-[120px] object-contain cursor-pointer"
             />
             {location.pathname.includes("/review") && (
               <div className="text-right text-sm text-[#45368f] font-semibold">

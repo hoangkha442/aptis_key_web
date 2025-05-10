@@ -2,8 +2,8 @@ import axios from 'axios';
 import { store } from '../redux/store';
 
 const api = axios.create({
-  // baseURL: "http://localhost:8080/",
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: "http://localhost:8080/",
+  // baseURL: import.meta.env.VITE_API_BASE_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

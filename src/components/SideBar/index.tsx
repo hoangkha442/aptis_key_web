@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Button, Layout, Menu, theme, message } from "antd";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/passkey_logo.png";
 import smallLogo from "../../assets/smallLogo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -73,12 +73,12 @@ export default function Sidebar() {
       width={250}
       style={{ background: colorBgBase }}
     >
-      <div className="flex items-center justify-between px-4 h-16">
+      <div className="flex items-center justify-between px-4 h-16 overflow-hidden">
         {!collapsed ? (
           <img
             src={logo}
             alt="Logo"
-            className="h-[60px] object-contain w-full cursor-pointer"
+            className="h-[100px] object-contain w-full cursor-pointer"
             onClick={() => {
               {
                 localStorage.removeItem("reading_key_test_id");

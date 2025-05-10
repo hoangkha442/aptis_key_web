@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { ConfigProvider, Layout, theme, Modal, message } from "antd";
-import logo from "../assets/logo.png";
+import logo from "../assets/passkey_logo.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
@@ -104,16 +104,15 @@ const ListeningPagination = ({ total }: { total: number }) => {
             Next
           </button>
           <button
-  onClick={() => {
-    dispatch(resetListeningTestState());
-    localStorage.removeItem("listening_key_test_id");
-    navigate("/courses")
-  }}
-  className="px-4 py-2 bg-gray-300 rounded-lg text-lg cursor-pointer"
->
-  Back to courses
-</button>
-
+            onClick={() => {
+              dispatch(resetListeningTestState());
+              localStorage.removeItem("listening_key_test_id");
+              navigate("/courses");
+            }}
+            className="px-4 py-2 bg-gray-300 rounded-lg text-lg cursor-pointer"
+          >
+            Back to courses
+          </button>
         </>
       ) : activePart < total ? (
         <button
@@ -204,20 +203,19 @@ const TakeListeningLayout: React.FC<{ children: ReactNode }> = ({
     <ConfigProvider componentSize="large">
       <Layout className="!h-screen flex flex-col">
         <Header className="flex justify-between items-center !bg-[#f9fafc] px-6">
-        <img
-  onClick={() => {
-    dispatch(resetListeningTestState());
-    localStorage.removeItem("listening_key_test_id");
-    navigate("/")
-    message.info('Chào mừng bạn về trang chủ')
-  }}
-  src={logo}
-  alt="Logo"
-  className="h-[80px] object-contain cursor-pointer"
-/>
+          <img
+            onClick={() => {
+              dispatch(resetListeningTestState());
+              localStorage.removeItem("listening_key_test_id");
+              navigate("/");
+              message.info("Chào mừng bạn về trang chủ");
+            }}
+            src={logo}
+            alt="Logo"
+            className="h-[120px] object-contain cursor-pointer"
+          />
 
           <div className="text-lg font-semibold text-[#45368f] flex gap-6 items-center">
-
             {isSubmitted ? (
               <div className="text-right text-sm text-[#45368f] font-semibold">
                 Total score: <span className="text-lg">{score}</span> / 50
