@@ -44,11 +44,13 @@ export default function Courses() {
           type: "reading",
         }));
 
-        const listeningData: TestModule[] = listeningRes.data.map((item: any) => ({
-          test_id: item.listening_test_id,
-          test_name: "", // Tạm thời, sẽ thêm sau
-          type: "listening",
-        }));
+        const listeningData: TestModule[] = listeningRes.data.map(
+          (item: any) => ({
+            test_id: item.listening_test_id,
+            test_name: "", // Tạm thời, sẽ thêm sau
+            type: "listening",
+          })
+        );
 
         const maxLength = Math.max(readingData.length, listeningData.length);
         const merged: CombinedRow[] = [];
@@ -58,8 +60,13 @@ export default function Courses() {
             key: `row-${i}`,
             index: i,
           };
-          if (readingData[i]) row.reading = { ...readingData[i], test_name: `Key test ${i + 1}` };
-          if (listeningData[i]) row.listening = { ...listeningData[i], test_name: `Key test ${i + 1}` };
+          if (readingData[i])
+            row.reading = { ...readingData[i], test_name: `Key test ${i + 1}` };
+          if (listeningData[i])
+            row.listening = {
+              ...listeningData[i],
+              test_name: `Key test ${i + 1}`,
+            };
           merged.push(row);
         }
 
@@ -141,29 +148,53 @@ export default function Courses() {
   );
 
   return (
-    <div className="p-6 bg-white rounded-md shadow-sm">
-      <div className="mb-6 flex items-center justify-between">
-        <Title level={4} className="m-0">
-          Reading & Listening Practice
-        </Title>
+    <section className="flex flex-col">
+      <div
+        onClick={() =>
+          window.open(
+            "https://drive.google.com/drive/folders/1Z9mR9lVJKO4ixsrh4U_KWGkIkSZI_U-z?usp=sharing",
+            "_blank"
+          )
+        }
+        className="flex items-center justify-between mb-6 hover:shadow cursor-pointer transition border border-gray-100 p-6 bg-white rounded-md shadow-sm"
+      >
+        <div className="flex items-center gap-2">
+          <div className="bg-purple-100 p-2 rounded-full">
+            <span role="img" aria-label="megaphone">
+              📣
+            </span>
+          </div>
+          <span className="text-xl font-semibold">
+            Speaking and Writing Practice
+          </span>
+        </div>
+        <span className="text-blue-700 font-semibold text-lg hover:text-blue-800 transition-all duration-500">Start Practice →</span>
       </div>
 
-      <Table
-        dataSource={paginatedData}
-        columns={columns}
-        pagination={false}
-        rowKey="key"
-        loading={loading}
-      />
+      <div className="p-6 bg-white rounded-md shadow-sm border border-gray-100">
+        <div className="mb-6 flex items-center justify-between">
+          <Title level={4} className="m-0">
+            Reading & Listening Practice
+          </Title>
+        </div>
 
-      <div className="mt-4 flex justify-end">
-        <Pagination
-          current={currentPage}
-          total={rows.length}
-          pageSize={pageSize}
-          onChange={(page) => setCurrentPage(page)}
+        <Table
+          dataSource={paginatedData}
+          columns={columns}
+          pagination={false}
+          rowKey="key"
+          loading={loading}
         />
+
+        <div className="mt-4 flex justify-end">
+          <Pagination
+            current={currentPage}
+            total={rows.length}
+            pageSize={pageSize}
+            onChange={(page) => setCurrentPage(page)}
+          />
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

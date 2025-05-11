@@ -110,29 +110,29 @@ const App = () => {
           }
         />
         <Route
-  path="/my-info"
-  element={
-    <PrivateRoute
-      element={
-        <Layouts>
-          <MyInfo />
-        </Layouts>
-      }
-    />
-  }
-/>
-<Route
-  path="/schedule"
-  element={
-    <PrivateRoute
-      element={
-        <Layouts>
-          <SchedulePage />
-        </Layouts>
-      }
-    />
-  }
-/>
+          path="/my-info"
+          element={
+            <PrivateRoute
+              element={
+                <Layouts>
+                  <MyInfo />
+                </Layouts>
+              }
+            />
+          }
+        />
+        <Route
+          path="/schedule"
+          element={
+            <PrivateRoute
+              element={
+                <Layouts>
+                  <SchedulePage />
+                </Layouts>
+              }
+            />
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>

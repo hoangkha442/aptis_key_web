@@ -1,20 +1,25 @@
-import { Button, Card, Typography } from "antd";
-import { SmileOutlined } from "@ant-design/icons";
-
-const { Title, Paragraph } = Typography;
+import {  Card} from "antd";
+import welcomeAnimation from "../assets/animate_lottie.json";
+import Lottie from "lottie-react";
+// const { Title, Paragraph } = Typography;
 
 export default function HomePage() {
   return (
-    <div className="flex justify-center items-center h-full">
+    <div className="flex justify-center items-center h-full overflow-hidden">
       <Card
         className="w-full max-w-3xl !shadow-none p-[2rem] !border-none"
       >
         <div className="flex flex-col items-center text-center">
-          <SmileOutlined style={{ fontSize: 48, color: "#4A3AFF" }} />
-          <Title level={2} className="mt-4 text-[#4A3AFF] uppercase">
-            Chào mừng bạn đến với khóa Aptis!
-          </Title>
-          <Paragraph className="text-gray-600 text-lg max-w-xl mt-2">
+          <div className="w-full flex justify-center">
+  <div style={{ width: 2000, height: 2500 }}>
+    <Lottie
+      animationData={welcomeAnimation}
+      loop
+      style={{ width: "100%", height: "100%" }}
+    />
+  </div>
+</div>
+          {/* <Paragraph className="text-gray-600 text-lg max-w-xl mt-2">
             Chúng tôi rất vui được đồng hành cùng bạn trong hành trình chinh phục kỳ thi Aptis.
             Hệ thống học tập trực tuyến của chúng tôi giúp bạn luyện tập kỹ năng Nghe, Nói, Đọc, Viết một cách hiệu quả và bài bản.
           </Paragraph>
@@ -30,7 +35,7 @@ export default function HomePage() {
             href="/courses"
           >
             Bắt đầu học ngay
-          </Button>
+          </Button> */}
         </div>
       </Card>
     </div>
