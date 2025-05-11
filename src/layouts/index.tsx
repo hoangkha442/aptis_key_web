@@ -91,6 +91,7 @@ import Header from "../components/Header";
 import '@ant-design/v5-patch-for-react-19';
 import { authServices } from "../config/authServices";
 import { userLocalStorage } from "../config/userLocal";
+import { useNavigate } from "react-router-dom";
 
 const { Content } = Layout;
 
@@ -99,6 +100,7 @@ interface LayoutProps {
 }
 
 const Layouts = ({ children }: LayoutProps) => {
+  const navigate = useNavigate()
   const [user, setUser] = useState<null | any>(null);
   const [openTour, setOpenTour] = useState(false);
   const breadcrumbRef = useRef<HTMLDivElement | null>(null);
@@ -116,7 +118,11 @@ const Layouts = ({ children }: LayoutProps) => {
     if (token) {
       authServices.getUserInfo(token)
         .then((res) => setUser(res.data))
-        .catch(console.log);
+        .catch((err) => { 
+          console.log('err: ', err);
+        localStorage.removeItem("USER_LOCAL");
+      navigate("/auth/login");
+         });
     }
 
     const hasSeenTour = localStorage.getItem("hasSeenTour");
