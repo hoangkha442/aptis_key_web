@@ -6,7 +6,7 @@ import { readingService } from "../../config/readingServices";
 import { listeningService } from "../../config/listeningServices";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-
+import { Helmet } from 'react-helmet-async';
 const { Title } = Typography;
 
 interface TestModule {
@@ -149,6 +149,11 @@ export default function Courses() {
 
   return (
     <section className="flex flex-col">
+      <Helmet>
+  <title>Khóa học của tôi | PassKey Center</title>
+  <meta name="description" content="Xem danh sách các Key-test chuẩn thi 100%. Cập nhật tiến độ học tập tại PassKey Center." />
+</Helmet>
+
       <div
         onClick={() =>
           window.open(

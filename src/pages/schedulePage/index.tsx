@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import 'dayjs/locale/vi';
 import weekday from 'dayjs/plugin/weekday';
 import isBetween from 'dayjs/plugin/isBetween';
+import { Helmet } from "react-helmet-async";
 
 dayjs.extend(weekday);
 dayjs.extend(isBetween);
@@ -38,6 +39,11 @@ const SchedulePage = () => {
 
   return (
     <div className="max-w-3xl mx-auto mt-10 p-4">
+      <Helmet>
+  <title>Lịch học | PassKey Center</title>
+  <meta name="description" content="Theo dõi lịch học chi tiết, thời gian và phòng học của các khóa luyện thi APTIS bạn đã đăng ký tại PassKey Center." />
+</Helmet>
+
       <Card
         title={<span className="text-xl font-semibold text-blue-600 flex justify-center">{classSchedule.name}</span>}
         className="shadow-lg"

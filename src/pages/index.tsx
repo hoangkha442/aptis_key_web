@@ -1,24 +1,27 @@
-import {  Card} from "antd";
+import { Card } from "antd";
 import welcomeAnimation from "../assets/animate_lottie.json";
 import Lottie from "lottie-react";
+import { Helmet } from "react-helmet-async";
 // const { Title, Paragraph } = Typography;
 
 export default function HomePage() {
   return (
     <div className="flex justify-center items-center h-full overflow-hidden">
-      <Card
-        className="w-full max-w-3xl !shadow-none p-[2rem] !border-none"
-      >
+      <Helmet>
+  <title>Trang chủ | PassKey Center</title>
+  <meta name="description" content="Nền tảng luyện thi APTIS chuyên nghiệp. Truy cập nhanh các khóa học, lịch học và thông tin cá nhân tại PassKey Center." />
+</Helmet>
+      <Card className="w-full max-w-3xl !shadow-none p-[2rem] !border-none">
         <div className="flex flex-col items-center text-center">
           <div className="w-full flex justify-center">
-  <div style={{ width: 2000, height: 2500 }}>
-    <Lottie
-      animationData={welcomeAnimation}
-      loop
-      style={{ width: "100%", height: "100%" }}
-    />
-  </div>
-</div>
+            <div style={{ width: 2000, height: 2500 }}>
+              <Lottie
+                animationData={welcomeAnimation}
+                loop
+                style={{ width: "100%", height: "100%" }}
+              />
+            </div>
+          </div>
           {/* <Paragraph className="text-gray-600 text-lg max-w-xl mt-2">
             Chúng tôi rất vui được đồng hành cùng bạn trong hành trình chinh phục kỳ thi Aptis.
             Hệ thống học tập trực tuyến của chúng tôi giúp bạn luyện tập kỹ năng Nghe, Nói, Đọc, Viết một cách hiệu quả và bài bản.
