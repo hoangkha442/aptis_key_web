@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { userLocalStorage } from "../../config/userLocal";
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from "../../redux/slices/authSlice";
+import { Helmet } from "react-helmet-async";
 
 export default function LoginForm() {
   const [loading, setLoading] = useState(false);
@@ -46,6 +47,10 @@ export default function LoginForm() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Helmet>
+        <title>Đăng nhập | PassKey Center</title>
+        <meta name="description" content="Đăng nhập tài khoản tại PassKey Center." />
+      </Helmet>
       <div className="!w-96 shadow-xl rounded-lg">
         <Card>
           <Typography.Title level={2} className="text-center mb-4">
