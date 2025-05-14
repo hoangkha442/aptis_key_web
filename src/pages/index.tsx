@@ -8,9 +8,12 @@ export default function HomePage() {
   return (
     <div className="flex justify-center items-center h-full overflow-hidden">
       <Helmet>
-  <title>Trang chủ | PassKey Center</title>
-  <meta name="description" content="Nền tảng luyện thi APTIS chuyên nghiệp. Truy cập nhanh các khóa học, lịch học và thông tin cá nhân tại PassKey Center." />
-</Helmet>
+        <title>Trang chủ | PassKey Center</title>
+        <meta
+          name="description"
+          content="Nền tảng luyện thi APTIS chuyên nghiệp. Truy cập nhanh các khóa học, lịch học và thông tin cá nhân tại PassKey Center."
+        />
+      </Helmet>
       <Card className="w-full max-w-3xl !shadow-none p-[2rem] !border-none">
         <div className="flex flex-col items-center text-center">
           <div className="w-full flex justify-center">

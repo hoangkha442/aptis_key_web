@@ -112,7 +112,6 @@ import {
   SettingOutlined,
   UserOutlined,
   LogoutOutlined,
-  
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme, message } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -129,6 +128,7 @@ interface SidebarProps {
   myInfoRef: RefObject<HTMLSpanElement | null>;
   toggleRef: RefObject<HTMLButtonElement | null>;
   setOpenTour: (val: boolean) => void;
+  reopenWelcome: () => void;
 }
 
 export default function Sidebar({
@@ -137,8 +137,7 @@ export default function Sidebar({
   scheduleRef,
   myInfoRef,
   toggleRef,
-  setOpenTour
-
+  reopenWelcome,
 }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
@@ -150,25 +149,23 @@ export default function Sidebar({
   }, [location.pathname]);
 
   const handleMenuClick = ({ key }: { key: string }) => {
-  if (key === "/auth/logout") {
-    localStorage.removeItem("USER_LOCAL");
-    message.success("Đăng xuất thành công!");
-    navigate("/auth/login");
-    return;
-  }
+    if (key === "/auth/logout") {
+      localStorage.removeItem("USER_LOCAL");
+      message.success("Đăng xuất thành công!");
+      navigate("/auth/login");
+      return;
+    }
 
-  if (key === "reopen-tour") {
-  setTimeout(() => {
-    setOpenTour(true);
-  }, 100);
+    if (key === "reopen-tour") {
+  reopenWelcome(); // chỉ mở lại Modal
   return;
 }
 
-  navigate(key);
-};
 
+    navigate(key);
+  };
 
-  const  studentMenu: MenuItem[]= [
+  const studentMenu: MenuItem[] = [
     !collapsed
       ? { key: "group_student", label: "Khu vực học tập", type: "group" }
       : { type: "divider" },
@@ -193,17 +190,16 @@ export default function Sidebar({
       label: <span ref={myInfoRef}>Thông tin cá nhân</span>,
     },
     {
-  key: "reopen-tour",
-  icon: <SettingOutlined />, // hoặc <InfoCircleOutlined /> nếu muốn
-  label: "Xem lại hướng dẫn",
-},
+      key: "reopen-tour",
+      icon: <SettingOutlined />, // hoặc <InfoCircleOutlined /> nếu muốn
+      label: "Xem lại hướng dẫn",
+    },
     {
       key: "/auth/logout",
       icon: <LogoutOutlined />,
       label: "Đăng xuất",
       danger: true,
-    }
-    
+    },
   ];
 
   const {
@@ -232,7 +228,7 @@ export default function Sidebar({
           }}
         />
         <Button
-        ref={toggleRef}
+          ref={toggleRef}
           type="text"
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           onClick={() => setCollapsed(!collapsed)}
