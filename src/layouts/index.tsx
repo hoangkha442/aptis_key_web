@@ -84,7 +84,7 @@
 // };
 
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { Layout, ConfigProvider, Tour, TourProps, Modal, Button } from "antd";
+import { Layout, ConfigProvider, Tour, TourProps, Modal, Button,Result } from "antd";
 import SideBar from "../components/SideBar";
 import Header from "../components/Header";
 import "@ant-design/v5-patch-for-react-19";
@@ -92,8 +92,10 @@ import { authServices } from "../config/authServices";
 import { userLocalStorage } from "../config/userLocal";
 import { useNavigate } from "react-router-dom";
 import mascot from "../assets/welcome-passkey.png";
+import {  } from 'antd';
+import { useMediaQuery } from "react-responsive";
+import wellcome from "../assets/welcome-passkey.png"
 const { Content } = Layout;
-
 interface LayoutProps {
   children: ReactNode;
 }
@@ -179,6 +181,19 @@ const Layouts = ({ children }: LayoutProps) => {
     }
   ];
 
+  const isUnsupported = useMediaQuery({ maxWidth: 899 });
+  if (isUnsupported) {
+  return (
+    <div className="h-screen w-screen flex flex-col items-center justify-center bg-white">
+    <img src={wellcome} alt="macos" className="w-3/4"/>
+      <Result
+        status="warning"
+        title="Thiết bị không được hỗ trợ"
+        subTitle="Vui lòng sử dụng máy tính với màn hình ≥ 900px để truy cập nền tảng PassKey Center."
+      />
+    </div>
+  );
+}
   return (
     <div>
       <ConfigProvider componentSize="large">

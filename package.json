@@ -24,6 +24,7 @@
     "react-dom": "^19.0.0",
     "react-helmet-async": "^2.0.5",
     "react-redux": "^9.2.0",
+    "react-responsive": "^10.0.1",
     "react-router-dom": "^7.4.1",
     "react-sortable-hoc": "^2.0.0",
     "tailwindcss": "^4.1.0"
