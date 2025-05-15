@@ -1,4 +1,4 @@
-import { TitleProps } from "../../types"
+import { TitleProps } from "../../../../types"
 
 export default function TitleIntroduction({ title, description}: TitleProps) {
   return (
