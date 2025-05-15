@@ -16,12 +16,14 @@ import Listening from "./pages/listening";
 import ListeningExamInfo from "./pages/listening/_components/info";
 import MyInfo from "./pages/MyInfo";
 import SchedulePage from "./pages/schedulePage";
+import Introduction from "./pages/Introduction";
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/auth/login" element={<LoginForm />} />
+        <Route path="/introduction" element={<Introduction />} />
         <Route
           path="/"
           element={

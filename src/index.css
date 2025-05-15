@@ -1,1 +1,124 @@
 @import "tailwindcss";
+
+
+.aptis-card {
+  padding-left: 1.5rem;           /* px-6 */
+  padding-right: 1.5rem;
+  height: 2.5rem;                 /* h-10 */
+  flex-shrink: 0;                /* shrink-0 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;         /* rounded-full */
+  color: #212327;                /* text-[#212327] */
+  text-transform: capitalize;    /* capitalize */
+  text-align: center;
+  font-size: 0.875rem;           /* text-sm */
+  line-height: 2.5rem;           /* leading-[65px] = 65px but here fallback for sm */
+  background-color: white;       /* bg-white */
+  box-shadow: 0px 6px 34px rgba(215, 216, 222, 0.41);  /* custom shadow */
+  transition: all 0.3s ease-in-out;
+}
+
+@media (min-width: 640px) {
+  .aptis-card {
+    padding-left: 2rem;          /* sm:px-8 */
+    padding-right: 2rem;
+    height: 3.5rem;              /* sm:h-14 */
+    font-size: 1rem;             /* sm:text-base */
+    line-height: 3.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .aptis-card {
+    padding-left: 3rem;          /* md:px-12 */
+    padding-right: 3rem;
+    height: 65px;                /* md:h-[65px] */
+    font-size: 18px;             /* md:text-[18px] */
+    line-height: 65px;
+  }
+}
+
+.aptis-card:hover {
+  background-color: #430486;   
+  color: white;
+  font-weight: 600;            
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);      
+}
+
+:root {
+  --custom-purple: #430486;
+}
+
+@layer base {
+  body {
+    font-family: 'Montserrat', sans-serif;
+  }
+}
+
+@layer utilities {
+  .text-custom-purple {
+    color: var(--custom-purple);
+  }
+
+  .bg-custom-purple {
+    background-color: var(--custom-purple);
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes scrollReverse {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes moveUnderline {
+    0% {
+      left: 0%;
+    }
+    50% {
+      left: 50%;
+    }
+    100% {
+      left: 0%;
+    }
+  }
+
+  .animate-float {
+    animation: float 2s ease-in-out infinite;
+  }
+
+  .animate-scroll {
+    animation: scroll 20s linear infinite;
+  }
+
+  .animate-scroll-reverse {
+    animation: scrollReverse 20s linear infinite;
+  }
+
+  .animate-move-underline {
+    animation: moveUnderline 8s ease-in-out infinite alternate;
+  }
+}
