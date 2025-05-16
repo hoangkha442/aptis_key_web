@@ -112,7 +112,6 @@ interface LayoutProps {
 const Layouts = ({ children }: LayoutProps) => {
   const navigate = useNavigate();
   const [user, setUser] = useState<null | any>(null);
-  console.log("user: ", user);
   const [openTour, setOpenTour] = useState(false);
   const breadcrumbRef = useRef<HTMLDivElement | null>(null);
   const avatarRef = useRef<HTMLDivElement | null>(null);
