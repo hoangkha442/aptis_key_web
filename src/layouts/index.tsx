@@ -84,7 +84,16 @@
 // };
 
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { Layout, ConfigProvider, Tour, TourProps, Modal, Button,Result } from "antd";
+import {
+  Layout,
+  ConfigProvider,
+  Tour,
+  TourProps,
+  Modal,
+  Button,
+  Result,
+  Table,
+} from "antd";
 import SideBar from "../components/SideBar";
 import Header from "../components/Header";
 import "@ant-design/v5-patch-for-react-19";
@@ -92,9 +101,9 @@ import { authServices } from "../config/authServices";
 import { userLocalStorage } from "../config/userLocal";
 import { useNavigate } from "react-router-dom";
 import mascot from "../assets/welcome-passkey.png";
-import {  } from 'antd';
+import {} from "antd";
 import { useMediaQuery } from "react-responsive";
-import wellcome from "../assets/welcome-passkey.png"
+import wellcome from "../assets/welcome-passkey.png";
 const { Content } = Layout;
 interface LayoutProps {
   children: ReactNode;
@@ -103,18 +112,21 @@ interface LayoutProps {
 const Layouts = ({ children }: LayoutProps) => {
   const navigate = useNavigate();
   const [user, setUser] = useState<null | any>(null);
+  console.log("user: ", user);
   const [openTour, setOpenTour] = useState(false);
   const breadcrumbRef = useRef<HTMLDivElement | null>(null);
   const avatarRef = useRef<HTMLDivElement | null>(null);
   const termsRef = useRef<HTMLButtonElement | null>(null);
   const [showWelcome, setShowWelcome] = useState(false);
-
+  const [showSessions, setShowSessions] = useState(false);
   // Ref gắn vào label <span> trong Menu items
   const homeRef = useRef<HTMLSpanElement | null>(null);
   const coursesRef = useRef<HTMLSpanElement | null>(null);
   const scheduleRef = useRef<HTMLSpanElement | null>(null);
   const myInfoRef = useRef<HTMLSpanElement | null>(null);
   const toggleRef = useRef<HTMLButtonElement | null>(null);
+  const userSessionsRef = useRef<HTMLButtonElement | null>(null);
+  const [sessions, setSessions] = useState<any[]>([]);
   const reopenWelcome = () => {
     setShowWelcome(true); // chỉ mở lại modal
   };
@@ -123,7 +135,10 @@ const Layouts = ({ children }: LayoutProps) => {
     if (token) {
       authServices
         .getUserInfo(token)
-        .then((res) => setUser(res.data))
+        .then((res) => {
+          setUser(res.data);
+          setSessions(res.data.user_sessions);
+        })
         .catch((err) => {
           console.log("err: ", err);
           localStorage.removeItem("USER_LOCAL");
@@ -168,7 +183,11 @@ const Layouts = ({ children }: LayoutProps) => {
       description: "Cho biết vị trí hiện tại trong hệ thống.",
       target: () => breadcrumbRef.current as HTMLElement,
     },
-    
+    {
+      title: "Phiên bản hoạt động",
+      description: "Xem các thiết bị đang đăng nhập vào tài khoản của bạn.",
+      target: () => userSessionsRef.current as HTMLElement,
+    },
     {
       title: "Chính sách học tập",
       description: "Chính sách passkey Center với học viên.",
@@ -178,22 +197,59 @@ const Layouts = ({ children }: LayoutProps) => {
       title: "Tài khoản người dùng",
       description: "Đổi mật khẩu, xem hồ sơ hoặc đăng xuất.",
       target: () => avatarRef.current as HTMLElement,
-    }
+    },
   ];
 
   const isUnsupported = useMediaQuery({ maxWidth: 899 });
   if (isUnsupported) {
-  return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center bg-white">
-    <img src={wellcome} alt="macos" className="w-3/4"/>
-      <Result
-        status="warning"
-        title="Thiết bị không được hỗ trợ"
-        subTitle="Vui lòng sử dụng máy tính với màn hình ≥ 900px để truy cập nền tảng PassKey Center."
-      />
-    </div>
-  );
-}
+    return (
+      <div className="h-screen w-screen flex flex-col items-center justify-center bg-white">
+        <img src={wellcome} alt="macos" className="w-3/4" />
+        <Result
+          status="warning"
+          title="Thiết bị không được hỗ trợ"
+          subTitle="Vui lòng sử dụng máy tính với màn hình ≥ 900px để truy cập nền tảng PassKey Center."
+        />
+      </div>
+    );
+  }
+  const columns = [
+    {
+      title: "Thời gian đăng nhập",
+      dataIndex: "created_at",
+      key: "created_at",
+      render: (value: string) => {
+        const date = new Date(value);
+        return (
+          <span>
+            {date.toLocaleTimeString("vi-VN")}{" "}
+            {date.toLocaleDateString("vi-VN")}
+          </span>
+        );
+      },
+    },
+    {
+      title: "Thông tin thiết bị",
+      key: "device_info",
+      render: (_: any, record: any) => {
+        const [os, browserRaw] = record.device?.split(" - ") || [];
+        const browser = browserRaw?.split(" ")[0] || "Không rõ";
+        return (
+          <div className="grid grid-cols-2 gap-y-1 gap-x-4 text-sm text-gray-800">
+            <div>
+              <strong>IP:</strong> {record.ip_address}
+            </div>
+            <div>
+              <strong>OS:</strong> {os || "Không rõ"}
+            </div>
+            <div>
+              <strong>Browser:</strong> {browser}
+            </div>
+          </div>
+        );
+      },
+    },
+  ];
   return (
     <div>
       <ConfigProvider componentSize="large">
@@ -208,14 +264,14 @@ const Layouts = ({ children }: LayoutProps) => {
           <div className="flex items-center">
             <div className="w-[500px] h-[400px]">
               <img
-              src={mascot} // thay đường dẫn đúng với ảnh bạn
-              alt="Mascot"
-              className="w-full h-full object-cover"
-              style={{
-                marginBottom: 24,
-                borderRadius: 12,
-              }}
-            />
+                src={mascot} // thay đường dẫn đúng với ảnh bạn
+                alt="Mascot"
+                className="w-full h-full object-cover"
+                style={{
+                  marginBottom: 24,
+                  borderRadius: 12,
+                }}
+              />
             </div>
 
             <div className="">
@@ -230,7 +286,7 @@ const Layouts = ({ children }: LayoutProps) => {
                   </span>{" "}
                   <br />
                   <span
-                  className="font-bold text-7xl text-orange-700"
+                    className="font-bold text-7xl text-orange-700"
                     style={{
                       display: "inline-block",
                       marginTop: 4,
@@ -241,17 +297,23 @@ const Layouts = ({ children }: LayoutProps) => {
                 </h2>
               </div>
 
-              <p style={{ fontSize: 17, color: "#555", marginBottom: 32, marginTop: 10 }}>
+              <p
+                style={{
+                  fontSize: 17,
+                  color: "#555",
+                  marginBottom: 32,
+                  marginTop: 10,
+                }}
+              >
                 Chào mừng bạn đến với <strong>PassKey Center</strong> – nơi bạn
                 <strong> học gì, thi nấy</strong>.<br />
                 Hệ thống sẽ hướng dẫn bạn sử dụng các chức năng nổi bật chỉ
                 trong vài bước.
               </p>
             </div>
-
           </div>
-            <div className="flex justify-center">
-              <Button
+          <div className="flex justify-center">
+            <Button
               type="primary"
               size="large"
               style={{
@@ -262,14 +324,30 @@ const Layouts = ({ children }: LayoutProps) => {
                 boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
               }}
               onClick={() => {
-    setShowWelcome(false);    
-    setOpenTour(true);         
-    localStorage.setItem("hasSeenTour", "true");
-  }}
+                setShowWelcome(false);
+                setOpenTour(true);
+                localStorage.setItem("hasSeenTour", "true");
+              }}
             >
               KHÁM PHÁ NGAY
             </Button>
-            </div>
+          </div>
+        </Modal>
+        {/* Phiên bản đăng nhập */}
+        <Modal
+          open={showSessions}
+          title="Lịch sử đăng nhập"
+          footer={null}
+          onCancel={() => setShowSessions(false)}
+          width={800}
+        >
+          <Table
+            columns={columns}
+            dataSource={sessions}
+            rowKey="session_id"
+            pagination={false}
+            bordered
+          />
         </Modal>
 
         <Layout className="!h-screen">
@@ -288,6 +366,8 @@ const Layouts = ({ children }: LayoutProps) => {
               breadcrumbRef={breadcrumbRef}
               avatarRef={avatarRef}
               termsRef={termsRef}
+              userSessionsRef={userSessionsRef} // ✅ THÊM DÒNG NÀY
+              openSessionsModal={() => setShowSessions(true)}
             />
             <Content className="!m-[24px_16px] !p-6 !min-h-[280px] !bg-white !rounded-lg !relative !overflow-y-auto">
               {children}

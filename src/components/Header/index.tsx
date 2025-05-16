@@ -9,6 +9,7 @@ import {
   Space,
   message,
   Modal,
+  Tooltip,
 } from "antd";
 import {
   UserOutlined,
@@ -24,7 +25,6 @@ import { useState, RefObject } from "react";
 const { Header } = Layout;
 const { Text } = Typography;
 
-// ✅ Sửa kiểu các ref
 interface UserProps {
   user: {
     username: string;
@@ -35,9 +35,18 @@ interface UserProps {
   breadcrumbRef: RefObject<HTMLDivElement | null>;
   avatarRef: RefObject<HTMLDivElement | null>;
   termsRef: RefObject<HTMLButtonElement | null>;
+  userSessionsRef: RefObject<HTMLButtonElement | null>;
+  openSessionsModal: () => void;
 }
 
-export default function CustomHeader({ user, breadcrumbRef, avatarRef, termsRef }: UserProps) {
+export default function CustomHeader({
+  user,
+  breadcrumbRef,
+  avatarRef,
+  termsRef,
+  openSessionsModal,
+  userSessionsRef,
+}: UserProps) {
   const location = useLocation();
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -59,31 +68,30 @@ export default function CustomHeader({ user, breadcrumbRef, avatarRef, termsRef 
   };
 
   const generateBreadcrumbs = () => {
-  const pathArray = location.pathname.split("/").filter(Boolean);
+    const pathArray = location.pathname.split("/").filter(Boolean);
 
-  const breadcrumbs: { title: React.ReactNode }[] = [
-    { title: <Link to="/">Trang chủ</Link> },
-  ];
+    const breadcrumbs: { title: React.ReactNode }[] = [
+      { title: <Link to="/">Trang chủ</Link> },
+    ];
 
-  const breadcrumbTitleMap: Record<string, string> = {
-    dashboard: "Dashboard",
-    student: "Học viên",
-    courses: "Khóa học của tôi",
-    schedule: "Lịch học",
-    profile: "Hồ sơ cá nhân",
-  };
+    const breadcrumbTitleMap: Record<string, string> = {
+      dashboard: "Dashboard",
+      student: "Học viên",
+      courses: "Khóa học của tôi",
+      schedule: "Lịch học",
+      profile: "Hồ sơ cá nhân",
+    };
 
-  pathArray.forEach((path, index) => {
-    const href = `/${pathArray.slice(0, index + 1).join("/")}`;
-    const title = breadcrumbTitleMap[path] || path;
-    breadcrumbs.push({
-      title: <Link to={href}>{title}</Link>,
+    pathArray.forEach((path, index) => {
+      const href = `/${pathArray.slice(0, index + 1).join("/")}`;
+      const title = breadcrumbTitleMap[path] || path;
+      breadcrumbs.push({
+        title: <Link to={href}>{title}</Link>,
+      });
     });
-  });
 
-  return breadcrumbs;
-};
-
+    return breadcrumbs;
+  };
 
   const avatarSrc = user?.avatar && user.avatar !== "" ? user.avatar : null;
 
@@ -92,7 +100,11 @@ export default function CustomHeader({ user, breadcrumbRef, avatarRef, termsRef 
       key: "avatar",
       label: (
         <div className="w-44">
-          <Space direction="horizontal" size="small" style={{ display: "flex" }}>
+          <Space
+            direction="horizontal"
+            size="small"
+            style={{ display: "flex" }}
+          >
             <Avatar
               size={50}
               src={avatarSrc}
@@ -145,11 +157,31 @@ export default function CustomHeader({ user, breadcrumbRef, avatarRef, termsRef 
       }}
     >
       <div ref={breadcrumbRef}>
-        <Breadcrumb items={generateBreadcrumbs() ?? []} style={{ fontSize: "14px" }} />
+        <Breadcrumb
+          items={generateBreadcrumbs() ?? []}
+          style={{ fontSize: "14px" }}
+        />
       </div>
-
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <button ref={termsRef} onClick={showModal} className="cursor-pointer text-blue-800 font-medium">
+      <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
+        <Tooltip
+          title="PassKeyCenter chỉ cho phép 1 tài khoản được đăng nhập vào Website với tối đa 3 địa chỉ Wifi/4G (tính trên mọi thiết bị đăng nhập)"
+          placement="bottomRight"
+          className="text-sm leading-5 max-w-[300px]"
+          color="#45368f"
+        >
+          <button
+            ref={userSessionsRef}
+            onClick={openSessionsModal}
+            className="cursor-pointer text-blue-800 font-medium"
+          >
+            Login History
+          </button>
+        </Tooltip>
+        <button
+          ref={termsRef}
+          onClick={showModal}
+          className="cursor-pointer text-blue-800 font-medium"
+        >
           Terms & Conditions
         </button>
 
@@ -169,7 +201,6 @@ export default function CustomHeader({ user, breadcrumbRef, avatarRef, termsRef 
           </Dropdown>
         </div>
       </div>
-
       <Modal
         title={
           <span>
@@ -184,14 +215,30 @@ export default function CustomHeader({ user, breadcrumbRef, avatarRef, termsRef 
         cancelText="Đóng"
       >
         <p>
-          <strong>Trung tâm cam kết hoàn 100% học phí cho học viên</strong> nếu không đạt yêu cầu đầu ra.
+          <strong>Trung tâm cam kết hoàn 100% học phí cho học viên</strong> nếu
+          không đạt yêu cầu đầu ra.
         </p>
-        <p><strong>Điều kiện:</strong></p>
+        <p>
+          <strong>Điều kiện:</strong>
+        </p>
         <ul style={{ paddingLeft: 0, listStyle: "none" }}>
-          <li><CheckCircleTwoTone twoToneColor="#52c41a" /> Tham gia ít nhất <strong>6/8 buổi học</strong>.</li>
-          <li><CheckCircleTwoTone twoToneColor="#52c41a" /> Học thuộc các key của Reading và Listening.</li>
-          <li><CheckCircleTwoTone twoToneColor="#52c41a" /> Reading đạt tối thiểu <strong>46/50</strong>, Listening đạt tối thiểu <strong>42/50</strong>.</li>
-          <li><CheckCircleTwoTone twoToneColor="#52c41a" /> Làm đầy đủ bài tập được giao.</li>
+          <li>
+            <CheckCircleTwoTone twoToneColor="#52c41a" /> Tham gia ít nhất{" "}
+            <strong>6/8 buổi học</strong>.
+          </li>
+          <li>
+            <CheckCircleTwoTone twoToneColor="#52c41a" /> Học thuộc các key của
+            Reading và Listening.
+          </li>
+          <li>
+            <CheckCircleTwoTone twoToneColor="#52c41a" /> Reading đạt tối thiểu{" "}
+            <strong>46/50</strong>, Listening đạt tối thiểu{" "}
+            <strong>42/50</strong>.
+          </li>
+          <li>
+            <CheckCircleTwoTone twoToneColor="#52c41a" /> Làm đầy đủ bài tập
+            được giao.
+          </li>
         </ul>
         <p>
           Sau khi thi xong, tài khoản sẽ <strong>bị unactive</strong>.
