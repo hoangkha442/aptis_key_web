@@ -125,4 +125,14 @@ html {
   .animate-move-underline {
     animation: moveUnderline 8s ease-in-out infinite alternate;
   }
+  .underline-animated::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 4rem;
+  height: 2px;
+  background-color: #9333ea; 
+  animation: moveUnderline 8s ease-in-out infinite alternate;
+}
 }
