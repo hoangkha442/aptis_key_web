@@ -4,10 +4,8 @@ import { PlusOutlined } from "@ant-design/icons";
 export default function CertiAndDoc() {
   // const [isCooldown, setIsCooldown] = useState(false);
 
-
-
   return (
-    <section className="pt-1 md:pt-6 pb-6 ">
+    <section id="tai_lieu" className="pt-1 md:pt-6 pb-6 ">
       <div className="text-center max-w-7xl mx-auto px-6">
         <p className="text-sm leading-5 md:leading-6 font-medium text-heading mb-4 inline-block px-5 py-2 rounded-full uppercase bg-[#430486] text-white">
           Bạn không cần phải sợ những kỹ năng này nữa
@@ -30,7 +28,13 @@ export default function CertiAndDoc() {
               "Practice Test - Bậc B2",
               "Tips & Tricks - Bậc B2",
             ].map((item, index) => (
-              <a key={index} className="aptis-card cursor-pointer">
+              <a
+                href="https://www.facebook.com/profile.php?id=61575505517802"
+                target="_blank"
+                rel="noopener noreferrer"
+                key={index}
+                className="aptis-card cursor-pointer"
+              >
                 <PlusOutlined className="mr-2" />
                 {item}
               </a>
@@ -48,7 +52,13 @@ export default function CertiAndDoc() {
               "Practice Test - Bậc C1",
               "Advanced Tips & Tricks - Bậc C1",
             ].map((item, index) => (
-              <a key={index} className="aptis-card cursor-pointer">
+              <a
+                href="https://www.facebook.com/profile.php?id=61575505517802"
+                target="_blank"
+                rel="noopener noreferrer"
+                key={index}
+                className="aptis-card cursor-pointer"
+              >
                 <PlusOutlined className="mr-2" />
                 {item}
               </a>
@@ -65,7 +75,13 @@ export default function CertiAndDoc() {
               "Mẹo làm bài Aptis",
               "Kỹ năng Speaking chuyên sâu",
             ].map((item, index) => (
-              <a key={index} className="aptis-card cursor-pointer">
+              <a
+                href="https://www.facebook.com/profile.php?id=61575505517802"
+                target="_blank"
+                rel="noopener noreferrer"
+                key={index}
+                className="aptis-card cursor-pointer"
+              >
                 <PlusOutlined className="mr-2" />
                 {item}
               </a>

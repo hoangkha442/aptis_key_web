@@ -1,21 +1,11 @@
-import tutor1 from "../../../assets/1.png";
-import tutor2 from "../../../assets/2.png";
+import tutor1 from "../../../assets/2.png";
+import tutor2 from "../../../assets/1.png";
 import tutor3 from "../../../assets/3.png";
 import tutor4 from "../../../assets/4.png";
 import tutor5 from "../../../assets/5.png";
 
 export const tutors = [
-  {
-    name: "Aptis Express Pack",
-    price: "400.000 ₫",
-    image: tutor2,
-    description: [
-      "Tương tự gói Pro nhưng chỉ kích hoạt tài khoản trước ngày thi 14 ngày.",
-      "Phù hợp với người cần ôn gấp, còn rất ít thời gian học.",
-      "Không bảo hành: hỗ trợ tài khoản trong 1 lần thi duy nhất.",
-    ],
-    warranty: false,
-  },
+  
   {
     name: "Aptis Pro Pack",
     price: "800.000 ₫",
@@ -27,6 +17,17 @@ export const tutors = [
       "Hỗ trợ tài khoản đến khi bạn đạt band điểm mục tiêu.",
     ],
     warranty: true,
+  },
+  {
+    name: "Aptis Express Pack",
+    price: "400.000 ₫",
+    image: tutor2,
+    description: [
+      "Tương tự gói Pro nhưng chỉ kích hoạt tài khoản trước ngày thi 14 ngày.",
+      "Phù hợp với người cần ôn gấp, còn rất ít thời gian học.",
+      "Không bảo hành: hỗ trợ tài khoản trong 1 lần thi duy nhất.",
+    ],
+    warranty: false,
   },
   {
     name: "Aptis Premium Plus",

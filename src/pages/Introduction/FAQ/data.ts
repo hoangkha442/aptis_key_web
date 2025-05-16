@@ -1,7 +1,7 @@
 export const faqs = [
   {
     question: "Thời gian hoàn thành khoá học trong bao lâu?",
-    answer: "Tuỳ vào lộ trình học của mỗi học viên, thời gian hoàn thành khóa học có thể kéo dài từ 3 đến 6 tháng.",
+    answer: "Tuỳ vào lộ trình học của mỗi học viên, thời gian hoàn thành khóa học có thể kéo dài từ 1 đến 2 tháng.",
   },
   {
     question: "Chi phí theo cấp bậc có chênh lệch nhiều không?",

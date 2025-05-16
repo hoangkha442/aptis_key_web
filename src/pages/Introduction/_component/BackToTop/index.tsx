@@ -27,7 +27,7 @@ export default function BackToTop({ scrollThreshold = 300 }: Props) {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-6 right-6 z-50 bg-[#5a05a566] text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center transform transition-all duration-300 ${
+      className={`cursor-pointer fixed bottom-6 right-6 z-50 bg-[#5a05a566] text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center transform transition-all duration-300 ${
         isVisible
           ? "translate-y-0 opacity-100"
           : "translate-y-10 opacity-0 pointer-events-none"

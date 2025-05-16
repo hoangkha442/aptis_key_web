@@ -29,9 +29,14 @@ const Footer: React.FC = () => {
           {/* CTA Button */}
           <button 
             
-            className="mt-5 px-6 py-2 rounded-full border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition flex items-center space-x-2"
+            className="mt-5 px-6 py-2 rounded-full border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white transition duration-500 flex items-center space-x-2"
           >
+            <a href="https://www.facebook.com/profile.php?id=61575505517802"
+              target="_blank"
+              rel="noopener noreferrer">
+
             <span>Liên hệ ngay</span> <ArrowRightOutlined />
+              </a>
           </button>
         </div>
 
@@ -41,14 +46,24 @@ const Footer: React.FC = () => {
             Liên kết
           </h3>
           <ul className="mt-4 space-y-2">
-            {["Trang chủ", "Khoá học", "Blog", "Tài liệu", "Liên hệ"].map((item) => (
-              <li key={item}>
-                <a className="text-gray-600 hover:text-purple-600 transition cursor-pointer">
-                  {item}
-                </a>
-              </li>
-            ))}
-          </ul>
+  {[
+    { label: "Tài liệu", href: "#tai_lieu" },
+    { label: "Khoá học", href: "#khoa_hoc" },
+    { label: "Câu hỏi thường gặp", href: "#cau_hoi_thuong_gap" },
+    { label: "Đăng ký học", href: "https://www.facebook.com/profile.php?id=61575505517802", external: true },
+  ].map(({ label, href, external }) => (
+    <li key={label}>
+      <a
+        href={href}
+        className="text-gray-600 hover:text-purple-600 transition cursor-pointer"
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
+        {label}
+      </a>
+    </li>
+  ))}
+</ul>
+
         </div>
 
         {/* Categories */}
@@ -57,9 +72,11 @@ const Footer: React.FC = () => {
             Khoá học Aptis
           </h3>
           <ul className="mt-4 space-y-2">
-            {["Luyện thi Aptis General", "Aptis Advanced", "Aptis dành cho giáo viên", "Lộ trình học tập cá nhân", "Đề thi thử & mẹo làm bài"].map((item) => (
+            {["Aptis Pro Pack", "Aptis Express Pack", "Aptis Premium Plus", "Aptis B1 Guaranteed", "Aptis B2 Guaranteed"].map((item) => (
               <li key={item}>
-                <a  className="text-gray-600 hover:text-purple-600 transition cursor-pointer">
+                <a href="https://www.facebook.com/profile.php?id=61575505517802"
+                target="_blank"
+                rel="noopener noreferrer" className="text-gray-600 hover:text-purple-600 transition cursor-pointer">
                   {item}
                 </a>
               </li>

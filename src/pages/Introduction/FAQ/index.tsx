@@ -11,7 +11,7 @@ const FAQ: React.FC = () => {
   };
 
   return (
-    <section className="bg-[#430486] text-white py-16">
+    <section id="cau_hoi_thuong_gap" className="bg-[#430486] text-white py-16">
       <div className="max-w-4xl mx-auto text-center px-6">
         <p className="text-sm font-medium text-white inline-block px-5 py-2 rounded-full uppercase bg-[#6d1fa0]">
           Bạn hỏi - PassKey Center trả lời!
@@ -25,7 +25,7 @@ const FAQ: React.FC = () => {
           {faqs.map((faq, index) => (
             <div key={index} className="border-b border-gray-300">
               <button
-                className="w-full flex justify-between items-center py-4 text-left text-sm sm:text-lg font-medium sm:gap-0 gap-1"
+                className="w-full flex justify-between items-center py-4 text-left text-sm sm:text-lg font-medium sm:gap-0 gap-1 cursor-pointer"
                 onClick={() => toggleFAQ(index)}
               >
                 <span>{faq.question}</span>
