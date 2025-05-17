@@ -127,7 +127,7 @@ const Layouts = ({ children }: LayoutProps) => {
   const userSessionsRef = useRef<HTMLButtonElement | null>(null);
   const [sessions, setSessions] = useState<any[]>([]);
   const reopenWelcome = () => {
-    setShowWelcome(true); // chỉ mở lại modal
+    setShowWelcome(true);
   };
   useEffect(() => {
     const token = userLocalStorage.get()?.token;
@@ -231,24 +231,48 @@ const Layouts = ({ children }: LayoutProps) => {
       title: "Thông tin thiết bị",
       key: "device_info",
       render: (_: any, record: any) => {
-        const [os, browserRaw] = record.device?.split(" - ") || [];
+        const ip = record.ip_address?.replace("::ffff:", "") || "Không rõ";
+
+        const [osRaw, browserRaw] = record.device?.split(" - ") || [];
+
+        // Chuẩn hóa OS
+        const os = (() => {
+          if (!osRaw) return "Không rõ";
+
+          const lowered = osRaw.toLowerCase();
+
+          if (lowered.includes("windows 10")) return "Windows";
+          if (lowered.includes("windows 11")) return "Windows";
+          if (lowered.includes("windows 7")) return "Windows";
+          if (lowered.includes("mac os x")) return "macOS";
+          if (lowered.includes("android")) return "Android";
+          if (lowered.includes("ios")) return "iOS";
+
+          return osRaw.split(" ")[0];
+        })();
+
         const browser = browserRaw?.split(" ")[0] || "Không rõ";
+
         return (
           <div className="grid grid-cols-2 gap-y-1 gap-x-4 text-sm text-gray-800">
             <div>
-              <strong>IP:</strong> {record.ip_address}
+              <strong>IP:</strong> {ip}
             </div>
             <div>
-              <strong>OS:</strong> {os || "Không rõ"}
+              <strong>OS:</strong> {os}
             </div>
             <div>
               <strong>Browser:</strong> {browser}
+            </div>
+            <div>
+              <strong>Device:</strong> Desktop
             </div>
           </div>
         );
       },
     },
   ];
+
   return (
     <div>
       <ConfigProvider componentSize="large">

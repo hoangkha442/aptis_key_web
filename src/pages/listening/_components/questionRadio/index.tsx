@@ -33,9 +33,9 @@ const QuestionRadio: React.FC<Props> = ({ question, value, onChange }) => {
 
           let bgColor = "bg-gray-100";
           if (isSubmitted) {
-            if (isUserChoice && isCorrect) bgColor = "bg-green-100"; // đúng
-            else if (isUserChoice && !isCorrect) bgColor = "bg-red-100"; // sai
-            else if (!isUserChoice && isCorrect) bgColor = "bg-green-50"; // hiển thị đáp án đúng nhẹ
+            if (isUserChoice && isCorrect) bgColor = "bg-green-100"; 
+            else if (isUserChoice && !isCorrect) bgColor = "bg-red-100";
+            else if (!isUserChoice && isCorrect) bgColor = "bg-green-50"; 
           } else {
             if (isUserChoice) bgColor = "bg-[#fdfac7]";
           }
