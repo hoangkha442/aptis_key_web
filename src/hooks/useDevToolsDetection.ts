@@ -5,7 +5,7 @@ const useDevToolsDetection = (): boolean => {
 
   useEffect(() => {
     const detect = () => {
-      const threshold = 160; // sai lệch thường gặp khi mở DevTools
+      const threshold = 160;
       const widthDiff = window.outerWidth - window.innerWidth;
       const heightDiff = window.outerHeight - window.innerHeight;
 

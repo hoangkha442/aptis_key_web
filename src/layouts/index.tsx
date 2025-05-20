@@ -199,7 +199,7 @@ const Layouts = ({ children }: LayoutProps) => {
     },
   ];
 
-  const isUnsupported = useMediaQuery({ maxWidth: 899 });
+  const isUnsupported = useMediaQuery({ maxWidth: 200 });
   if (isUnsupported) {
     return (
       <div className="h-screen w-screen flex flex-col items-center justify-center bg-white">
@@ -287,7 +287,7 @@ const Layouts = ({ children }: LayoutProps) => {
           <div className="flex items-center">
             <div className="w-[500px] h-[400px]">
               <img
-                src={mascot} // thay đường dẫn đúng với ảnh bạn
+                src={mascot} 
                 alt="Mascot"
                 className="w-full h-full object-cover"
                 style={{
@@ -389,7 +389,7 @@ const Layouts = ({ children }: LayoutProps) => {
               breadcrumbRef={breadcrumbRef}
               avatarRef={avatarRef}
               termsRef={termsRef}
-              userSessionsRef={userSessionsRef} // ✅ THÊM DÒNG NÀY
+              userSessionsRef={userSessionsRef}
               openSessionsModal={() => setShowSessions(true)}
             />
             <Content className="!m-[24px_16px] !p-6 !min-h-[280px] !bg-white !rounded-lg !relative !overflow-y-auto">
