@@ -5,6 +5,10 @@ html {
 }
 
 
+.animate-floatY {
+  animation: floatY 2s ease-in-out infinite;
+}
+
 .aptis-card {
   padding-left: 1.5rem;           /* px-6 */
   padding-right: 1.5rem;
@@ -132,7 +136,7 @@ html {
   left: 0;
   width: 4rem;
   height: 2px;
-  background-color: #9333ea; 
+  background-color: #45378f; 
   animation: moveUnderline 8s ease-in-out infinite alternate;
 }
 }

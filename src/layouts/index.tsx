@@ -123,6 +123,7 @@ const Layouts = ({ children }: LayoutProps) => {
   const coursesRef = useRef<HTMLSpanElement | null>(null);
   const scheduleRef = useRef<HTMLSpanElement | null>(null);
   const myInfoRef = useRef<HTMLSpanElement | null>(null);
+  const simulatedExamRoom = useRef<HTMLSpanElement | null>(null);
   const toggleRef = useRef<HTMLButtonElement | null>(null);
   const userSessionsRef = useRef<HTMLButtonElement | null>(null);
   const [sessions, setSessions] = useState<any[]>([]);
@@ -172,6 +173,12 @@ const Layouts = ({ children }: LayoutProps) => {
       description: "Xem hoặc chỉnh sửa thông tin tài khoản.",
       target: () => myInfoRef.current as HTMLElement,
     },
+    {
+      title: "Phòng thi thực tế ảo",
+      description: "Trải nghiệm môi trường thi mô phỏng sát thực tế, giúp bạn luyện tập và tự đánh giá trước kỳ thi chính thức.",
+      target: () => simulatedExamRoom.current as HTMLElement,
+    },
+    // simulatedExamRoom
     {
       title: "Thu gọn Sidebar",
       description: "Click để thu gọn hoặc mở rộng thanh điều hướng.",
@@ -379,6 +386,7 @@ const Layouts = ({ children }: LayoutProps) => {
             coursesRef={coursesRef}
             scheduleRef={scheduleRef}
             myInfoRef={myInfoRef}
+            simulatedExamRoom={simulatedExamRoom} 
             toggleRef={toggleRef}
             setOpenTour={setOpenTour}
             reopenWelcome={reopenWelcome}

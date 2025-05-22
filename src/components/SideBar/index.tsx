@@ -106,12 +106,15 @@
 // }
 import { useState, useEffect, RefObject } from "react";
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  MailOutlined,
-  SettingOutlined,
-  UserOutlined,
+  HomeOutlined,
+  BookOutlined,
+  CalendarOutlined,
+  IdcardOutlined,
+  ExperimentOutlined,
+  QuestionCircleOutlined,
   LogoutOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme, message } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -127,6 +130,7 @@ interface SidebarProps {
   scheduleRef: RefObject<HTMLSpanElement | null>;
   myInfoRef: RefObject<HTMLSpanElement | null>;
   toggleRef: RefObject<HTMLButtonElement | null>;
+  simulatedExamRoom: RefObject<HTMLSpanElement | null>;
   setOpenTour: (val: boolean) => void;
   reopenWelcome: () => void;
 }
@@ -137,6 +141,7 @@ export default function Sidebar({
   scheduleRef,
   myInfoRef,
   toggleRef,
+  simulatedExamRoom,
   reopenWelcome,
 }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
@@ -166,41 +171,46 @@ export default function Sidebar({
   };
 
   const studentMenu: MenuItem[] = [
-    !collapsed
-      ? { key: "group_student", label: "Khu vực học tập", type: "group" }
-      : { type: "divider" },
-    {
-      key: "/",
-      icon: <MailOutlined />,
-      label: <span ref={homeRef}>Trang chủ</span>,
-    },
-    {
-      key: "/courses",
-      icon: <SettingOutlined />,
-      label: <span ref={coursesRef}>Khóa học của tôi</span>,
-    },
-    {
-      key: "/schedule",
-      icon: <UserOutlined />,
-      label: <span ref={scheduleRef}>Lịch học</span>,
-    },
-    {
-      key: "/my-info",
-      icon: <UserOutlined />,
-      label: <span ref={myInfoRef}>Thông tin cá nhân</span>,
-    },
-    {
-      key: "reopen-tour",
-      icon: <SettingOutlined />, // hoặc <InfoCircleOutlined /> nếu muốn
-      label: "Xem lại hướng dẫn",
-    },
-    {
-      key: "/auth/logout",
-      icon: <LogoutOutlined />,
-      label: "Đăng xuất",
-      danger: true,
-    },
-  ];
+  !collapsed
+    ? { key: "group_student", label: "Khu vực học tập", type: "group" }
+    : { type: "divider" },
+  {
+    key: "/",
+    icon: <HomeOutlined />,
+    label: <span ref={homeRef}>Trang chủ</span>,
+  },
+  {
+    key: "/courses",
+    icon: <BookOutlined />,
+    label: <span ref={coursesRef}>Khóa học của tôi</span>,
+  },
+  {
+    key: "/schedule",
+    icon: <CalendarOutlined />,
+    label: <span ref={scheduleRef}>Lịch học</span>,
+  },
+  {
+    key: "/my-info",
+    icon: <IdcardOutlined />,
+    label: <span ref={myInfoRef}>Thông tin cá nhân</span>,
+  },
+  {
+    key: "/simulated-exam-room",
+    icon: <ExperimentOutlined />,
+    label: <span className="relative pb-2 border-b border-gray-300 underline-animated" ref={simulatedExamRoom}>Phòng thi thực tế ảo</span>,
+  },
+  {
+    key: "reopen-tour",
+    icon: <QuestionCircleOutlined />,
+    label: "Xem lại hướng dẫn",
+  },
+  {
+    key: "/auth/logout",
+    icon: <LogoutOutlined />,
+    label: "Đăng xuất",
+    danger: true,
+  },
+];
 
   const {
     token: { colorBgBase, colorTextBase },

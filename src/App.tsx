@@ -17,6 +17,9 @@ import ListeningExamInfo from "./pages/listening/_components/info";
 import MyInfo from "./pages/MyInfo";
 import SchedulePage from "./pages/schedulePage";
 import Introduction from "./pages/Introduction";
+import Writing from "./pages/Writing";
+import LayoutTestFourSkills from "./layouts/LayoutTestFourSkills";
+import SimulatedExamRoom from "./pages/SimulatedExamRoom";
 
 const App = () => {
   return (
@@ -130,6 +133,81 @@ const App = () => {
               element={
                 <Layouts>
                   <SchedulePage />
+                </Layouts>
+              }
+            />
+          }
+        />
+        {/* PHÒNG THI THỰC TẾ ẢO */}
+        <Route
+          path="/simulated-exam-room/writing"
+          element={
+            <PrivateRoute
+              element={
+                <LayoutTestFourSkills>
+                  <Writing />
+                </LayoutTestFourSkills>
+              }
+            />
+          }
+        />
+        <Route
+          path="/simulated-exam-room/listening/take-test/intro"
+          element={
+            <PrivateRoute
+              element={
+                <TakeListeningLayout>
+                  <ListeningExamInfo />
+                </TakeListeningLayout>
+              }
+            />
+          }
+        />
+        <Route
+          path="/simulated-exam-room/listening"
+          element={
+            <PrivateRoute
+              element={
+                <TakeListeningLayout>
+                  <Listening />
+                </TakeListeningLayout>
+              }
+            />
+          }
+        />
+         <Route
+          path="/simulated-exam-room/reading"
+          element={
+            <PrivateRoute
+              element={
+                <TakeTestLayouts>
+                  <DndProvider backend={HTML5Backend}>
+                    <Reading />
+                  </DndProvider>
+                </TakeTestLayouts>
+              }
+            />
+          }
+        />
+        <Route
+          path="/simulated-exam-room/reading/intro"
+          element={
+            <PrivateRoute
+              element={
+                <TakeTestLayouts>
+                  <ExamInfo />
+                </TakeTestLayouts>
+              }
+            />
+          }
+        />
+        <Route
+          path="/simulated-exam-room"
+          element={
+            <PrivateRoute
+              element={
+                <Layouts>
+                  <SimulatedExamRoom />
                 </Layouts>
               }
             />

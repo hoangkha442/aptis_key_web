@@ -21,7 +21,6 @@ const getLevelFromScore = (score: number) => {
   if (score <= 41) return "B2";
   return "C";
 };
-
 const ListeningPagination = ({ total }: { total: number }) => {
   const activePart = useSelector(
     (state: RootState) => state.listeningUI.activePart
@@ -49,7 +48,26 @@ const ListeningPagination = ({ total }: { total: number }) => {
   };
 
   const handleSubmit = () => {
+    const isSimulatedMode =
+      location.pathname === "/simulated-exam-room/listening";
     const isIncomplete = Object.values(answers).some((val) => !val);
+
+    const readingId = Math.floor(Math.random() * 14) + 1;
+
+    const submitSimulated = () => {
+      localStorage.setItem(
+        "simulated_listening_answers",
+        JSON.stringify(answers)
+      );
+
+      // Optionally vẫn lưu lại localStorage để backup
+      localStorage.setItem("reading_key_test_id", String(readingId));
+
+      navigate("/simulated-exam-room/reading/intro", {
+        state: { keyTestId: readingId },
+      });
+    };
+
     const confirmAndSubmit = () => {
       if (!data) return;
       const reviewAnswers: any[] = [];
@@ -73,6 +91,23 @@ const ListeningPagination = ({ total }: { total: number }) => {
       dispatch(setListeningReviewAnswersAndScore({ reviewAnswers, score }));
     };
 
+    // Nếu ở chế độ mô phỏng
+    if (isSimulatedMode) {
+      if (isIncomplete) {
+        Modal.confirm({
+          title: "Bạn chưa hoàn thành tất cả các câu hỏi",
+          content: "Bạn có chắc chắn muốn nộp bài không?",
+          okText: "Vẫn nộp bài",
+          cancelText: "Quay lại",
+          onOk: submitSimulated,
+        });
+      } else {
+        submitSimulated();
+      }
+      return;
+    }
+
+    // Nếu không phải mô phỏng → giữ nguyên logic gốc
     if (isIncomplete) {
       Modal.confirm({
         title: "Bạn chưa hoàn thành tất cả các câu hỏi",
@@ -197,7 +232,9 @@ const TakeListeningLayout: React.FC<{ children: ReactNode }> = ({
     return `${m}:${s}`;
   };
 
-  const isIntroPage = location.pathname === "/listening/take-test/intro";
+  const isIntroPage =
+    location.pathname === "/listening/take-test/intro" ||
+    location.pathname === "/simulated-exam-room/listening/take-test/intro";
 
   return (
     <ConfigProvider componentSize="large">

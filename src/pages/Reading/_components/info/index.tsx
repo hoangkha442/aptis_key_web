@@ -6,6 +6,7 @@ export default function ExamInfo({}: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const keyTestId = location.state?.keyTestId;
+   const isSimulatedIntro = location.pathname === "/simulated-exam-room/reading/intro";
   return (
     <div className="p-6 space-y-4 mx-auto max-w-2xl font-medium items-center">
       <div className="w-full">
@@ -47,14 +48,26 @@ export default function ExamInfo({}: Props) {
         </div>
 
         <div className="text-start">
-          <button
+          {!isSimulatedIntro ? (
+          <div className="text-start">
+            <button
+              onClick={() =>
+                navigate("/reading/take-test", { state: { keyTestId } })
+              }
+              className="bg-[#45368f] cursor-pointer text-base hover:bg-[#372a73] text-white px-6 py-2 rounded"
+            >
+              Start Assessment
+            </button>
+          </div>
+        ) : <button
             onClick={() =>
-              navigate("/reading/take-test", { state: { keyTestId } })
+              navigate("/simulated-exam-room/reading", { state: { keyTestId } })
             }
             className="bg-[#45368f] cursor-pointer text-base hover:bg-[#372a73] text-white px-6 py-2 rounded"
           >
             Start Assessment
-          </button>
+          </button>}
+          
         </div>
       </div>
     </div>

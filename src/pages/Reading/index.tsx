@@ -12,7 +12,7 @@ import { useReadingContext } from "./Context/ReadingContext";
 
 const Reading = () => {
   const location = useLocation();
-  const keyTestId = location.state?.keyTestId;
+  const keyTestId = location.state?.keyTestId || localStorage.getItem("reading_key_test_id");
   const navigate = useNavigate();
   
   const { activePart, answers, setAnswers } = useReadingContext();

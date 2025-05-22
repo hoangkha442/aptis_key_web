@@ -23,9 +23,13 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
   } = theme.useToken();
   const navigate = useNavigate();
   const location = useLocation();
-  const isTestPage = location.pathname === "/reading/take-test";
+  const isTestPage =
+    location.pathname === "/reading/take-test" ||
+    location.pathname === "/simulated-exam-room/reading";
 
-  const totalScore = useSelector((state: RootState) => state.readingScore.totalScore);
+  const totalScore = useSelector(
+    (state: RootState) => state.readingScore.totalScore
+  );
   const cefr = useSelector((state: RootState) => state.readingScore.cefr);
 
   const handleBackToHome = () => {
@@ -40,7 +44,6 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
     <ConfigProvider componentSize="large">
       <ReadingProvider>
         <Layout className="!h-screen flex flex-col">
-          {/* HEADER */}
           <Header className="flex justify-between items-center !bg-[#f9fafc] px-6">
             <img
               onClick={handleBackToHome}
@@ -57,17 +60,16 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
             )}
           </Header>
 
-          {/* MAIN CONTENT */}
           <Content className="flex-1 overflow-y-auto !p-x-12 !bg-[#f9fafc]">
             {children}
           </Content>
 
-          {/* FOOTER */}
           <Footer
             style={{ background: colorBgContainer }}
             className="text-end flex flex-col items-center gap-2 !py-2 border-t border-[#e5e7eb]"
           >
-            {location.pathname === "/reading/take-test/intro" ? (
+            {location.pathname === "/reading/take-test/intro" ||
+            location.pathname === "/simulated-exam-room/reading/intro" ? (
               <div>
                 Aptis key test ©{new Date().getFullYear()} Created by Hoàng Kha
               </div>
@@ -93,22 +95,19 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
 };
 
 export default TakeTestLayouts;
+
 const CountdownAndPagination = () => {
   const [timeLeft, setTimeLeft] = useState<number>(0);
   const navigate = useNavigate();
   const { activePart, setActivePart, answers } = useReadingContext();
-  const totalDuration = 35 * 60; // 35 phút
+  const totalDuration = 35 * 60;
 
-  // Countdown
   useEffect(() => {
     const now = Date.now();
     const storedStartTime = localStorage.getItem("reading_timer_start");
-    let startTime: number;
+    let startTime: number = storedStartTime ? parseInt(storedStartTime) : now;
 
-    if (storedStartTime) {
-      startTime = parseInt(storedStartTime, 10);
-    } else {
-      startTime = now;
+    if (!storedStartTime) {
       localStorage.setItem("reading_timer_start", startTime.toString());
     }
 
@@ -122,7 +121,14 @@ const CountdownAndPagination = () => {
           clearInterval(timer);
           localStorage.setItem("reading_answers", JSON.stringify(answers));
           localStorage.removeItem("reading_timer_start");
-          navigate("/reading/take-test/review");
+
+          const isSimulated = location.pathname === "/simulated-exam-room/reading";
+          if (isSimulated) {
+            localStorage.setItem("simulated_reading_answers", JSON.stringify(answers));
+            navigate("/simulated-exam-room/writing");
+          } else {
+            navigate("/reading/take-test/review");
+          }
           return 0;
         }
         return prev - 1;
@@ -138,7 +144,6 @@ const CountdownAndPagination = () => {
     return `${m}:${s}`;
   };
 
-  // Submit bài
   const handleSubmit = () => {
     const isEmpty = (v: any) => v === "" || v === null || v === undefined;
     const isIncomplete = () =>
@@ -148,10 +153,18 @@ const CountdownAndPagination = () => {
       Object.values(answers.part4).some(isEmpty) ||
       Object.values(answers.part5).some(isEmpty);
 
+    const isSimulated = location.pathname === "/simulated-exam-room/reading";
+
     const submitNow = () => {
       localStorage.setItem("reading_answers", JSON.stringify(answers));
       localStorage.removeItem("reading_timer_start");
-      navigate("/reading/take-test/review");
+
+      if (isSimulated) {
+        localStorage.setItem("simulated_reading_answers", JSON.stringify(answers));
+        navigate("/simulated-exam-room/writing");
+      } else {
+        navigate("/reading/take-test/review");
+      }
       message.info("Đã nộp bài thành công.");
     };
 
@@ -173,12 +186,10 @@ const CountdownAndPagination = () => {
 
   return (
     <div className="w-full flex justify-between items-center">
-      {/* Timer */}
       <div className="text-sm font-semibold text-red-600">
         Còn lại: <span className="text-lg">{formatTime(timeLeft)}</span>
       </div>
 
-      {/* Pagination & Submit */}
       <div className="flex justify-center gap-4 mt-2">
         <button
           disabled={activePart <= 1}
