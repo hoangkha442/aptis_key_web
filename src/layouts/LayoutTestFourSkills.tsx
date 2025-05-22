@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
 import { Layout, ConfigProvider, theme, message, Modal } from "antd";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import logo from "../assets/passkey_logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../redux/store";
@@ -38,6 +38,7 @@ const LayoutTestFourSkills: React.FC<{ children: ReactNode }> = ({
   const isListening = location.pathname.includes("/simulated-exam-room/listening/take-test/intro");
   const isReading = location.pathname.includes("reading");
   const isWriting = location.pathname.includes("writing");
+  const navigate = useNavigate()
   const writingStage = useSelector((state: RootState) => state.writingUI.stage);
   const writingPartKeys = useSelector((state: RootState) =>
     Object.keys(state.writingUI.groupedQuestions)
@@ -164,7 +165,7 @@ const LayoutTestFourSkills: React.FC<{ children: ReactNode }> = ({
       return;
     }
 
-    await submitWritingDocument(); // nếu đã trả lời hết thì nộp luôn
+    await submitWritingDocument(); 
   };
 
   const submitWritingDocument = async () => {
@@ -206,6 +207,14 @@ const LayoutTestFourSkills: React.FC<{ children: ReactNode }> = ({
       saveAs(blob, "writing_answers.docx");
       message.success("Nộp bài thành công! File Word đã được tải xuống.");
       localStorage.removeItem("writingUI");
+      localStorage.removeItem("listening_key_test_id");
+localStorage.removeItem("reading_key_test_id");
+localStorage.removeItem("reading_answers");
+localStorage.removeItem("simulated_listening_answers");
+localStorage.removeItem("simulated_reading_answers");
+
+// Chuyển về trang chủ
+navigate("/");
     } catch (error) {
       message.error("Có lỗi xảy ra khi tạo file Word.");
     }

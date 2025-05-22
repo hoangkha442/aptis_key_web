@@ -92,7 +92,6 @@ export default function WritingPage() {
     );
   }
 
-  // Stage === "test"
   if (!Object.keys(groupedQuestions).length) {
     return (
       <Spin

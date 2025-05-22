@@ -18,7 +18,7 @@ export default function SimulatedExamRoom() {
       message.warning("Bạn đã hết lượt làm bài.");
       return;
     }
-    setIsModalOpen(true); // Mở modal xác nhận
+    setIsModalOpen(true); 
   };
 
   const handleStartConfirmed = () => {
@@ -32,7 +32,7 @@ export default function SimulatedExamRoom() {
       <div className="rounded-2xl p-6">
         <div className="text-center">
           <Title level={2} className="text-[#45368f] font-bold">
-            Phòng Thi Mô Phỏng
+            Phòng Thi Mô Phỏng - <span className="text-purple-600">(ĐANG THỬ NGHIỆM)</span>
           </Title>
           <Paragraph className="text-gray-600 max-w-2xl mx-auto mt-2">
             Luyện tập toàn diện 4 kỹ năng theo định dạng bài thi thực tế. Mỗi
@@ -96,7 +96,7 @@ export default function SimulatedExamRoom() {
         }}
       >
         <div className="space-y-3 text-gray-700 text-[15px]">
-          <p>Bạn đã sẵn sàng bắt đầu bài thi mô phỏng chưa?</p>
+          {/* <p>Bạn đã sẵn sàng bắt đầu bài thi mô phỏng chưa?</p> */}
           <p>Bài thi sẽ bao gồm các kỹ năng, theo thứ tự sau:</p>
           <ul className="list-decimal list-inside ml-2">
             <li>
