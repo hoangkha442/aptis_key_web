@@ -20,6 +20,7 @@ import Introduction from "./pages/Introduction";
 import Writing from "./pages/Writing";
 import LayoutTestFourSkills from "./layouts/LayoutTestFourSkills";
 import SimulatedExamRoom from "./pages/SimulatedExamRoom";
+import SpeakingPage from "./pages/Speaking";
 
 const App = () => {
   return (
@@ -152,6 +153,10 @@ const App = () => {
           }
         />
         <Route
+          path="/simulated-exam-room/speaking"
+          element={<PrivateRoute element={<SpeakingPage />} />}
+        />
+        <Route
           path="/simulated-exam-room/listening/take-test/intro"
           element={
             <PrivateRoute
@@ -175,7 +180,7 @@ const App = () => {
             />
           }
         />
-         <Route
+        <Route
           path="/simulated-exam-room/reading"
           element={
             <PrivateRoute
@@ -213,6 +218,19 @@ const App = () => {
             />
           }
         />
+        {/* <Route
+          path="/simulated-exam-room/review-listening"
+          element={
+            <PrivateRoute
+              element={
+                <TakeListeningLayout>
+                  <Listening />
+                </TakeListeningLayout>
+              }
+            />
+          }
+        /> */}
+
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
