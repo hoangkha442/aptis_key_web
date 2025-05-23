@@ -86,9 +86,9 @@ export default function Question3({ questions, slotAnswers, setSlotAnswers }: Qu
         <DropListArea
           unplacedQuestions={unplacedQuestions}
           onDrop={(question, from) => {
+            console.log('question: ', question);
               if (typeof from === "number") {
                   removeFromSlot(from);
-                  console.log('question: ', question);
             }
           }}
         />

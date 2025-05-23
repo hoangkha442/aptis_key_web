@@ -28,7 +28,6 @@ export default function WritingPage() {
   const answers = useSelector((state: RootState) => state.writingUI.answers);
 
   const questions = groupedQuestions[currentPart] || [];
-  console.log('questions: ', questions);
   const partKeys = Object.keys(groupedQuestions);
 
   useEffect(() => {
