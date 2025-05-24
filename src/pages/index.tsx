@@ -2,9 +2,11 @@ import { Card } from "antd";
 import welcomeAnimation from "../assets/animate_lottie.json";
 import Lottie from "lottie-react";
 import { Helmet } from "react-helmet-async";
+
 // const { Title, Paragraph } = Typography;
 
 export default function HomePage() {
+  
   return (
     <div className="flex justify-center items-center h-full overflow-hidden">
       <Helmet>

@@ -14,7 +14,6 @@ export default function NavBar({}: Props) {
     null
   );
   const location = useLocation().pathname;
-  console.log("location: ", location);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };

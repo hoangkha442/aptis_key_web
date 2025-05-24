@@ -20,7 +20,7 @@ import {
   CheckCircleTwoTone,
 } from "@ant-design/icons";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import { useState, RefObject } from "react";
+import { useState, RefObject, useEffect } from "react";
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -66,6 +66,16 @@ export default function CustomHeader({
       message.info("Tính năng chưa phát triển!");
     }
   };
+  useEffect(() => { 
+      localStorage.removeItem("writingUI");
+                      localStorage.removeItem("listening_key_test_id");
+                      localStorage.removeItem("reading_key_test_id");
+                      localStorage.removeItem("reading_answers");
+                      localStorage.removeItem("simulated_listening_answers");
+                      localStorage.removeItem("simulated_reading_answers");
+                      localStorage.removeItem("speakingUI");
+                      
+     },[])
 
   const generateBreadcrumbs = () => {
     const pathArray = location.pathname.split("/").filter(Boolean);

@@ -10,7 +10,7 @@ html {
 }
 
 .aptis-card {
-  padding-left: 1.5rem;           /* px-6 */
+  padding-left: 1.5rem;           
   padding-right: 1.5rem;
   height: 2.5rem;                 /* h-10 */
   flex-shrink: 0;                /* shrink-0 */

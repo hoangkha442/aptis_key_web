@@ -29,17 +29,16 @@ export default function SpeakingPage() {
   const parts = Object.keys(groupedQuestions);
   const questions = groupedQuestions[currentPart] || [];
   const currentQuestion = questions[currentQuestionIndex];
-  console.log("currentQuestion: ", currentQuestion);
 
   useEffect(() => {
     if (stage === "test" && parts.length === 0) {
       speakingService
         .getSpeakingTestById({ speaking_test_id: 1 })
         .then((res) => {
-          dispatch(setSpeakingGroupedQuestions(res.data.questions));
           // dispatch(setSpeakingGroupedQuestions(res.data.questions));
-          // dispatch(setSpeakingCurrentPart("Part 4"));
-          // dispatch(setSpeakingCurrentQuestionIndex(0));
+          dispatch(setSpeakingGroupedQuestions(res.data.questions));
+          dispatch(setSpeakingCurrentPart("Part 4"));
+          dispatch(setSpeakingCurrentQuestionIndex(0));
         });
     }
   }, [stage]);
@@ -76,7 +75,6 @@ export default function SpeakingPage() {
       // const combinedUtterance = new SpeechSynthesisUtterance(fullPrompt);
       // speechSynthesis.speak(combinedUtterance);
       const part4Questions = groupedQuestions[currentPart] || [];
-      console.log("part4Questions: ", part4Questions);
       const fullPrompt = part4Questions.map((q) => q.prompt).join(". ");
 
       const speakPrompts = () => {
@@ -213,7 +211,6 @@ export default function SpeakingPage() {
         a.download = `answer_${currentQuestion.id}.webm`;
         a.click();
         URL.revokeObjectURL(url);
-        console.log("Auto-downloaded answer for Q", currentQuestion.id);
       }
     };
 
@@ -416,7 +413,7 @@ export default function SpeakingPage() {
               </p>
               {currentQuestion?.image_url && (
                 <img
-                  src={currentQuestion.image_url}
+                  src={`${currentQuestion.image_url}`}
                   alt="question"
                   className="mt-3 rounded"
                 />

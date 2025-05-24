@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Form,
-  Input,
-  Button,
-  message,
-  Card,
-} from "antd";
+import { Form, Input, Button, message, Card } from "antd";
 import { authServices } from "../../config/authServices";
 import { userServices } from "../../config/userServices";
 import { userLocalStorage } from "../../config/userLocal";
@@ -17,7 +11,7 @@ export default function MyInfo() {
   const [userId, setUserId] = useState<number | null>(null);
   const [infoLoading, setInfoLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
-  
+
   useEffect(() => {
     const fetchInfo = async () => {
       try {
@@ -26,12 +20,11 @@ export default function MyInfo() {
           message.error("Không tìm thấy token. Vui lòng đăng nhập lại.");
           return;
         }
-  
+
         const res = await authServices.getUserInfo(token);
         const user = res.data;
         setUserId(user.user_id);
-  
-        // ✅ Delay để đảm bảo Form đã mount xong trước khi setFieldsValue
+
         setTimeout(() => {
           infoForm.setFieldsValue({
             full_name: user.full_name,
@@ -41,19 +34,18 @@ export default function MyInfo() {
         }, 0);
       } catch (err) {
         message.error("Lỗi khi lấy thông tin người dùng");
-      } 
+      }
     };
-  
+
     fetchInfo();
   }, [infoForm]);
-  
 
   const handleUpdateInfo = async () => {
     try {
       setInfoLoading(true);
       const values = await infoForm.validateFields();
       if (!userId) return;
-  
+
       await userServices.updateUser(userId, values);
       message.success("Cập nhật thông tin thành công");
     } catch (err) {
@@ -62,18 +54,17 @@ export default function MyInfo() {
       setInfoLoading(false);
     }
   };
-  
 
   const handleUpdatePassword = async () => {
     try {
       setPasswordLoading(true);
       const values = await passwordForm.validateFields();
       if (!userId) return;
-  
+
       await userServices.updateUser(userId, {
         password: values.password,
       });
-  
+
       message.success("Đổi mật khẩu thành công. Vui lòng đăng nhập lại.");
       setTimeout(() => {
         localStorage.removeItem("USER_LOCAL");
@@ -85,16 +76,18 @@ export default function MyInfo() {
       setPasswordLoading(false);
     }
   };
-  
 
   // if (loading) return <Spin className="block mx-auto mt-10" />;
 
   return (
     <div className="max-w-4xl mx-auto p-4 flex gap-5">
       <Helmet>
-  <title>Thông tin cá nhân | PassKey Center</title>
-  <meta name="description" content="Xem và cập nhật hồ sơ cá nhân của bạn: tên, email, tài khoản học viên và lịch sử học tập tại PassKey Center." />
-</Helmet>
+        <title>Thông tin cá nhân | PassKey Center</title>
+        <meta
+          name="description"
+          content="Xem và cập nhật hồ sơ cá nhân của bạn: tên, email, tài khoản học viên và lịch sử học tập tại PassKey Center."
+        />
+      </Helmet>
 
       <Card title="Thông tin cá nhân" className="w-1/2">
         <Form layout="vertical" form={infoForm} onFinish={handleUpdateInfo}>
@@ -132,16 +125,19 @@ export default function MyInfo() {
           </Form.Item>
 
           <Form.Item>
-          <Button type="primary" htmlType="submit" loading={infoLoading}>
-  Cập nhật thông tin
-</Button>
-
+            <Button type="primary" htmlType="submit" loading={infoLoading}>
+              Cập nhật thông tin
+            </Button>
           </Form.Item>
         </Form>
       </Card>
 
       <Card title="Đổi mật khẩu" className="w-1/2">
-        <Form layout="vertical" form={passwordForm} onFinish={handleUpdatePassword}>
+        <Form
+          layout="vertical"
+          form={passwordForm}
+          onFinish={handleUpdatePassword}
+        >
           <Form.Item
             label="Mật khẩu mới"
             name="password"
@@ -159,10 +155,9 @@ export default function MyInfo() {
           </Form.Item>
 
           <Form.Item>
-          <Button type="primary" htmlType="submit" loading={passwordLoading}>
-  Đổi mật khẩu
-</Button>
-
+            <Button type="primary" htmlType="submit" loading={passwordLoading}>
+              Đổi mật khẩu
+            </Button>
           </Form.Item>
         </Form>
       </Card>
