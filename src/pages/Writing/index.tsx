@@ -32,7 +32,8 @@ export default function WritingPage() {
 
   useEffect(() => {
     if (stage === "test" && partKeys.length === 0) {
-      writingService.getWritingTestById({ writing_test_id: 1 }).then((res) => {
+      const randomTestId = Math.floor(Math.random() * 5) + 1;
+      writingService.getWritingTestById({ writing_test_id: randomTestId  }).then((res) => {
         dispatch(setGroupedQuestions(res.data.grouped_questions));
       });
     }

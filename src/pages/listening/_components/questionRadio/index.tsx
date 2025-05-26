@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
-
+import { PlayCircleOutlined, PauseCircleOutlined } from "@ant-design/icons";
+import { Button, message } from "antd";
 interface Props {
   question: any;
   value: string;
@@ -9,10 +10,15 @@ interface Props {
 }
 
 const QuestionRadio: React.FC<Props> = ({ question, value, onChange }) => {
+  // console.log('question: ', question);
   const options = JSON.parse(question.options || "[]");
   const isSubmitted = useSelector((state: RootState) => state.listeningUI.isSubmitted);
   const reviewAnswers = useSelector((state: RootState) => state.listeningUI.reviewAnswers);
   const thisReview = reviewAnswers.find((r) => r.questionId === String(question.listening_test_items_id));
+
+ const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+const [showTranscript, setShowTranscript] = useState(false);
 
   const handleOptionClick = (opt: string) => {
     if (!isSubmitted) {
@@ -20,8 +26,55 @@ const QuestionRadio: React.FC<Props> = ({ question, value, onChange }) => {
     }
   };
 
+  const handlePlayAudio = () => {
+    const audioUrl = question.listening_audio;
+    if (!audioUrl) {
+      message.error("Không có dữ liệu audio để phát.");
+      return;
+    }
+
+    if (audioRef.current) {
+      if (audioRef.current.paused) {
+        audioRef.current
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch(() => message.error("Không thể phát audio."));
+      } else {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      }
+    }
+  };
+
+  const handleEnded = () => {
+    setIsPlaying(false);
+  };
   return (
     <div>
+      <button
+        disabled={!question.listening_audio}
+        className={`flex items-center gap-2 font-medium ${
+          question.listening_audio
+            ? "cursor-pointer text-gray-900"
+            : "cursor-not-allowed text-gray-400"
+        }`}
+        onClick={handlePlayAudio}
+      >
+        {isPlaying ? (
+          <PauseCircleOutlined style={{ fontSize: 24 }} />
+        ) : (
+          <PlayCircleOutlined style={{ fontSize: 24 }} />
+        )}
+                Play/Stop (2 times left)
+      </button>
+      {question.listening_audio && (
+        <audio
+          ref={audioRef}
+          src={question.listening_audio}
+          preload="auto"
+          onEnded={handleEnded}
+        />
+      )}
       <p className="my-3 font-medium text-base">{question.content}</p>
 
       <div className="grid grid-cols-1 gap-1 min-w-[300px]">
@@ -61,6 +114,18 @@ const QuestionRadio: React.FC<Props> = ({ question, value, onChange }) => {
       {isSubmitted && !thisReview?.isCorrect && (
         <div className="mt-4 text-sm text-red-700">
           Đáp án đúng là: <span className="font-semibold">{thisReview?.correctAnswer}</span>
+        </div>
+      )}
+
+       <Button
+        className="mb-2 mt-4 border border-gray-300 text-gray-800 font-medium rounded-lg px-2 py-1 md:px-4 md:py-2 text-sm md:text-base"
+        onClick={() => setShowTranscript(!showTranscript)}
+      >
+        {showTranscript ? "Hide Transcript" : "Show Transcript"}
+      </Button>
+      {showTranscript && question.script && (
+        <div className="mt-3 p-2 bg-gray-100 rounded text-gray-900">
+          <p dangerouslySetInnerHTML={{ __html: question.script }} />
         </div>
       )}
     </div>
