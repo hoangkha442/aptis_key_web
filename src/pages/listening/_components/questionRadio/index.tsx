@@ -12,19 +12,42 @@ interface Props {
 const QuestionRadio: React.FC<Props> = ({ question, value, onChange }) => {
   // console.log('question: ', question);
   const options = JSON.parse(question.options || "[]");
-  const isSubmitted = useSelector((state: RootState) => state.listeningUI.isSubmitted);
-  const reviewAnswers = useSelector((state: RootState) => state.listeningUI.reviewAnswers);
-  const thisReview = reviewAnswers.find((r) => r.questionId === String(question.listening_test_items_id));
+  const isSubmitted = useSelector(
+    (state: RootState) => state.listeningUI.isSubmitted
+  );
+  const reviewAnswers = useSelector(
+    (state: RootState) => state.listeningUI.reviewAnswers
+  );
+  const thisReview = reviewAnswers.find(
+    (r) => r.questionId === String(question.listening_test_items_id)
+  );
 
- const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-const [showTranscript, setShowTranscript] = useState(false);
+  console.log("isPlaying: ", isPlaying);
+  const [showTranscript, setShowTranscript] = useState(false);
 
   const handleOptionClick = (opt: string) => {
     if (!isSubmitted) {
       onChange(opt);
     }
   };
+  function formatScriptToHTML(scriptText: string): string {
+    return scriptText
+      .split("\n")
+      .filter((line) => line.trim() !== "")
+      .map((line) => {
+        const colonIndex = line.indexOf(":");
+        if (colonIndex !== -1) {
+          const speaker = line.substring(0, colonIndex).trim();
+          const dialogue = line.substring(colonIndex + 1).trim();
+          return `<p><b>${speaker}:</b> ${dialogue}</p>`;
+        } else {
+          return `<p>${line}</p>`;
+        }
+      })
+      .join("");
+  }
 
   const handlePlayAudio = () => {
     const audioUrl = question.listening_audio;
@@ -65,7 +88,7 @@ const [showTranscript, setShowTranscript] = useState(false);
         ) : (
           <PlayCircleOutlined style={{ fontSize: 24 }} />
         )}
-                Play/Stop (2 times left)
+        Play/Stop (2 times left)
       </button>
       {question.listening_audio && (
         <audio
@@ -86,9 +109,9 @@ const [showTranscript, setShowTranscript] = useState(false);
 
           let bgColor = "bg-gray-100";
           if (isSubmitted) {
-            if (isUserChoice && isCorrect) bgColor = "bg-green-100"; 
+            if (isUserChoice && isCorrect) bgColor = "bg-green-100";
             else if (isUserChoice && !isCorrect) bgColor = "bg-red-100";
-            else if (!isUserChoice && isCorrect) bgColor = "bg-green-50"; 
+            else if (!isUserChoice && isCorrect) bgColor = "bg-green-50";
           } else {
             if (isUserChoice) bgColor = "bg-[#fdfac7]";
           }
@@ -113,24 +136,30 @@ const [showTranscript, setShowTranscript] = useState(false);
 
       {isSubmitted && !thisReview?.isCorrect && (
         <div className="mt-4 text-sm text-red-700">
-          Đáp án đúng là: <span className="font-semibold">{thisReview?.correctAnswer}</span>
+          Đáp án đúng là:{" "}
+          <span className="font-semibold">{thisReview?.correctAnswer}</span>
         </div>
       )}
 
-       <Button
+      <Button
         className="mb-2 mt-4 border border-gray-300 text-gray-800 font-medium rounded-lg px-2 py-1 md:px-4 md:py-2 text-sm md:text-base"
         onClick={() => setShowTranscript(!showTranscript)}
       >
         {showTranscript ? "Hide Transcript" : "Show Transcript"}
       </Button>
       {showTranscript && question.script && (
-        <div className="mt-3 p-2 bg-gray-100 rounded text-gray-900">
-          <p dangerouslySetInnerHTML={{ __html: question.script }} />
+        <div className="mt-3 p-4 bg-blue-50 rounded-lg shadow text-black">
+          <h3 className="font-semibold text-lg mb-2">Transcript</h3>
+          <div
+            className="prose prose-sm prose-blue max-w-none leading-relaxed"
+            dangerouslySetInnerHTML={{
+              __html: formatScriptToHTML(question.script),
+            }}
+          />
         </div>
       )}
     </div>
   );
 };
-
 
 export default QuestionRadio;
