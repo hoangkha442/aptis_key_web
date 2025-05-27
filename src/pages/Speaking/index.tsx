@@ -32,8 +32,9 @@ export default function SpeakingPage() {
 
   useEffect(() => {
     if (stage === "test" && parts.length === 0) {
+      const randomId = Math.floor(Math.random() * 2) + 1;
       speakingService
-        .getSpeakingTestById({ speaking_test_id: 1 })
+        .getSpeakingTestById({ speaking_test_id: randomId  })
         .then((res) => {
           // dispatch(setSpeakingGroupedQuestions(res.data.questions));
           dispatch(setSpeakingGroupedQuestions(res.data.questions));

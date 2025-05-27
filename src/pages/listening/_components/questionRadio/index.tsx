@@ -10,7 +10,6 @@ interface Props {
 }
 
 const QuestionRadio: React.FC<Props> = ({ question, value, onChange }) => {
-  // console.log('question: ', question);
   const options = JSON.parse(question.options || "[]");
   const isSubmitted = useSelector(
     (state: RootState) => state.listeningUI.isSubmitted

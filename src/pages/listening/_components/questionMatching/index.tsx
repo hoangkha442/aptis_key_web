@@ -29,7 +29,7 @@ const QuestionMatchingGroup: React.FC<Props> = ({
     (state: RootState) => state.listeningUI.reviewAnswers
   );
 
-  const audioUrl = questions[0]?.content;
+  const audioUrl = questions[0]?.listening_audio
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isDevToolsOpen = useDevToolsDetection();
 

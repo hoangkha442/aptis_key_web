@@ -17,7 +17,7 @@
 
 // type MenuItem = Required<MenuProps>["items"][number];
 
-// // ✅ Sửa kiểu RefObject<HTMLDivElement | null>
+// //  Sửa kiểu RefObject<HTMLDivElement | null>
 // export default function Sidebar({ menuRef }: { menuRef: RefObject<HTMLDivElement | null> }) {
 //   const [collapsed, setCollapsed] = useState(false);
 //   const location = useLocation();
