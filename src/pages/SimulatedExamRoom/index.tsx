@@ -6,7 +6,7 @@ const { Title, Paragraph, Text } = Typography;
 
 const TOTAL_LISTENING_EXAMS = 12;
 // const TOTAL_READING_EXAMS = 14;
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 12;
 
 export default function SimulatedExamRoom() {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ export default function SimulatedExamRoom() {
       <div className="rounded-2xl p-6">
         <div className="text-center">
           <Title level={2} className="text-[#45368f] font-bold">
-            Phòng Thi Mô Phỏng - <span className="text-purple-600">(ĐANG THỬ NGHIỆM)</span>
+            Phòng Thi Mô Phỏng 
           </Title>
           <Paragraph className="text-gray-600 max-w-2xl mx-auto mt-2">
             Luyện tập toàn diện 4 kỹ năng theo định dạng bài thi thực tế. Mỗi
@@ -71,6 +71,7 @@ export default function SimulatedExamRoom() {
           <Paragraph className="text-sm text-gray-600 mb-6">
             Mỗi kỹ năng sẽ được chọn ngẫu nhiên từ ngân hàng đề hiện có.
           </Paragraph>
+         
           <button
             className="px-6 py-3 bg-[#45368f] text-white rounded-lg cursor-pointer hover:bg-[#372a73] text-base font-medium"
             onClick={handleStartConfirm}
@@ -82,7 +83,6 @@ export default function SimulatedExamRoom() {
 
       {/* Xác nhận đã sẵn sàng */}
       <Modal
-        title="Xác nhận bắt đầu"
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
         onOk={() => {
@@ -92,12 +92,17 @@ export default function SimulatedExamRoom() {
         okText="Bắt đầu ngay"
         cancelText="Hủy"
         okButtonProps={{
-          className: "bg-[#45368f] hover:bg-[#372a73] text-white",
+          className: "!bg-blue-900 hover:bg-[#372a73] text-white",
         }}
       >
         <div className="space-y-3 text-gray-700 text-[15px]">
+          <div className="flex justify-center">
+            <p className="text-2xl uppercase font-semibold text-blue-900">Xác nhận đã sẵn sàng</p>
+          </div>
           {/* <p>Bạn đã sẵn sàng bắt đầu bài thi mô phỏng chưa?</p> */}
-          <p>Bài thi sẽ bao gồm các kỹ năng, theo thứ tự sau:</p>
+          <strong>Bài thi sẽ kéo dài 140 phút. Không được thoát giữa chừng khi thi</strong>
+
+          <p className="mt-2">Bài thi sẽ bao gồm các kỹ năng, theo thứ tự sau:</p>
           <ul className="list-decimal list-inside ml-2">
             <li>
               <strong>Listening</strong> – Nghe hiểu
@@ -113,7 +118,7 @@ export default function SimulatedExamRoom() {
             </li>
           </ul>
           <p>
-            <strong className="text-purple-700">Lưu ý:</strong> Đề thi sẽ được
+            <strong className="text-blue-900">Lưu ý:</strong> Đề thi sẽ được
             hệ thống
             <strong> chọn ngẫu nhiên </strong>
             dựa trên <strong>key trung tâm đã cung cấp</strong>. Hãy đảm bảo bạn

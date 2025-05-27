@@ -36,10 +36,10 @@ export default function SpeakingPage() {
       speakingService
         .getSpeakingTestById({ speaking_test_id: randomId  })
         .then((res) => {
-          // dispatch(setSpeakingGroupedQuestions(res.data.questions));
           dispatch(setSpeakingGroupedQuestions(res.data.questions));
-          dispatch(setSpeakingCurrentPart("Part 4"));
-          dispatch(setSpeakingCurrentQuestionIndex(0));
+          // dispatch(setSpeakingGroupedQuestions(res.data.questions));
+          // dispatch(setSpeakingCurrentPart("Part 4"));
+          // dispatch(setSpeakingCurrentQuestionIndex(0));
         });
     }
   }, [stage]);
