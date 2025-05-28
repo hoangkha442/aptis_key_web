@@ -24,11 +24,12 @@ const Reading = () => {
     part4: [],
     part5: [],
   });
-
+  
   const [dropCounter, setDropCounter] = useState(0);
   const [dropCounter3, setDropCounter3] = useState(0);
   const [paragraphTexts, setParagraphTexts] = useState<{ [key: string]: string }>({});
-
+  
+  console.log('part5: ', readingParts.part5);
   useEffect(() => {
     if (!keyTestId) {
       navigate("/");
