@@ -22,7 +22,7 @@ type Props = {
 const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
   const [showViet, setShowViet] = useState<{ [key: number]: boolean }>({});
   const [showAnswer, setShowAnswer] = useState(false);
-
+  const [showPar, setShowPar] = useState(false)
   const sortedQuestions = [...questions].sort(
     (a, b) => a.sort_order - b.sort_order
   );
@@ -100,6 +100,14 @@ const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
         >
           {showAnswer ? "Ẩn đáp án" : "Hiển thị đáp án"}
         </Button>
+        <button
+          onClick={() => {
+            setShowPar(!showPar);
+          }}
+          className="mr-2 cursor-pointer rounded-lg border transition-all duration-500 border-[#45378f] py-2 px-4 text-[#45378f] font-medium hover:bg-[#45378f] hover:text-white"
+        >
+          {showPar ? "Ẩn đoạn văn" : "Hiển thị đoạn văn"}
+        </button>
       </div>
       {showAnswer &&
         (() => {
@@ -161,7 +169,7 @@ const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
         })()}
 
       {sortedQuestions.map((q, index) => (
-        <div key={q.sort_order} className="space-y-2 mb-6">
+        <div key={q.sort_order} className={`space-y-2 ${showPar ? "mb-6" : "mb-2"}`}>
           <div className="flex items-center space-x-2">
             <p className="font-medium">{index + 1}.</p>
             <Select
@@ -181,6 +189,8 @@ const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
               ))}
             </Select>
           </div>
+          {showPar &&
+          (
           <div className="my-2">
             <div className="text-gray-900">
               <p className="mb-2 text-base">{q.paragraph}</p>
@@ -204,6 +214,8 @@ const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
               </div>
             )}
           </div>
+
+          )}
         </div>
       ))}
     </div>
