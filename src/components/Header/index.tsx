@@ -18,10 +18,11 @@ import {
   InfoCircleOutlined,
   ExclamationCircleOutlined,
   CheckCircleTwoTone,
+  MenuOutlined,
 } from "@ant-design/icons";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useState, RefObject, useEffect } from "react";
-
+import { useMediaQuery } from "react-responsive";
 const { Header } = Layout;
 const { Text } = Typography;
 
@@ -50,11 +51,11 @@ export default function CustomHeader({
   const location = useLocation();
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
-
+  const isMobile = useMediaQuery({ query: "(max-width: 480px)" });
   const showModal = () => setIsModalVisible(true);
   const handleOk = () => setIsModalVisible(false);
   const handleCancel = () => setIsModalVisible(false);
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const handleMenuClick: MenuProps["onClick"] = ({ key }) => {
     if (key === "logout") {
       localStorage.removeItem("USER_LOCAL");
@@ -66,16 +67,15 @@ export default function CustomHeader({
       message.info("Tính năng chưa phát triển!");
     }
   };
-  useEffect(() => { 
-      localStorage.removeItem("writingUI");
-                      localStorage.removeItem("listening_key_test_id");
-                      localStorage.removeItem("reading_key_test_id");
-                      localStorage.removeItem("reading_answers");
-                      localStorage.removeItem("simulated_listening_answers");
-                      localStorage.removeItem("simulated_reading_answers");
-                      localStorage.removeItem("speakingUI");
-                      
-     },[])
+  useEffect(() => {
+    localStorage.removeItem("writingUI");
+    localStorage.removeItem("listening_key_test_id");
+    localStorage.removeItem("reading_key_test_id");
+    localStorage.removeItem("reading_answers");
+    localStorage.removeItem("simulated_listening_answers");
+    localStorage.removeItem("simulated_reading_answers");
+    localStorage.removeItem("speakingUI");
+  }, []);
 
   const generateBreadcrumbs = () => {
     const pathArray = location.pathname.split("/").filter(Boolean);
@@ -155,24 +155,114 @@ export default function CustomHeader({
     },
   ];
 
+  const sidebarMenuItems = [
+    {
+      key: "/",
+      label: <span>Trang chủ</span>,
+      onClick: () => navigate("/"),
+    },
+    {
+      key: "/courses",
+      label: <span>Khóa học của tôi</span>,
+      onClick: () => navigate("/courses"),
+    },
+    {
+      key: "/my-info",
+      label: <span>Thông tin cá nhân</span>,
+      onClick: () => navigate("/my-info"),
+    },
+    {
+      key: "/simulated-exam-room",
+      label: (
+        <span className="relative pb-2 border-b border-gray-300 underline-animated">
+          Phòng thi thực tế ảo
+        </span>
+      ),
+      onClick: () => navigate("/simulated-exam-room"),
+    },
+    {
+      key: "/auth/logout",
+      label: "Đăng xuất",
+      onClick: () => {
+        localStorage.removeItem("USER_LOCAL");
+        message.success("Đăng xuất thành công!");
+        navigate("/auth/login");
+      },
+      danger: true,
+    },
+  ];
   return (
     <Header
-      style={{
-        padding: "0 20px",
-        background: "#ffffff",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        borderBottom: "1px solid #f0f0f0",
-      }}
+      className={`!px-5 !bg-white !flex !items-center !border-b !border-[#f0f0f0] ${
+        isMobile ? "justify-end" : "!justify-between"
+      }`}
     >
-      <div ref={breadcrumbRef}>
-        <Breadcrumb
-          items={generateBreadcrumbs() ?? []}
-          style={{ fontSize: "14px" }}
-        />
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "32px" }}>
+      {isMobile ? (
+        <div className="flex items-center justify-start w-full">
+          <MenuOutlined
+            className="text-2xl cursor-pointer"
+            onClick={() => setMobileMenuOpen(true)}
+          />
+          <Modal
+            open={mobileMenuOpen}
+            onCancel={() => setMobileMenuOpen(false)}
+            footer={null}
+            closable={false}
+            width={"100%"}
+            style={{ top: 0, left: 8, position: "fixed" }}
+          >
+            <div className="flex flex-col gap-4 justify-center">
+              <p className="w-full flex justify-end">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                  }}
+                  className="py-2 px-4 rounded-lg text-white font-medium bg-blue-800"
+                >
+                  X
+                </button>
+              </p>
+              {sidebarMenuItems.map((item) =>
+                item.key === "divider" ? (
+                  <hr key={item.key} />
+                ) : (
+                  <button
+                    key={item.key}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      item.onClick();
+                    }}
+                    className={`flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-100 text-left justify-center 
+                      ${
+                        item.danger
+                          ? "text-red-600 font-semibold"
+                          : location.pathname === item.key
+                          ? "text-[#45378f] font-medium"
+                          : "text-gray-800"
+                      }
+                    `}
+                  >
+                    {item.label}
+                  </button>
+                )
+              )}
+            </div>
+          </Modal>
+        </div>
+      ) : (
+        <div ref={breadcrumbRef}>
+          <Breadcrumb
+            items={generateBreadcrumbs() ?? []}
+            style={{ fontSize: "14px" }}
+          />
+        </div>
+      )}
+
+      <div
+        className={`flex items-center gap-8 ${
+          isMobile ? "justify-end w-full" : ""
+        }`}
+      >
         <Tooltip
           title="PassKeyCenter chỉ cho phép 1 tài khoản được đăng nhập vào Website với tối đa 3 địa chỉ Wifi/4G (tính trên mọi thiết bị đăng nhập)"
           placement="bottomRight"
@@ -187,13 +277,17 @@ export default function CustomHeader({
             Login History
           </button>
         </Tooltip>
-        <button
-          ref={termsRef}
-          onClick={showModal}
-          className="cursor-pointer text-blue-800 font-medium"
-        >
-          Terms & Conditions
-        </button>
+        {isMobile ? (
+          <></>
+        ) : (
+          <button
+            ref={termsRef}
+            onClick={showModal}
+            className="cursor-pointer text-blue-800 font-medium"
+          >
+            Terms & Conditions
+          </button>
+        )}
 
         <div ref={avatarRef}>
           <Dropdown

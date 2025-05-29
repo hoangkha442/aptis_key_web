@@ -41,19 +41,19 @@ const Answer1 = ({ user, correct, questions }: Answer1Props) => {
                 : "bg-red-50 border-red-200"
             }`}
           >
-            <p className="text-base flex items-center">
+            <p className="sm:text-base text-xs flex items-center">
               {parts[0]}
-              <span className="font-semibold underline mx-1">
+              <span className="font-semibold underline mx-1 sm:text-base text-xs">
                 {userAnswer || <i>(bỏ trống)</i>}
               </span>
               {parts[1]}
-              <span className="ml-2 inline-flex items-center gap-1">
+              <span className="ml-2 inline-flex items-center gap-1 sm:text-base text-xs ">
                 {isCorrect ? (
                   <CheckCircleOutlined className="text-green-500" />
                 ) : (
                   <>
                     <CloseCircleOutlined className="!text-red-500" />
-                    <span className="text-base text-gray-800">
+                    <span className="sm:text-base text-xs  text-gray-800">
                       (Correct answer: {correctAnswer})
                     </span>
                   </>

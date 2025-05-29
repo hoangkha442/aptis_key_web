@@ -40,9 +40,9 @@ export default function Question3({ questions, slotAnswers, setSlotAnswers }: Qu
     .filter((q): q is Question => !!q)
     .map((q) => q.reading_part_3_id);
 
-    const unplacedQuestions = shuffledQuestions.filter(
-      (q) => !placedIds.includes(q.reading_part_3_id)
-    );
+  const unplacedQuestions = shuffledQuestions.filter(
+    (q) => !placedIds.includes(q.reading_part_3_id)
+  );
 
   const moveToSlot = (question: Question, from: "list" | number, to: number) => {
     const updated = { ...initializedSlotAnswers };
@@ -70,10 +70,9 @@ export default function Question3({ questions, slotAnswers, setSlotAnswers }: Qu
   return (
     <div className="space-y-4">
       <p className="font-semibold text-base my-5">{shuffledQuestions[0]?.description}</p>
-      <div className="flex gap-8">
-        
-        <div className="flex-1 space-y-2 border p-4 bg-gray-50 border-[#e5e7eb]">
-        <h3 className="text-sm mb-4 font-medium">{shuffledQuestions[0]?.name_of_test}</h3>
+      <div className="flex sm:gap-8 gap-3">
+        <div className="flex-1 space-y-2 border sm:p-4 p-2 bg-gray-50 border-[#e5e7eb]">
+          <h3 className="text-sm mb-4 font-medium">{shuffledQuestions[0]?.name_of_test}</h3>
           {allSlotIndexes.map((idx) => (
             <DropSlot
               key={idx}
@@ -87,8 +86,8 @@ export default function Question3({ questions, slotAnswers, setSlotAnswers }: Qu
           unplacedQuestions={unplacedQuestions}
           onDrop={(question, from) => {
             console.log('question: ', question);
-              if (typeof from === "number") {
-                  removeFromSlot(from);
+            if (typeof from === "number") {
+              removeFromSlot(from);
             }
           }}
         />
@@ -118,9 +117,9 @@ function DropListArea({
   return (
     <div
       ref={ref}
-      className="flex-1 space-y-2 border p-4 bg-gray-50 border-[#e5e7eb]"
+      className="flex-1 space-y-2 border sm:p-4 p-2 bg-gray-50 border-[#e5e7eb]"
     >
-            <div className=" mb-8"></div>
+      <div className=" mb-8"></div>
       {unplacedQuestions.map((q) => (
         <DraggableBlock key={q.reading_part_3_id} question={q} from="list" />
       ))}
@@ -148,10 +147,9 @@ function DraggableBlock({ question, from }: { question: Question; from: "list" |
 
   return (
     <div
-    ref={ref}
-    className={`flex items-center gap-1 p-3 border-1 bg-white border-dashed border-[#e5e7eb] cursor-move ${
-      isDragging ? "opacity-50" : ""
-    }`}
+      ref={ref}
+      className={`flex items-center gap-1 p-3 border-1 bg-white border-dashed border-[#e5e7eb] cursor-move sm:!text-sm !text-xs ${isDragging ? "opacity-50" : ""
+        }`}
     >
       {question.content}
     </div>
@@ -184,9 +182,8 @@ function DropSlot({
   return (
     <div
       ref={ref}
-      className={`flex items-center gap-1 border-1 bg-gray-100 border-dashed border-[#e5e7eb]  ${
-        isOver ? "bg-blue-100" : "bg-gray-50"
-      } ${answer ? "py-0" : "py-2"}`}
+      className={`flex items-center gap-1 border-1 bg-gray-100 border-dashed border-[#e5e7eb]  ${isOver ? "bg-blue-100" : "bg-gray-50"
+        } ${answer ? "py-0" : "py-2"}`}
     >
       <div className="flex-1">
         {answer ? (

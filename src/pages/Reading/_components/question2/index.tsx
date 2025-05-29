@@ -7,7 +7,7 @@ export type Question = {
   content: string;
   sort_order: number;
   description: string;
-  name_of_test: string
+  name_of_test: string;
 };
 
 type DragItem = {
@@ -23,7 +23,11 @@ type Question2Props = {
 function shuffleArray<T>(array: T[]): T[] {
   return [...array].sort(() => Math.random() - 0.5);
 }
-export default function Question2({ questions, slotAnswers, setSlotAnswers }: Question2Props) {
+export default function Question2({
+  questions,
+  slotAnswers,
+  setSlotAnswers,
+}: Question2Props) {
   const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([]);
 
   useEffect(() => {
@@ -45,7 +49,11 @@ export default function Question2({ questions, slotAnswers, setSlotAnswers }: Qu
     (q) => !placedIds.includes(q.reading_part_2_id)
   );
 
-  const moveToSlot = (question: Question, from: "list" | number, to: number) => {
+  const moveToSlot = (
+    question: Question,
+    from: "list" | number,
+    to: number
+  ) => {
     const updated = { ...initializedSlotAnswers };
 
     if (typeof from === "number") {
@@ -70,10 +78,14 @@ export default function Question2({ questions, slotAnswers, setSlotAnswers }: Qu
 
   return (
     <div className="space-y-4">
-      <p className="font-semibold text-base my-5">{questions[0]?.description}</p>
-      <div className="flex gap-8">
-        <div className="flex-1 space-y-2 border p-4 bg-gray-50 border-[#e5e7eb]">
-          <h3 className="text-sm mb-4 font-medium">{questions[0]?.name_of_test}</h3>
+      <p className="font-semibold text-base my-5">
+        {questions[0]?.description}
+      </p>
+      <div className="flex sm:gap-8 gap-3">
+        <div className="flex-1 space-y-2 border sm:p-4 p-2 bg-gray-50 border-[#e5e7eb]">
+          <h3 className="text-sm mb-4 font-medium">
+            {questions[0]?.name_of_test}
+          </h3>
           {allSlotIndexes.map((idx) => (
             <DropSlot
               key={idx}
@@ -86,9 +98,9 @@ export default function Question2({ questions, slotAnswers, setSlotAnswers }: Qu
         <DropListArea
           unplacedQuestions={unplacedQuestions}
           onDrop={(question, from) => {
-              if (typeof from === "number") {
-                  removeFromSlot(from);
-                  console.log('question: ', question);
+            if (typeof from === "number") {
+              removeFromSlot(from);
+              console.log("question: ", question);
             }
           }}
         />
@@ -118,23 +130,35 @@ function DropListArea({
   return (
     <div
       ref={ref}
-      className="flex-1 space-y-2 border p-4 bg-gray-50 border-[#e5e7eb]"
+      className="flex-1 space-y-2 border sm:p-4 p-2 bg-gray-50 border-[#e5e7eb]"
     >
-      <div className=" mb-8"></div>
+      <div className="mb-8"></div>
       {unplacedQuestions.map((q) => (
         <DraggableBlock key={q.reading_part_2_id} question={q} from="list" />
       ))}
       {unplacedQuestions.length === 0 && (
-        <p className="italic text-sm text-gray-500">All paragraphs have been placed.</p>
+        <p className="italic text-sm text-gray-500">
+          All paragraphs have been placed.
+        </p>
       )}
     </div>
   );
 }
 
-function DraggableBlock({ question, from }: { question: Question; from: "list" | number }) {
+function DraggableBlock({
+  question,
+  from,
+}: {
+  question: Question;
+  from: "list" | number;
+}) {
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const [{ isDragging }, drag] = useDrag<DragItem, void, { isDragging: boolean }>({
+  const [{ isDragging }, drag] = useDrag<
+    DragItem,
+    void,
+    { isDragging: boolean }
+  >({
     type: "QUESTION",
     item: { question, from },
     collect: (monitor) => ({
@@ -147,7 +171,7 @@ function DraggableBlock({ question, from }: { question: Question; from: "list" |
   return (
     <div
       ref={ref}
-      className={`flex items-center gap-1 p-3 border-1 bg-white border-dashed border-[#e5e7eb] cursor-move ${
+      className={`flex items-center gap-1 p-3 border-1 bg-white border-dashed border-[#e5e7eb] cursor-move sm:!text-sm !text-xs ${
         isDragging ? "opacity-50" : ""
       }`}
     >

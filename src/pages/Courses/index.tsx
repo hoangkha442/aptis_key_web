@@ -6,7 +6,8 @@ import { readingService } from "../../config/readingServices";
 import { listeningService } from "../../config/listeningServices";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from "react-helmet-async";
+import { useMediaQuery } from "react-responsive";
 const { Title } = Typography;
 
 interface TestModule {
@@ -28,6 +29,7 @@ export default function Courses() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const token = useSelector((state: RootState) => state.auth.token);
+  const isMobile = useMediaQuery({ query: "(max-width: 480px)" });
 
   useEffect(() => {
     const fetchModules = async () => {
@@ -92,14 +94,16 @@ export default function Courses() {
 
   const columns = [
     {
-      title: <p className="font-semibold text-lg">Practice Modules</p>,
+      title: (
+        <p className="font-semibold sm:!text-lg !text-xs">Practice Modules</p>
+      ),
       key: "index",
       dataIndex: "index",
-      render: (index: number) => <span className="">Key test {index + 1}</span>,
+      render: (index: number) => <span className="sm:!text-base !text-xs">Key test {index + 1}</span>,
     },
     {
       title: (
-        <div className="flex items-center gap-2 font-semibold text-lg justify-center">
+        <div className="flex items-center gap-2 font-semibold sm:!text-lg !text-xs justify-center">
           <BookOutlined /> Reading
         </div>
       ),
@@ -110,7 +114,7 @@ export default function Courses() {
           <div className="flex flex-col items-center w-full">
             <Button
               type="primary"
-              className="!bg-[#45368f] w-full"
+              className={`!bg-[#45368f] w-full sm:!text-base !text-xs ${isMobile ? "!py-0" : "py-2"}`}
               onClick={() => handleTakeTest("reading", reading.test_id)}
             >
               Take test
@@ -120,7 +124,7 @@ export default function Courses() {
     },
     {
       title: (
-        <div className="flex items-center gap-2 font-semibold text-lg justify-center">
+        <div className="flex items-center gap-2 font-semibold sm:!text-lg !text-xs justify-center">
           🎧 Listening
         </div>
       ),
@@ -131,7 +135,7 @@ export default function Courses() {
           <div className="flex flex-col items-center w-full">
             <Button
               type="primary"
-              className="!bg-[#45368f] w-full"
+              className="!bg-[#45368f] w-full sm:!text-base !text-xs"
               onClick={() => handleTakeTest("listening", listening.test_id)}
             >
               Take test
@@ -150,9 +154,12 @@ export default function Courses() {
   return (
     <section className="flex flex-col">
       <Helmet>
-  <title>Khóa học của tôi | PassKey Center</title>
-  <meta name="description" content="Xem danh sách các Key-test chuẩn thi 100%. Cập nhật tiến độ học tập tại PassKey Center." />
-</Helmet>
+        <title>Khóa học của tôi | PassKey Center</title>
+        <meta
+          name="description"
+          content="Xem danh sách các Key-test chuẩn thi 100%. Cập nhật tiến độ học tập tại PassKey Center."
+        />
+      </Helmet>
 
       <div
         onClick={() =>
@@ -161,7 +168,7 @@ export default function Courses() {
             "_blank"
           )
         }
-        className="flex items-center justify-between mb-6 hover:shadow cursor-pointer transition border border-gray-100 p-6 bg-white rounded-md shadow-sm"
+        className="flex items-center justify-between mb-6 hover:shadow cursor-pointer transition border border-gray-100 sm:p-6 p-4 bg-white rounded-md shadow-sm"
       >
         <div className="flex items-center gap-2">
           <div className="bg-purple-100 p-2 rounded-full">
@@ -169,28 +176,30 @@ export default function Courses() {
               📣
             </span>
           </div>
-          <span className="text-xl font-semibold">
+          <span className="sm:text-xl text-xs font-semibold">
             Speaking and Writing Practice
           </span>
         </div>
-        <span className="text-blue-700 font-semibold text-lg hover:text-blue-800 transition-all duration-500">Start Practice →</span>
+        <span className="text-blue-700 font-semibold sm:text-xl text-xs hover:text-blue-800 transition-all duration-500">
+          Start Practice →
+        </span>
       </div>
 
-      <div className="p-6 bg-white rounded-md shadow-sm border border-gray-100">
-        <div className="mb-6 flex items-center justify-between">
-          <Title level={4} className="m-0">
+      <div className="sm:p-6 p-3 bg-white rounded-md shadow-sm border border-gray-100">
+        <div className="sm:mb-6 mb-0 flex items-center justify-between">
+          <Title className="m-0 sm:!text-2xl !text-sm">
             Reading & Listening Practice
           </Title>
         </div>
-
-        <Table
+        <div id={`${isMobile}`}>
+          <Table
           dataSource={paginatedData}
           columns={columns}
           pagination={false}
           rowKey="key"
           loading={loading}
         />
-
+        </div>
         <div className="mt-4 flex justify-end">
           <Pagination
             current={currentPage}

@@ -4,6 +4,14 @@ html {
   scroll-behavior: smooth;
 }
 
+#true .ant-table-thead .ant-table-cell,
+#true .ant-table-tbody .ant-table-cell{
+  padding: 12px 6px !important;
+}
+#true .ant-table-tbody .ant-table-cell button{
+  height: 30px !important;
+}
+
 
 .animate-floatY {
   animation: floatY 2s ease-in-out infinite;

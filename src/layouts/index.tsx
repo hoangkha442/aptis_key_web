@@ -1,88 +1,3 @@
-// import { ReactNode, useEffect, useRef, useState } from "react";
-// import { Layout, ConfigProvider, Tour, TourProps } from "antd";
-// import SideBar from "../components/SideBar";
-// import Header from "../components/Header";
-// import '@ant-design/v5-patch-for-react-19';
-// import { authServices } from "../config/authServices";
-// import { userLocalStorage } from "../config/userLocal";
-
-// const { Content } = Layout;
-
-// interface LayoutProps {
-//   children: ReactNode;
-// }
-
-// const Layouts = ({ children }: LayoutProps) => {
-//   const [user, setUser] = useState<null | any>(null);
-//   const [openTour, setOpenTour] = useState(false);
-
-//   // Ref đúng kiểu: RefObject<T | null>
-//   const breadcrumbRef = useRef<HTMLDivElement | null>(null);
-//   const avatarRef = useRef<HTMLDivElement | null>(null);
-//   const termsRef = useRef<HTMLButtonElement | null>(null);
-//   const menuRef = useRef<HTMLDivElement | null>(null);
-
-//   useEffect(() => {
-//     const token = userLocalStorage.get()?.token;
-//     if (token) {
-//       authServices.getUserInfo(token)
-//         .then((res) => setUser(res.data))
-//         .catch(console.log);
-//     }
-
-//     const hasSeenTour = localStorage.getItem("hasSeenTour");
-//     if (!hasSeenTour) {
-//       setOpenTour(true);
-//       localStorage.setItem("hasSeenTour", "true");
-//     }
-//   }, []);
-
-//   const steps: TourProps["steps"] = [
-//   {
-//     title: "Thanh điều hướng",
-//     description: "Đây là nơi bạn chọn truy cập các khu vực chính như Trang chủ, Khóa học...",
-//     target: () => menuRef.current as HTMLElement,
-//   },
-//   {
-//     title: "Vị trí hiện tại",
-//     description: "Bạn đang ở đâu? Breadcrumb sẽ chỉ rõ cho bạn.",
-//     target: () => breadcrumbRef.current as HTMLElement,
-//   },
-//   {
-//     title: "Tài khoản người dùng",
-//     description: "Thông tin cá nhân và tùy chọn như đổi mật khẩu, đăng xuất.",
-//     target: () => avatarRef.current as HTMLElement,
-//   },
-//   {
-//     title: "Chính sách học tập",
-//     description: "Nhấn vào đây để xem cam kết và điều kiện hoàn học phí.",
-//     target: () => termsRef.current as HTMLElement,
-//   },
-// ];
-
-//   return (
-//     <div>
-//       <ConfigProvider componentSize="large">
-//         <Layout className="!h-screen">
-//           <SideBar menuRef={menuRef} />
-//           <Layout>
-//             <Header
-//               user={user}
-//               breadcrumbRef={breadcrumbRef}
-//               avatarRef={avatarRef}
-//               termsRef={termsRef}
-//             />
-//             <Content className="!m-[24px_16px] !p-6 !min-h-[280px] !bg-white !rounded-lg !relative !overflow-y-auto">
-//               {children}
-//               <Tour open={openTour} onClose={() => setOpenTour(false)} steps={steps} />
-//             </Content>
-//           </Layout>
-//         </Layout>
-//       </ConfigProvider>
-//     </div>
-//   );
-// };
-
 import { ReactNode, useEffect, useRef, useState } from "react";
 import {
   Layout,
@@ -127,6 +42,8 @@ const Layouts = ({ children }: LayoutProps) => {
   const toggleRef = useRef<HTMLButtonElement | null>(null);
   const userSessionsRef = useRef<HTMLButtonElement | null>(null);
   const [sessions, setSessions] = useState<any[]>([]);
+  const isMobile = useMediaQuery({ query: "(max-width: 480px)" });
+
   const reopenWelcome = () => {
     setShowWelcome(true);
   };
@@ -151,6 +68,9 @@ const Layouts = ({ children }: LayoutProps) => {
       setShowWelcome(true);
     }
   }, []);
+  useEffect(() => {
+    if (isMobile) setOpenTour(false);
+  }, [isMobile]);
 
   const steps: TourProps["steps"] = [
     {
@@ -175,7 +95,8 @@ const Layouts = ({ children }: LayoutProps) => {
     },
     {
       title: "Phòng thi thực tế ảo",
-      description: "Trải nghiệm môi trường thi mô phỏng sát thực tế, giúp bạn luyện tập và tự đánh giá trước kỳ thi chính thức.",
+      description:
+        "Trải nghiệm môi trường thi mô phỏng sát thực tế, giúp bạn luyện tập và tự đánh giá trước kỳ thi chính thức.",
       target: () => simulatedExamRoom.current as HTMLElement,
     },
     // simulatedExamRoom
@@ -292,31 +213,28 @@ const Layouts = ({ children }: LayoutProps) => {
           className="py-20"
         >
           <div className="flex items-center">
-            <div className="w-[500px] h-[400px]">
+            <div className="sm:w-[500px] sm:h-[400px] w-[250px] h-[200px]">
               <img
-                src={mascot} 
+                src={mascot}
                 alt="Mascot"
-                className="w-full h-full object-cover"
-                style={{
-                  marginBottom: 24,
-                  borderRadius: 12,
-                }}
+                className="w-full h-full object-cover mb-6"
+               
               />
             </div>
 
             <div className="">
-              <div className="mb-4 text-7xl">
-                <h2 className="text-6xl font-bold">
+              <div className="mb-4 sm:text-7xl text-3xl">
+                <h2 className="sm:text-6xl text-2xl font-bold">
                   Nền tảng{" "}
-                  <span className="font-bold text-7xl text-blue-800">Học</span>{" "}
+                  <span className="font-bold sm:text-7xl text-3xl text-blue-800">Học</span>{" "}
                   <br />
                   và{" "}
-                  <span className="font-bold text-7xl text-blue-800">
+                  <span className="font-bold sm:text-7xl text-3xl text-blue-800">
                     Luyện thi
                   </span>{" "}
                   <br />
                   <span
-                    className="font-bold text-7xl text-orange-700"
+                    className="font-bold sm:text-7xl text-3xl text-orange-700"
                     style={{
                       display: "inline-block",
                       marginTop: 4,
@@ -326,14 +244,8 @@ const Layouts = ({ children }: LayoutProps) => {
                   </span>
                 </h2>
               </div>
-
               <p
-                style={{
-                  fontSize: 17,
-                  color: "#555",
-                  marginBottom: 32,
-                  marginTop: 10,
-                }}
+                className="sm:text-[17px] text-xs text-[#555] mt-[10px] mb-8"
               >
                 Chào mừng bạn đến với <strong>PassKey Center</strong> – nơi bạn
                 <strong> học gì, thi nấy</strong>.<br />
@@ -343,7 +255,7 @@ const Layouts = ({ children }: LayoutProps) => {
             </div>
           </div>
           <div className="flex justify-center">
-            <Button
+            {isMobile? <Button
               type="primary"
               size="large"
               style={{
@@ -360,7 +272,22 @@ const Layouts = ({ children }: LayoutProps) => {
               }}
             >
               KHÁM PHÁ NGAY
-            </Button>
+            </Button> : <Button
+              type="primary"
+              size="large"
+              style={{
+                padding: "10px 32px",
+                fontWeight: 600,
+                fontSize: 16,
+                borderRadius: 30,
+                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+              }}
+              onClick={() => {
+                setShowWelcome(false);
+              }}
+            >
+              KHÁM PHÁ NGAY
+            </Button>}
           </div>
         </Modal>
         {/* Phiên bản đăng nhập */}
@@ -381,16 +308,19 @@ const Layouts = ({ children }: LayoutProps) => {
         </Modal>
 
         <Layout className="!h-screen">
-          <SideBar
-            homeRef={homeRef}
-            coursesRef={coursesRef}
-            scheduleRef={scheduleRef}
-            myInfoRef={myInfoRef}
-            simulatedExamRoom={simulatedExamRoom} 
-            toggleRef={toggleRef}
-            setOpenTour={setOpenTour}
-            reopenWelcome={reopenWelcome}
-          />
+          {!isMobile && (
+            <SideBar
+              homeRef={homeRef}
+              coursesRef={coursesRef}
+              scheduleRef={scheduleRef}
+              myInfoRef={myInfoRef}
+              simulatedExamRoom={simulatedExamRoom}
+              toggleRef={toggleRef}
+              setOpenTour={setOpenTour}
+              reopenWelcome={reopenWelcome}
+            />
+          )}
+
           <Layout>
             <Header
               user={user}
@@ -402,11 +332,13 @@ const Layouts = ({ children }: LayoutProps) => {
             />
             <Content className="!m-[24px_16px] !p-6 !min-h-[280px] !bg-white !rounded-lg !relative !overflow-y-auto">
               {children}
-              <Tour
-                open={openTour}
-                onClose={() => setOpenTour(false)}
-                steps={steps}
-              />
+              {!isMobile && (
+                <Tour
+                  open={openTour}
+                  onClose={() => setOpenTour(false)}
+                  steps={steps}
+                />
+              )}
             </Content>
           </Layout>
         </Layout>

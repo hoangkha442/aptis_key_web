@@ -60,7 +60,6 @@ const ListeningPagination = ({ total }: { total: number }) => {
         JSON.stringify(answers)
       );
 
-      // Optionally vẫn lưu lại localStorage để backup
       localStorage.setItem("reading_key_test_id", String(readingId));
 
       navigate("/simulated-exam-room/reading/intro", {

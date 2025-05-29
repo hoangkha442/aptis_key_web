@@ -20,11 +20,11 @@ type Props = {
 
 const Question4: React.FC<Props> = ({ questions, valueMap, onChange, texts }) => {
   return (
-    <div className="space-y-6">
-      <h3 className="font-semibold text-base my-5">{questions[0]?.description}:</h3>
+    <div className="sm:space-y-6 space-y-4">
+      <h3 className="font-semibold sm:text-base text-sm my-5">{questions[0]?.description}:</h3>
       <div className="space-y-2">
         {Object.entries(texts).map(([key, text]) => (
-          <p key={key} className="text-black whitespace-pre-line">
+          <p key={key} className="text-black whitespace-pre-line sm:text-base text-xs">
             {text}
           </p>
         ))}
@@ -33,8 +33,8 @@ const Question4: React.FC<Props> = ({ questions, valueMap, onChange, texts }) =>
       {/* <h3 className="font-semibold text-lg">Choose the correct answer for each question:</h3> */}
       <div className="space-y-4">
         {questions?.map((q, index) => (
-          <div key={q.reading_part_4_id} className="space-y-1 flex gap-2 items-center">
-            <p className="font-normal"><span className="font-semibold">{index + 1}.</span> {q.content}</p>
+          <div key={q.reading_part_4_id} className="sm:space-y-1 space-y-0 flex gap-2 items-center">
+            <p className="font-normal sm:text-base text-sm"><span className="font-semibold">{index + 1}.</span> {q.content}</p>
             {/* <p className="font-medium">{q.content}</p> */}
             <Select
               placeholder="Chọn đáp án"

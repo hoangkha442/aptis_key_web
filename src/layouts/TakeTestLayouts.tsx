@@ -187,7 +187,7 @@ const CountdownAndPagination = () => {
   return (
     <div className="w-full flex justify-between items-center">
       <div className="text-sm font-semibold text-red-600">
-        Còn lại: <span className="text-lg">{formatTime(timeLeft)}</span>
+        <span className="text-lg">{formatTime(timeLeft)}</span>
       </div>
 
       <div className="flex justify-center gap-4 mt-2">

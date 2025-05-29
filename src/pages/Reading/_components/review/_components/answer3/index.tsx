@@ -32,7 +32,7 @@ const Answer3 = ({ user, correct, questions }: Answer3Props) => {
       </div>
       
       <p className="font-semibold text-base my-5">{questions[0]?.description}</p>
-      <div className="flex gap-12">
+      <div className="flex sm:gap-12 gap-4">
         {/* User Answer */}
         <div className="flex-1">
           <h3 className="text-sm mb-4 font-medium text-gray-600">Your answer:</h3>
@@ -44,7 +44,7 @@ const Answer3 = ({ user, correct, questions }: Answer3Props) => {
               return (
                 <div
                   key={idx}
-                  className={`flex items-start gap-2 p-3 border border-dashed text-sm ${
+                  className={`flex items-start gap-2 p-3 border border-dashed sm:text-sm text-xs${
                     isCorrect
                       ? "border-green-400 bg-green-50"
                       : "bg-red-50 border-red-300"
@@ -53,7 +53,7 @@ const Answer3 = ({ user, correct, questions }: Answer3Props) => {
                   <div className="text-red-500 font-bold w-4">
                     {isCorrect ? "✔" : "✘"}
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 sm:text-base text-xs">
                     <span className="font-medium mr-1">{idx}.</span>
                     {answer?.content || <i className="text-gray-400">(bỏ trống)</i>}
                   </div>
@@ -65,7 +65,7 @@ const Answer3 = ({ user, correct, questions }: Answer3Props) => {
 
         {/* Correct Answer */}
         <div className="flex-1">
-          <h3 className="text-sm mb-4 font-medium text-gray-600">Correct answer:</h3>
+          <h3 className="sm:text-sm text-xs mb-4 font-medium text-gray-600">Correct answer:</h3>
           <div className="space-y-2">
             {allSlotIndexes.map((idx) => {
               const correctContent = getCorrectQuestion(idx)?.content;
@@ -74,8 +74,7 @@ const Answer3 = ({ user, correct, questions }: Answer3Props) => {
                   key={idx}
                   className="flex items-start gap-2 p-3 border border-dashed border-[#e5e7eb] bg-white text-sm"
                 >
-                  <div className="w-4" />
-                  <div className="flex-1">
+                  <div className="flex-1 sm:text-sm text-xs">
                     <span className="font-medium mr-1">{idx}.</span>
                     {correctContent}
                   </div>

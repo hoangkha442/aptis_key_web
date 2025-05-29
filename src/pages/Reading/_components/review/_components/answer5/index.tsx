@@ -10,17 +10,16 @@ type Question = {
 
 type Answer5Props = {
   questions: Question[];
-  user: Record<number, string>; // { sort_order: heading_id }
+  user: Record<number, string>; 
 };
 
 const Answer5 = ({ questions, user }: Answer5Props) => {
-  // headingMap: heading_id (string) -> heading content
   const headingMap: Record<string, string> = {};
   const correctMap: Record<number, string> = {};
 
   questions.forEach((q) => {
     headingMap[q.reading_part_5_id.toString()] = q.content;
-    correctMap[q.sort_order] = q.reading_part_5_id.toString(); // convert ID to string
+    correctMap[q.sort_order] = q.reading_part_5_id.toString(); 
   });
 
   const totalPoint = questions.reduce((sum, q) => {
@@ -38,7 +37,6 @@ const Answer5 = ({ questions, user }: Answer5Props) => {
 
       <p className="font-medium text-base">{questions[0]?.description}</p>
       <p className="text-xl font-semibold">{questions[0]?.name_of_test}</p>
-
       {questions
         .sort((a, b) => a.sort_order - b.sort_order)
         .map((q) => {
@@ -47,8 +45,8 @@ const Answer5 = ({ questions, user }: Answer5Props) => {
           const isCorrect = userAnswerId === correctAnswerId;
 
           return (
-            <div key={q.sort_order} className="flex items-start gap-2 text-base">
-              <div className="flex items-center gap-3 w-1/2">
+            <div key={q.sort_order} className="flex sm:flex-row flex-col items-start sm:gap-2 gap-0 text-base">
+              <div className="flex items-center gap-3 sm:w-1/2 w-full">
                 <p className="font-semibold">{q.sort_order}.</p>
                 <Select
                   value={userAnswerId || "no_answer"}
@@ -80,7 +78,7 @@ const Answer5 = ({ questions, user }: Answer5Props) => {
                 </span>
               </div>
 
-              <div className="text-green-600 w-1/2">
+              <div className="text-green-600 sm:w-1/2 w-full">
                 Correct answer:{" "}
                 <span className="font-bold">
                   {headingMap[correctAnswerId] || <i>(Không tìm thấy đáp án)</i>}

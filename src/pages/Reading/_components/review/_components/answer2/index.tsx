@@ -32,7 +32,7 @@ const Answer2 = ({ user, correct, questions }: Answer2Props) => {
 
       <p className="font-semibold text-base my-5">{questions[0]?.description}</p>
 
-      <div className="flex gap-12">
+      <div className="flex sm:gap-12 gap-4">
         {/* User Answer */}
         <div className="flex-1">
           <h3 className="text-sm mb-4 font-medium text-gray-600">Your answer:</h3>
@@ -44,7 +44,7 @@ const Answer2 = ({ user, correct, questions }: Answer2Props) => {
               return (
                 <div
                   key={idx}
-                  className={`flex items-start gap-2 p-3 border border-dashed text-sm ${
+                  className={`flex items-start gap-2 p-3 border border-dashed sm:text-base text-xs  ${
                     isCorrect
                       ? "border-green-400 bg-green-50"
                       : "bg-red-50 border-red-300"
@@ -54,8 +54,8 @@ const Answer2 = ({ user, correct, questions }: Answer2Props) => {
                     {isCorrect ? "✔" : "✘"}
                   </div>
                   <div className="flex-1">
-                    <span className="font-medium mr-1">{idx}.</span>
-                    {answer?.content || <i className="text-gray-400">(bỏ trống)</i>}
+                    <span className="font-medium sm:text-base text-xs mr-1">{idx}.</span>
+                    {answer?.content || <i className="text-gray-400 sm:text-base text-xs">(bỏ trống)</i>}
                   </div>
                 </div>
               );
@@ -74,8 +74,7 @@ const Answer2 = ({ user, correct, questions }: Answer2Props) => {
                   key={idx}
                   className="flex items-start gap-2 p-3 border border-dashed border-[#e5e7eb] bg-white text-sm"
                 >
-                  <div className="w-4" />
-                  <div className="flex-1">
+                  <div className="flex-1 sm:text-base text-xs">
                     <span className="font-medium mr-1">{idx}.</span>
                     {correctContent}
                   </div>

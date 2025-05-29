@@ -145,11 +145,11 @@ const ReadingReview = () => {
       <h2 className="text-2xl font-bold text-center mb-6">
         Review reading {readingParts?.part1[0]?.reading_test_id}
       </h2>
-      <div className="flex gap-6">
-        <div className="w-4/5">{renderCurrentAnswer()}</div>
-        <div className="w-1/5 py-1 px-2">
+      <div className="flex sm:flex-row flex-col gap-6">
+        <div className="sm:w-4/5 w-full">{renderCurrentAnswer()}</div>
+        <div className="sm:w-1/5 w-full py-1 px-2">
           <h4 className="font-semibold mb-2">Quiz navigation</h4>
-          <div className="grid grid-cols-4 gap-2 border-1 bg-gray-50 border-dashed border-[#d8d8da] rounded p-6">
+          <div className="grid sm:grid-cols-4 grid-cols-5 gap-2 border-1 bg-gray-50 border-dashed border-[#d8d8da] rounded p-6">
             {[1, 2, 3, 4, 5].map((part) => (
               <button
                 key={part}

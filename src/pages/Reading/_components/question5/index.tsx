@@ -89,8 +89,8 @@ const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
         {sortedQuestions[0]?.description}
       </h3>
 
-      <div className="flex gap-2">
-        <p className="text-2xl">{sortedQuestions[0]?.name_of_test}</p>
+      <div className="flex gap-2 items-center">
+        <p className="sm:text-2xl text-lg">{sortedQuestions[0]?.name_of_test}</p>
         <Button
           size="large"
           onClick={() => {
@@ -123,17 +123,17 @@ const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
           return (
             <div className="mt-2 bg-blue-50 border border-blue-200 p-3 rounded-xl shadow-sm">
               <div className="flex items-center mb-2 gap-2">
-                <span className="inline-block text-blue-600 font-bold text-lg">
+                <span className="inline-block text-blue-600 font-bold sm:text-lg text-base">
                   Đáp án
                 </span>
               </div>
-              <div className="space-y-2 ml-2">
+              <div className="sm:space-y-2 space-y-1 ml-2">
                 {enShort && (
                   <div>
                     <span className="font-semibold text-gray-700">
                       Tiếng Anh:
                     </span>
-                    <span className="ml-2 text-gray-900 font-bold">
+                    <span className="ml-2 text-gray-900 font-bold sm:text-base text-xs">
                       {enShort}
                     </span>
                   </div>
@@ -143,7 +143,7 @@ const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
                     <span className="font-semibold text-gray-700">
                       Tiếng Việt:
                     </span>
-                    <span className="ml-2 text-gray-900 font-bold">
+                    <span className="ml-2 text-gray-900 font-bold m:text-base text-xs">
                       {viShort}
                     </span>
                   </div>
@@ -153,7 +153,7 @@ const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
                     <span className="font-semibold text-gray-700">
                       Giải thích:
                     </span>
-                    <span className="ml-2 text-gray-900">
+                    <span className="ml-2 text-gray-900 m:text-base text-xs">
                       {highlightKeywords(explanation, keywords)}
                     </span>
                   </div>
@@ -193,7 +193,7 @@ const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
           (
           <div className="my-2">
             <div className="text-gray-900">
-              <p className="mb-2 text-base">{q.paragraph}</p>
+              <p className="mb-2 sm:text-base text-xs">{q.paragraph}</p>
               <Button
                 size="middle"
                 onClick={() => handleShowViet(q.sort_order)}
@@ -209,7 +209,7 @@ const Question5: React.FC<Props> = ({ questions, valueMap, onChange }) => {
                 <strong>Đoạn văn tiếng Việt:</strong>
                 <div className="flex gap-2">
                   <p className="font-medium">{index + 1}.</p>
-                  <p>{q.vietnam_paragraph}</p>
+                  <p className="sm:text-base text-xs">{q.vietnam_paragraph}</p>
                 </div>
               </div>
             )}
