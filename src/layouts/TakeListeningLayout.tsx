@@ -125,7 +125,7 @@ const ListeningPagination = ({ total }: { total: number }) => {
       <button
         disabled={activePart <= 1}
         onClick={handlePrev}
-        className="px-[15px] py-[7px] bg-white border transition-all duration-500 border-[#d9d9d9] rounded-lg hover:border-blue-500 hover:text-blue-500 text-lg cursor-pointer"
+        className="sm:px-4 sm:py-2 px-2 py-1 bg-white border transition-all duration-500 border-[#d9d9d9] rounded-lg hover:border-blue-500 hover:text-blue-500 sm:text-lg text-base cursor-pointer"
       >
         Previous
       </button>
@@ -133,7 +133,7 @@ const ListeningPagination = ({ total }: { total: number }) => {
         <>
           <button
             onClick={handleNext}
-            className="px-[15px] py-[7px] bg-[#45368f] text-white rounded-lg hover:bg-[#372a73] text-lg cursor-pointer"
+            className="sm:px-4 sm:py-2 px-2 py-1 bg-[#45368f] text-white rounded-lg hover:bg-[#372a73] sm:text-lg text-base cursor-pointer"
           >
             Next
           </button>
@@ -143,7 +143,7 @@ const ListeningPagination = ({ total }: { total: number }) => {
               localStorage.removeItem("listening_key_test_id");
               navigate("/courses");
             }}
-            className="px-4 py-2 bg-gray-300 rounded-lg text-lg cursor-pointer"
+            className="sm:px-4 sm:py-2 px-2 py-1 bg-gray-300 rounded-lg sm:text-lg text-base cursor-pointer"
           >
             Back to courses
           </button>
@@ -151,14 +151,14 @@ const ListeningPagination = ({ total }: { total: number }) => {
       ) : activePart < total ? (
         <button
           onClick={handleNext}
-          className="px-4 py-2 bg-[#45368f] text-white rounded-lg text-lg cursor-pointer"
+          className="sm:px-4 sm:py-2 px-2 py-1 bg-[#45368f] text-white rounded-lg sm:text-lg text-base cursor-pointer"
         >
           Next
         </button>
       ) : (
         <button
           onClick={handleSubmit}
-          className="px-4 py-2 bg-[#45368f] text-white rounded-lg text-lg  cursor-pointer"
+          className="sm:px-4 sm:py-2 px-2 py-1 bg-[#45368f] text-white rounded-lg sm:text-lg text-base  cursor-pointer"
         >
           Submit
         </button>
