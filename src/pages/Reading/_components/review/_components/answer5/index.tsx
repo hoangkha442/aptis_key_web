@@ -34,7 +34,6 @@ const Answer5 = ({ questions, user }: Answer5Props) => {
         <h3 className="text-xl font-bold">Question 5 of 5</h3>
         <div className="text-red-500 text-lg">Point: {totalPoint}</div>
       </div>
-
       <p className="font-medium text-base">{questions[0]?.description}</p>
       <p className="text-xl font-semibold">{questions[0]?.name_of_test}</p>
       {questions
