@@ -4,6 +4,7 @@ import { authServices } from "../../config/authServices";
 import { userServices } from "../../config/userServices";
 import { userLocalStorage } from "../../config/userLocal";
 import { Helmet } from "react-helmet-async";
+import Title from "antd/es/typography/Title";
 
 export default function MyInfo() {
   const [infoForm] = Form.useForm();
@@ -80,7 +81,7 @@ export default function MyInfo() {
   // if (loading) return <Spin className="block mx-auto mt-10" />;
 
   return (
-    <div className="max-w-4xl mx-auto p-4 flex gap-5">
+    <div className="max-w-4xl mx-auto p-4 flex sm:flex-row flex-col sm:gap-5 gap-2">
       <Helmet>
         <title>Thông tin cá nhân | PassKey Center</title>
         <meta
@@ -88,8 +89,8 @@ export default function MyInfo() {
           content="Xem và cập nhật hồ sơ cá nhân của bạn: tên, email, tài khoản học viên và lịch sử học tập tại PassKey Center."
         />
       </Helmet>
-
-      <Card title="Thông tin cá nhân" className="w-1/2">
+      <Title className="mt-2" level={3}>Thông tin cá nhân</Title>
+      <Card title="Thông tin chung" className="sm:w-1/2 w-full">
         <Form layout="vertical" form={infoForm} onFinish={handleUpdateInfo}>
           <Form.Item
             label="Họ tên"
@@ -125,14 +126,14 @@ export default function MyInfo() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={infoLoading}>
+            <Button className="!bg-[#45378f] !text-white !pb-1" htmlType="submit" loading={infoLoading}>
               Cập nhật thông tin
             </Button>
           </Form.Item>
         </Form>
       </Card>
 
-      <Card title="Đổi mật khẩu" className="w-1/2">
+      <Card title="Đổi mật khẩu" className="sm:w-1/2 w-full">
         <Form
           layout="vertical"
           form={passwordForm}
@@ -155,7 +156,7 @@ export default function MyInfo() {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={passwordLoading}>
+            <Button className="!bg-[#45378f] !text-white !pb-1" htmlType="submit" loading={passwordLoading}>
               Đổi mật khẩu
             </Button>
           </Form.Item>
