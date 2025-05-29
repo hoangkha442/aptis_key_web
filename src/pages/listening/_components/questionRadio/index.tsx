@@ -148,9 +148,9 @@ const QuestionRadio: React.FC<Props> = ({ question, value, onChange }) => {
       </Button>
       {showTranscript && question.script && (
         <div className="mt-3 p-4 bg-blue-50 rounded-lg shadow text-black">
-          <h3 className="font-semibold text-lg mb-2">Transcript</h3>
+          <h3 className="font-semibold sm:text-lg text-base mb-2">Transcript</h3>
           <div
-            className="prose prose-sm prose-blue max-w-none leading-relaxed"
+            className="prose prose-sm prose-blue max-w-none leading-relaxed sm:text-base text-xs"
             dangerouslySetInnerHTML={{
               __html: formatScriptToHTML(question.script),
             }}

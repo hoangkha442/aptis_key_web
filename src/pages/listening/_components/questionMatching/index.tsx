@@ -178,10 +178,10 @@ useEffect(() => {
 
       {showTranscript && (
         <div className="mt-4 p-2 text-gray-900 font-medium">
-          <p className="mb-3">Topic: {questions[0]?.topic}</p>
+          <p className="mb-3 sm:text-base text-sm">Topic: {questions[0]?.topic}</p>
           {questions.map((question) => (
             <div
-              className="mt-4 flex flex-col gap-2 font-normal"
+              className="mt-4 flex flex-col gap-2 font-normal sm:text-base text-xs"
               key={question.listening_test_items_id}
             >
               <p>{question.script}</p>

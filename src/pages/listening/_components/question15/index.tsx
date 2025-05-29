@@ -105,7 +105,7 @@ const Question15: React.FC<Props> = ({ questions, answers, onChange }) => {
           return (
             <div
               key={question.listening_test_items_id}
-              className="flex gap-5 items-center"
+              className="flex sm:flex-row flex-col sm:gap-5 gap-1 sm:items-center items-start"
             >
               <p className="font-medium text-gray-900">
                 {index + 1}. {question.content}
@@ -133,7 +133,7 @@ const Question15: React.FC<Props> = ({ questions, answers, onChange }) => {
               </Select>
               {isSubmitted && (
                 <p
-                  className={`text-sm mt-1 ${
+                  className={`mt-1 sm:text-sm text-xs ${
                     isCorrect ? "text-green-700" : "text-red-600"
                   }`}
                 >
@@ -141,7 +141,7 @@ const Question15: React.FC<Props> = ({ questions, answers, onChange }) => {
                     ? "Bạn trả lời đúng. +2 điểm"
                     : "Bạn trả lời sai. +0 điểm"}
                   {!isCorrect && (
-                    <span className="ml-2 text-gray-600">
+                    <span className="ml-2 text-gray-600 sm:text-base text-sm">
                       (Đáp án: <strong>{thisReview?.correctAnswer}</strong>)
                     </span>
                   )}
@@ -160,7 +160,7 @@ const Question15: React.FC<Props> = ({ questions, answers, onChange }) => {
       </Button>
 
       {showTranscript && (
-        <div className="mt-4 p-2 text-gray-900 font-medium">
+        <div className="mt-4 p-2 text-gray-900 font-medium sm:text-base text-sm">
           <p className="mb-3">Topic: {questions[0]?.topic}</p>
           <p>Đoạn đối thoại của 2 người (Man - Woman):</p>
           {questions.map((question) => (
@@ -168,7 +168,7 @@ const Question15: React.FC<Props> = ({ questions, answers, onChange }) => {
               className="mt-4 flex flex-col gap-2 font-normal"
               key={question.listening_test_items_id}
             >
-              <p dangerouslySetInnerHTML={{ __html: question.script }} />
+              <p className="sm:text-base text-xs" dangerouslySetInnerHTML={{ __html: question.script }} />
             </div>
           ))}
         </div>

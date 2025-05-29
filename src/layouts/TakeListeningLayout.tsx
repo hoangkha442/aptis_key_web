@@ -269,7 +269,7 @@ const TakeListeningLayout: React.FC<{ children: ReactNode }> = ({
           </div>
         </Header>
 
-        <Content className="flex-1 overflow-y-auto !px-12 !bg-[#f9fafc]">
+        <Content className="flex-1 overflow-y-auto sm:!px-12 px-4 !bg-[#f9fafc]">
           {children}
         </Content>
 
