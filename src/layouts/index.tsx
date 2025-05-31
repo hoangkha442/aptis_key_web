@@ -267,6 +267,7 @@ const Layouts = ({ children }: LayoutProps) => {
               }}
               onClick={() => {
                 setShowWelcome(false);
+                localStorage.setItem("hasSeenTour", "true");
               }}
             >
               KHÁM PHÁ NGAY
