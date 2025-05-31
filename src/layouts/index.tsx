@@ -267,8 +267,6 @@ const Layouts = ({ children }: LayoutProps) => {
               }}
               onClick={() => {
                 setShowWelcome(false);
-                setOpenTour(true);
-                localStorage.setItem("hasSeenTour", "true");
               }}
             >
               KHÁM PHÁ NGAY
@@ -284,6 +282,8 @@ const Layouts = ({ children }: LayoutProps) => {
               }}
               onClick={() => {
                 setShowWelcome(false);
+                setOpenTour(true);
+                localStorage.setItem("hasSeenTour", "true");
               }}
             >
               KHÁM PHÁ NGAY

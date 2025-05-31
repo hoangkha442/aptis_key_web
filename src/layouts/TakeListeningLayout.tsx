@@ -90,7 +90,6 @@ const ListeningPagination = ({ total }: { total: number }) => {
       dispatch(setListeningReviewAnswersAndScore({ reviewAnswers, score }));
     };
 
-    // Nếu ở chế độ mô phỏng
     if (isSimulatedMode) {
       if (isIncomplete) {
         Modal.confirm({
@@ -106,7 +105,6 @@ const ListeningPagination = ({ total }: { total: number }) => {
       return;
     }
 
-    // Nếu không phải mô phỏng → giữ nguyên logic gốc
     if (isIncomplete) {
       Modal.confirm({
         title: "Bạn chưa hoàn thành tất cả các câu hỏi",

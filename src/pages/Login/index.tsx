@@ -27,22 +27,24 @@ export default function LoginForm() {
   const handleLogin = async (values: { email: string; password: string }) => {
     setLoading(true);
     setError(null);
-    try {
-      const res = await authServices.login(values);
-      const userData = res.data;
+      await authServices.login(values).then((res) => { 
+        const userData = res.data;
+        setLoading(false);
+  
+        // Lưu localStorage và dispatch Redux
+        userLocalStorage.set(userData);
+        dispatch(loginSuccess(userData));
+        message.success("Đăng nhập thành công");
+        navigate('/');
+        
+      }).catch((err) => { 
+        
+        console.error("err:", err?.response?.data?.message);
+        const message =  err?.response?.data.message
+        setError(message);
+        setLoading(false);
+       })
 
-      // Lưu localStorage và dispatch Redux
-      userLocalStorage.set(userData);
-      dispatch(loginSuccess(userData));
-
-      message.success("Đăng nhập thành công");
-      navigate('/');
-    } catch (err) {
-      console.error("err:", err);
-      setError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
-    } finally {
-      setLoading(false);
-    }
   };
 
   return (
