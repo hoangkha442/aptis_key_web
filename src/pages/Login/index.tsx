@@ -5,7 +5,7 @@ import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { authServices } from "../../config/authServices";
 import { useNavigate } from "react-router-dom";
 import { userLocalStorage } from "../../config/userLocal";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../redux/slices/authSlice";
 import { Helmet } from "react-helmet-async";
 
@@ -20,38 +20,41 @@ export default function LoginForm() {
   useEffect(() => {
     const isLoggedIn = !!userLocalStorage.get()?.token;
     if (isLoggedIn) {
-      navigate('/');
+      navigate("/");
     }
   }, [navigate]);
 
   const handleLogin = async (values: { email: string; password: string }) => {
     setLoading(true);
     setError(null);
-      await authServices.login(values).then((res) => { 
+    await authServices
+      .login(values)
+      .then((res) => {
         const userData = res.data;
         setLoading(false);
-  
+
         // Lưu localStorage và dispatch Redux
         userLocalStorage.set(userData);
         dispatch(loginSuccess(userData));
         message.success("Đăng nhập thành công");
-        navigate('/');
-        
-      }).catch((err) => { 
-        
+        navigate("/");
+      })
+      .catch((err) => {
         console.error("err:", err?.response?.data?.message);
-        const message =  err?.response?.data.message
+        const message = err?.response?.data.message;
         setError(message);
         setLoading(false);
-       })
-
+      });
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Helmet>
         <title>Đăng nhập | PassKey Center</title>
-        <meta name="description" content="Đăng nhập tài khoản tại PassKey Center." />
+        <meta
+          name="description"
+          content="Đăng nhập tài khoản tại PassKey Center."
+        />
       </Helmet>
       <div className="!w-96 shadow-xl rounded-lg">
         <Card>
@@ -89,6 +92,17 @@ export default function LoginForm() {
               />
             </Form.Item>
 
+            {/* <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-full"
+                loading={loading}
+                size="large"
+              >
+                {loading ? <Spin /> : "Đăng nhập"}
+              </Button>
+            </Form.Item> */}
             <Form.Item>
               <Button
                 type="primary"
@@ -99,6 +113,15 @@ export default function LoginForm() {
               >
                 {loading ? <Spin /> : "Đăng nhập"}
               </Button>
+              {/* <Button
+                type="default"
+                className="w-full mt-2"
+                onClick={() =>
+                  (window.location.href = "http://localhost:8080/auth/google")
+                }
+              >
+                Đăng nhập bằng Google Drive
+              </Button> */}
             </Form.Item>
           </Form>
 
