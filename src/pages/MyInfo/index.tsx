@@ -81,7 +81,9 @@ export default function MyInfo() {
   // if (loading) return <Spin className="block mx-auto mt-10" />;
 
   return (
-    <div className="max-w-4xl mx-auto p-4 flex sm:flex-row flex-col sm:gap-5 gap-2">
+    <div className="max-w-4xl mx-auto p-4">
+        <Title className="my-2" level={3}>Thông tin cá nhân</Title>
+      <div className=" flex sm:flex-row flex-col sm:gap-5 gap-2">
       <Helmet>
         <title>Thông tin cá nhân | PassKey Center</title>
         <meta
@@ -89,7 +91,6 @@ export default function MyInfo() {
           content="Xem và cập nhật hồ sơ cá nhân của bạn: tên, email, tài khoản học viên và lịch sử học tập tại PassKey Center."
         />
       </Helmet>
-      <Title className="mt-2" level={3}>Thông tin cá nhân</Title>
       <Card title="Thông tin chung" className="sm:w-1/2 w-full">
         <Form layout="vertical" form={infoForm} onFinish={handleUpdateInfo}>
           <Form.Item
@@ -162,6 +163,7 @@ export default function MyInfo() {
           </Form.Item>
         </Form>
       </Card>
+      </div>
     </div>
   );
 }

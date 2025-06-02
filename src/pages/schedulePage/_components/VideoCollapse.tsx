@@ -100,7 +100,7 @@ export const VideoCollapse = ({
         label: (
           <div className="flex items-center justify-center">
             <div
-              className={`rounded-full hover:bg-gradient-to-br bg-gradient-to-br hover:from-[#45368f] hover:to-indigo-500 from-[#533dc2] to-indigo-500 !transition-all !duration-500 text-white flex items-center justify-center font-bold text-center `}
+              className={`rounded-full hover:bg-gradient-to-br bg-gradient-to-br hover:from-[#1d1549] hover:to-indigo-500 from-[#45368f] to-indigo-500 !transition-all !duration-500 text-white flex items-center justify-center font-bold text-center `}
               style={{
                 width: "80px",
                 height: "80px",
