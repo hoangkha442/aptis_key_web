@@ -77,9 +77,9 @@ export default function Sidebar({
       label: <span ref={coursesRef}>Khóa học của tôi</span>,
     },
     {
-      key: "/schedule",
+      key: "/video",
       icon: <CalendarOutlined />,
-      label: <span ref={scheduleRef}>Lịch học</span>,
+      label: <span ref={scheduleRef}>Video bài giảng</span>,
     },
     {
       key: "/my-info",

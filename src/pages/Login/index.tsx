@@ -117,7 +117,7 @@ export default function LoginForm() {
                 type="default"
                 className="w-full mt-2"
                 onClick={() =>
-                  (window.location.href = "http://localhost:8080/auth/google")
+                  (window.location.href = "https://aptisapi-production.up.railway.app/auth/google")
                 }
               >
                 Đăng nhập bằng Google Drive

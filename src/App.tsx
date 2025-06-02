@@ -128,7 +128,7 @@ const App = () => {
           }
         />
         <Route
-          path="/schedule"
+          path="/video"
           element={
             <PrivateRoute
               element={

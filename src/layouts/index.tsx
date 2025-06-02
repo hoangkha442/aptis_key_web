@@ -33,7 +33,6 @@ const Layouts = ({ children }: LayoutProps) => {
   const termsRef = useRef<HTMLButtonElement | null>(null);
   const [showWelcome, setShowWelcome] = useState(false);
   const [showSessions, setShowSessions] = useState(false);
-  // Ref gắn vào label <span> trong Menu items
   const homeRef = useRef<HTMLSpanElement | null>(null);
   const coursesRef = useRef<HTMLSpanElement | null>(null);
   const scheduleRef = useRef<HTMLSpanElement | null>(null);
@@ -84,8 +83,8 @@ const Layouts = ({ children }: LayoutProps) => {
       target: () => coursesRef.current as HTMLElement,
     },
     {
-      title: "Lịch học",
-      description: "Xem thông tin khóa học",
+      title: "Video",
+      description: "Video record của giảng viên.",
       target: () => scheduleRef.current as HTMLElement,
     },
     {
