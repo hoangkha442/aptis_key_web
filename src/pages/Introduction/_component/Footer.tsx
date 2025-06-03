@@ -111,17 +111,17 @@ const Footer: React.FC = () => {
             Liên hệ
           </h3>
           <p className="text-gray-600 mt-4">
-            <strong>Phone:</strong> 0981 044 204
+            <strong>Phone:</strong> 0981 044 225
           </p>
           <p className="text-gray-600">
-            <strong>Email:</strong> chauhoangkha442@gmail.com
+            <strong>Email:</strong> passkeycenter@gmail.com
           </p>
 
           <h3 className="text-lg font-semibold text-purple-800 relative pb-2 border-b border-gray-300 underline-animated">
             Địa chỉ
           </h3>
           <p className="text-gray-600 mt-4">
-            24 Hồ Tùng Mậu, Dĩ An, TP Bình Dương
+            80 Hồ Tùng Mậu, Dĩ An, TP Bình Dương
           </p>
         </div>
       </div>

@@ -71,7 +71,7 @@ const TakeTestLayouts: React.FC<{ children: ReactNode }> = ({ children }) => {
             {location.pathname === "/reading/take-test/intro" ||
             location.pathname === "/simulated-exam-room/reading/intro" ? (
               <div>
-                Aptis key test ©{new Date().getFullYear()} Created by Hoàng Kha
+                Aptis key test ©{new Date().getFullYear()} Created by Passkey Center
               </div>
             ) : isTestPage ? (
               <div className="flex items-center justify-between w-full">
