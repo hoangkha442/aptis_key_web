@@ -199,7 +199,7 @@ export const VideoCollapse = ({
                         onClick={() => canViewVideo}
                         className={`font-medium px-4 py-2 flex gap-3 items-center ${
                           canViewVideo
-                            ? "!text-blue-800 rounded-sm hover:bg-blue-100 transition-all duration-500 cursor-pointer"
+                            ? "!text-blue-800 !rounded-sm hover:!bg-blue-100 !transition-all !duration-500 !cursor-pointer"
                             : "text-gray-400 cursor-not-allowed"
                         }`}
                       >
