@@ -123,13 +123,11 @@ import { DriveFile } from "../../../types";
 
 interface VideoCollapseProps {
   groupedByBuoi: Record<string, DriveFile[]>;
-  onSelectVideo: (file: DriveFile) => void;
   isVideoAllowed: boolean;
 }
 
 export const VideoCollapse = ({
   groupedByBuoi,
-  onSelectVideo,
   isVideoAllowed,
 }: VideoCollapseProps) => {
 
@@ -195,7 +193,7 @@ export const VideoCollapse = ({
                   return (
                     <li className="!list-none" key={file.id}>
                       <span
-                        onClick={() => canViewVideo && onSelectVideo(file)}
+                        onClick={() => canViewVideo}
                         className={`font-medium px-4 py-2 flex gap-3 items-center ${
                           canViewVideo
                             ? "text-blue-800 rounded-sm hover:bg-blue-100 transition-all duration-500 cursor-pointer"

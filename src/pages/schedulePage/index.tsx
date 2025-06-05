@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { DriveFile } from '../../types';
 import { VideoCollapse } from './_components/VideoCollapse';
-import { VideoModal } from './_components/VideoModal';
 import useDevToolsDetection from '../../hooks/useDevToolsDetection';
 import { useNavigate } from 'react-router-dom';
 import { userLocalStorage } from '../../config/userLocal';
@@ -11,8 +10,7 @@ import { authServices } from '../../config/authServices';
 export default function Schedule() {
   const [files, setFiles] = useState<DriveFile[]>([]);
   const [user, setUser] = useState<any>(null);
-  const [selectedVideo, setSelectedVideo] = useState<DriveFile | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const isDevToolsOpen = useDevToolsDetection();
   const navigate = useNavigate();
 
@@ -58,7 +56,6 @@ export default function Schedule() {
           const getNum = (name: string) => parseFloat(name.match(/buoi_(\d+(\.\d+)?)/)?.[1] ?? '0');
           return getNum(a.name) - getNum(b.name);
         });
-
         setFiles(sortedFiles);
       } catch (err) {
         console.error(err);
@@ -86,21 +83,12 @@ export default function Schedule() {
       {!isDevToolsOpen ? (
         <VideoCollapse
           groupedByBuoi={groupedByBuoi}
-          onSelectVideo={(file) => {
-            setSelectedVideo(file);
-            setIsModalOpen(true);
-          }}
+
           isVideoAllowed={user?.is_video ?? false}
         />
       ) : (
         <p className="text-red-500">Bạn đang mở DevTools. Nội dung đã bị ẩn.</p>
       )}
-      <VideoModal
-        selectedVideo={selectedVideo}
-        isOpen={isModalOpen}
-        isDevToolsOpen={isDevToolsOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </div>
   );
 }

@@ -12,5 +12,6 @@ export type TitleProps = {
 export interface DriveFile {
   id: string;
   name: string;
-  mimeType: string;
+  mimeType?: string;
+  url: string
 }
