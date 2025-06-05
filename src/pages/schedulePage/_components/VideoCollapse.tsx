@@ -130,6 +130,7 @@ export const VideoCollapse = ({
   groupedByBuoi,
   isVideoAllowed,
 }: VideoCollapseProps) => {
+  console.log('groupedByBuoi: ', groupedByBuoi);
 
   const videoTitles: Record<string, string> = {
     "aptis_buoi_6.mkv": "Buổi 6: Listening 1-13 & 16-17",
@@ -192,7 +193,9 @@ export const VideoCollapse = ({
                   const videoTitle = videoTitles[file.name] || file.name; 
                   return (
                     <li className="!list-none" key={file.id}>
-                      <span
+                      <a
+                        href={file?.url}
+                        target="_blank"
                         onClick={() => canViewVideo}
                         className={`font-medium px-4 py-2 flex gap-3 items-center ${
                           canViewVideo
@@ -208,7 +211,7 @@ export const VideoCollapse = ({
                           </span>
                         )}{" "}
                         {!canViewVideo && " (Bị khóa)"}
-                      </span>
+                      </a>
                     </li>
                   );
                 })}
