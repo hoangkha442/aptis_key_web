@@ -45,7 +45,23 @@ export default function Schedule() {
     ],
     'Buổi 10: Giải đề': [
       { id: '1rOkAtiHfh8N7ZzbCsHULGHtXm6TOLAKe', name: 'aptis_buoi_10.mkv', mimeType: 'video/x-matroska', url: "https://drive.google.com/file/d/1rOkAtiHfh8N7ZzbCsHULGHtXm6TOLAKe/view?usp=drive_link"  }
+    ],
+    'Buổi 11: Speaking Part 1': [
+      { id: '1rOkAtiHfh8N7ZzbCsHULGH1tXm6TOLAKe', name: 'aptis_buoi_11.mkv', mimeType: 'video/x-matroska', url: "https://drive.google.com/drive/folders/1LdSAVnO8uaemMrtCAJ4FH-OGm-GCfx8g?usp=sharing"  }
+    ],
+    'Buổi 12: Speaking Part 4': [
+      { id: '1rOkAtiHfh8N7ZzbCs5HULGHtXm6TOLAKe', name: 'aptis_buoi_12.mkv', mimeType: 'video/x-matroska', url: "https://drive.google.com/drive/folders/1wgBODjo6-mFi_Uab1dprjem2Q5UtDPqX?usp=sharing"  }
+    ],
+    'Buổi 13: Speaking Part 2': [
+      { id: '1rOkAtiHfh8N7ZzbCsHULG4HtXm6TOLAKe', name: 'aptis_buoi_13.mkv', mimeType: 'video/x-matroska', url: "https://drive.google.com/drive/folders/1UtAKdKVFs3ZL1BtMfw_duOG2fbMDGGxU?usp=sharing"  }
+    ],
+    'Buổi 14: Speaking Part 3': [
+      { id: '1rOkAtiHfh8N7ZzbCsHULGHtXm6TO3LAKe', name: 'aptis_buoi_14.mkv', mimeType: 'video/x-matroska', url: "https://drive.google.com/drive/folders/1DTkcaxqsxRI5QYq4XqBgSJT_fXYoei0g?usp=sharing"  }
+    ],
+    'Buổi 15: Bổ trợ nâng cao Speaking - Writing': [
+      { id: '1rOkAtiHfh8N7ZzbCsHULGHtXm6TOLA2e', name: 'aptis_buoi_15.mkv', mimeType: 'video/x-matroska', url: "https://drive.google.com/drive/folders/1T29A40rHb9dggKk0-46dIaXqh3Pqn3Os?usp=sharingk"  }
     ]
+    
   };
 
   useEffect(() => {

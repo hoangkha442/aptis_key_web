@@ -144,6 +144,11 @@ export const VideoCollapse = ({
     "aptis_buoi_8.mkv": "Buổi 8: Listening question 14-15",
     "aptis_buoi_9.mkv": "Buổi 9: Writing Part 4",
     "aptis_buoi_10.mkv": "Buổi 10: Giải đề",
+    "aptis_buoi_11.mkv": "Buổi 11: Speaking Part 1",
+    "aptis_buoi_12.mkv": "Buổi 12: Speaking Part 4",
+    "aptis_buoi_13.mkv": "Buổi 13: Speaking Part 2",
+    "aptis_buoi_14.mkv": "Buổi 14: Speaking Part 3",
+    "aptis_buoi_15.mkv": "Buổi 15: Bổ trợ nâng cao Speaking - Writing",
   };
 
   const documentTitles: Record<string, string> = {
@@ -158,6 +163,11 @@ export const VideoCollapse = ({
     "aptis_buoi_8.mkv": "https://drive.google.com/drive/folders/1iHTLGpHifMJflBWsUWmbqn81KNyfaYuS?usp=drive_link",
     "aptis_buoi_9.mkv": "https://drive.google.com/drive/folders/12fRcVajhiDFHewvVNgXlfX9C749mrj6m?usp=drive_link",
     "aptis_buoi_10.mkv": "https://drive.google.com/drive/folders/1fc2MrPtcgiBCALc_GMYptWJ6m8CvQItw?usp=drive_link",
+    "aptis_buoi_11.mkv": "https://drive.google.com/drive/folders/1LdSAVnO8uaemMrtCAJ4FH-OGm-GCfx8g?usp=sharing",
+    "aptis_buoi_12.mkv": "https://drive.google.com/drive/folders/1wgBODjo6-mFi_Uab1dprjem2Q5UtDPqX?usp=sharing",
+    "aptis_buoi_13.mkv": "https://drive.google.com/drive/folders/1UtAKdKVFs3ZL1BtMfw_duOG2fbMDGGxU?usp=sharing",
+    "aptis_buoi_14.mkv": "https://drive.google.com/drive/folders/1DTkcaxqsxRI5QYq4XqBgSJT_fXYoei0g?usp=sharing",
+    "aptis_buoi_15.mkv": "https://drive.google.com/drive/folders/1T29A40rHb9dggKk0-46dIaXqh3Pqn3Os?usp=sharing",
   };
 
   const collapseItems: CollapseProps["items"] = Object.entries(groupedByBuoi).map(
@@ -219,7 +229,6 @@ export const VideoCollapse = ({
             </div>
 
             <div className="w-px bg-gray-300 mx-4" />
-
             <div className="w-1/2 pl-4">
               <p className="font-semibold mb-2">Tài liệu</p>
               <ul className="list-disc pl-5 space-y-1">
@@ -230,7 +239,7 @@ export const VideoCollapse = ({
                       <a
                         href={documentTitle}
                         target="_blank"
-                        className="font-medium px-4 py-2 rounded-sm hover:bg-blue-100 transition-all duration-500 !text-blue-800"
+                        className="font-medium px-4 py-2 !mt-1 rounded-sm hover:!bg-blue-100 !transition-all !duration-500 !text-blue-800"
                       >
                         Tài liệu PDF
                       </a>
