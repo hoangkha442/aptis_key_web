@@ -48,7 +48,7 @@ export default function CustomHeader({
   openSessionsModal,
   userSessionsRef,
 }: UserProps) {
-  const location = useLocation();
+  const location = useLocation()
   const navigate = useNavigate();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-width: 480px)" });
@@ -78,8 +78,7 @@ export default function CustomHeader({
   }, []);
 
   const generateBreadcrumbs = () => {
-    const pathArray = location.pathname.split("/").filter(Boolean);
-
+    const pathArray = location.pathname.split("/").filter(Boolean)
     const breadcrumbs: { title: React.ReactNode }[] = [
       { title: <Link to="/">Trang chủ</Link> },
     ];
@@ -93,14 +92,14 @@ export default function CustomHeader({
     };
 
     pathArray.forEach((path, index) => {
-      const href = `/${pathArray.slice(0, index + 1).join("/")}`;
+      const href = `/${pathArray.slice(0, index + 1).join("/")}`
       const title = breadcrumbTitleMap[path] || path;
       breadcrumbs.push({
         title: <Link to={href}>{title}</Link>,
       });
     });
 
-    return breadcrumbs;
+    return breadcrumbs
   };
 
   const avatarSrc = user?.avatar && user.avatar !== "" ? user.avatar : null;

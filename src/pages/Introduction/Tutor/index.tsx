@@ -7,7 +7,7 @@ type Props = {};
 
 export default function Tutor({}: Props) {
   const [selectedTutor, setSelectedTutor] = useState(0);
-  const fullTutors = [...tutors, ...tutors].slice(0, 5);
+  const fullTutors = [...tutors, ...tutors].slice(0, 2);
   return (
     <section id="khoa_hoc" className="bg-[#F2E6FF] sm:py-20 py-10 pb-28 h-full">
       <div className="text-center max-w-7xl mx-auto px-6">
@@ -24,7 +24,7 @@ export default function Tutor({}: Props) {
           Lựa chọn gói học phù hợp với thời gian và mục tiêu của bạn.
         </p>
         {/* <div className="col-span-1 md:col-span-1"></div> */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
           {fullTutors.map((tutor, index) => (
             <TutorCard
               key={index}
