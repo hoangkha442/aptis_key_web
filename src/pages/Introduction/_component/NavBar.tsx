@@ -75,7 +75,7 @@ export default function NavBar({}: Props) {
             <img
               src={logo}
               alt="Logo"
-              className="w-[200px] h-[80px] md:w-[150px] object-cover"
+              className="w-[100px] h-[40px] md:w-[150px] md:h-[80px] object-cover"
             />
           </a>
           {/* Button Group */}

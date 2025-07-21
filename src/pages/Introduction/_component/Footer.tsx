@@ -85,11 +85,8 @@ const Footer: React.FC = () => {
           </h3>
           <ul className="mt-4 space-y-2">
             {[
-              "Aptis Pro Pack",
               "Aptis Express Pack",
-              "Aptis Premium Plus",
-              "Aptis B1 Guaranteed",
-              "Aptis B2 Guaranteed",
+              "Aptis Pro Pack"
             ].map((item) => (
               <li key={item}>
                 <a

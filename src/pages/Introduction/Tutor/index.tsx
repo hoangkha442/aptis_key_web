@@ -24,7 +24,7 @@ export default function Tutor({}: Props) {
           Lựa chọn gói học phù hợp với thời gian và mục tiêu của bạn.
         </p>
         {/* <div className="col-span-1 md:col-span-1"></div> */}
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {fullTutors.map((tutor, index) => (
             <TutorCard
               key={index}
