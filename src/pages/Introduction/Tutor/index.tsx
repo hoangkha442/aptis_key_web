@@ -20,7 +20,7 @@ export default function Tutor({}: Props) {
             {" "}Center
           </span>
         </p>
-        <p className="text-base tracking-wide text-gray-600 px-2 sm:px-10 md:px-16 lg:px-32 xl:px-40 mb-2 md:mb-5">
+        <p className="text-base tracking-wide text-gray-600 px-2 sm:px-10 md:px-16 lg:px-32 xl:px-40 md:mb-5">
           Lựa chọn gói học phù hợp với thời gian và mục tiêu của bạn.
         </p>
         {/* <div className="col-span-1 md:col-span-1"></div> */}

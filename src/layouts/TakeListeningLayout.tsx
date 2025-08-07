@@ -277,7 +277,7 @@ const TakeListeningLayout: React.FC<{ children: ReactNode }> = ({
         >
           {isIntroPage ? (
             <div>
-              Aptis key test ©{new Date().getFullYear()} Created by Hoàng Kha
+              Aptis key test ©{new Date().getFullYear()} Created by Passkey Center
             </div>
           ) : (
             <div className="flex items-center justify-between w-full">

@@ -9,7 +9,7 @@ export const faqs = [
   },
   {
     question: "Các khoá học cấp tốc cho người đi du học nào tốt nhất?",
-    answer: "Khoá học Aptis Advanced sẽ phù hợp nhất cho học viên có kế hoạch du học trong thời gian ngắn.",
+    answer: "Khoá học Aptis Express Pack 399.000 sẽ phù hợp nhất cho học viên có kế hoạch du học trong thời gian ngắn.",
   },
   {
     question: "Tôi ở xa, có mở khoá học online tại nhà vào ban đêm không?",

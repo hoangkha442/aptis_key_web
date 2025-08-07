@@ -10,7 +10,7 @@ type TutorCardProps = {
 const TutorCard: React.FC<TutorCardProps> = ({ name, image, isActive, onClick }) => {
   return (
     <div
-      className={`cursor-pointer flex flex-col items-center p-4 rounded-xl border transition-all duration-300 md:mt-8 mt-0 py-5 ${
+      className={`cursor-pointer flex flex-col items-center p-4 rounded-xl border transition-all duration-300 mt-0 py-5 ${
         isActive ? "bg-[#FCECEC] border-[#F5B5B5] shadow-lg" : "bg-white border-gray-300"
       }`}
       onClick={onClick}

@@ -317,30 +317,11 @@ export default function CustomHeader({
         okText="Tôi đã hiểu"
         cancelText="Đóng"
       >
-        <p>
-          <strong>Trung tâm cam kết hoàn 100% học phí cho học viên</strong> nếu
-          không đạt yêu cầu đầu ra.
-        </p>
-        <p>
-          <strong>Điều kiện:</strong>
-        </p>
         <ul style={{ paddingLeft: 0, listStyle: "none" }}>
-          <li>
-            <CheckCircleTwoTone twoToneColor="#52c41a" /> Tham gia ít nhất{" "}
-            <strong>6/8 buổi học</strong>.
-          </li>
+      
           <li>
             <CheckCircleTwoTone twoToneColor="#52c41a" /> Học thuộc các key của
             Reading và Listening.
-          </li>
-          <li>
-            <CheckCircleTwoTone twoToneColor="#52c41a" /> Reading đạt tối thiểu{" "}
-            <strong>46/50</strong>, Listening đạt tối thiểu{" "}
-            <strong>42/50</strong>.
-          </li>
-          <li>
-            <CheckCircleTwoTone twoToneColor="#52c41a" /> Làm đầy đủ bài tập
-            được giao.
           </li>
         </ul>
         <p>
