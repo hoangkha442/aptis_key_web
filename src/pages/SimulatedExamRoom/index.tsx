@@ -76,11 +76,7 @@ export default function SimulatedExamRoom() {
         <Divider />
         <div className="text-center">
           <Paragraph className="text-base text-gray-700 mb-2">
-            Bạn còn{" "}
-            <Text strong className="!text-base">
-              {attemptsLeft}
-            </Text>{" "}
-            lượt làm bài.
+            Không giới hạn lượt làm bài
           </Paragraph>
           <Paragraph className="text-sm text-gray-600 mb-6">
             Mỗi kỹ năng sẽ được chọn ngẫu nhiên từ ngân hàng đề hiện có.
