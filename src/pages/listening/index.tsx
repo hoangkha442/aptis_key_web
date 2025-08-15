@@ -40,7 +40,7 @@ export default function Listening() {
   }, [dispatch, testId]);
 
   useEffect(() => {
-    if(testId == '13') {
+    if(testId == '15') {
       navigate('/')
     }
     if (data?.listening_test_items) {

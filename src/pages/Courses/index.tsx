@@ -87,7 +87,7 @@ export default function Courses() {
     if (type === "reading") {
       navigate(`/reading/take-test/intro`, { state: { keyTestId: id } });
     } else {
-      if(id === 13){
+      if(id === 15){
       message.warning('Key mới không hỗ trợ tài khoản dùng thử')
     }else{
       localStorage.setItem("listening_key_test_id", String(id));
