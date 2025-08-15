@@ -39,17 +39,16 @@ export default function Courses() {
           readingService.getAllReadingKeys(),
           listeningService.getAllListeningKeys(),
         ]);
-
         const readingData: TestModule[] = readingRes.data.map((item: any) => ({
           test_id: item.reading_test_id,
-          test_name: "", // Tạm thời, sẽ thêm sau
+          test_name: "",
           type: "reading",
         }));
 
         const listeningData: TestModule[] = listeningRes.data.map(
           (item: any) => ({
             test_id: item.listening_test_id,
-            test_name: "", // Tạm thời, sẽ thêm sau
+            test_name: "", 
             type: "listening",
           })
         );
@@ -84,14 +83,18 @@ export default function Courses() {
   }, [token]);
 
   const handleTakeTest = (type: "reading" | "listening", id: number) => {
+    
     if (type === "reading") {
       navigate(`/reading/take-test/intro`, { state: { keyTestId: id } });
     } else {
+      if(id === 13){
+      message.warning('Key mới không hỗ trợ tài khoản dùng thử')
+    }else{
       localStorage.setItem("listening_key_test_id", String(id));
       navigate(`/listening/take-test/intro`);
     }
+    }
   };
-
   const columns = [
     {
       title: (
