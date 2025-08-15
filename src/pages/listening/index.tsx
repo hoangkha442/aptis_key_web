@@ -11,11 +11,12 @@ import QuestionRadio from "./_components/questionRadio";
 import { ListeningTestData } from "../../types/listening";
 import Question15 from "./_components/question15";
 import { Spin } from "antd";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Listening() {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate()
   const testId = localStorage.getItem("listening_key_test_id");
 
   const { data, status, error } = useSelector((state: RootState): {
@@ -39,6 +40,9 @@ export default function Listening() {
   }, [dispatch, testId]);
 
   useEffect(() => {
+    if(testId == '13') {
+      navigate('/')
+    }
     if (data?.listening_test_items) {
       const flattened: any[] = [];
       Object.entries(data.listening_test_items).forEach(([key, qs]: any) => {
